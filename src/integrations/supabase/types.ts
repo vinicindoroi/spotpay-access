@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          read_at: string | null
+          sender: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           address: string | null
@@ -50,6 +77,117 @@ export type Database = {
         }
         Relationships: []
       }
+      refund_requests: {
+        Row: {
+          admin_note: string | null
+          amount: number | null
+          code: string
+          created_at: string
+          details: Json
+          id: string
+          reason: string | null
+          stage: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_note?: string | null
+          amount?: number | null
+          code: string
+          created_at?: string
+          details?: Json
+          id?: string
+          reason?: string | null
+          stage?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_note?: string | null
+          amount?: number | null
+          code?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          reason?: string | null
+          stage?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          admin_note: string | null
+          code: string
+          created_at: string
+          details: Json
+          email: string | null
+          id: string
+          kind: string
+          message: string | null
+          name: string | null
+          status: string
+          subject: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_note?: string | null
+          code: string
+          created_at?: string
+          details?: Json
+          email?: string | null
+          id?: string
+          kind?: string
+          message?: string | null
+          name?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_note?: string | null
+          code?: string
+          created_at?: string
+          details?: Json
+          email?: string | null
+          id?: string
+          kind?: string
+          message?: string | null
+          name?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_state: {
         Row: {
           data: Json
@@ -68,15 +206,78 @@ export type Database = {
         }
         Relationships: []
       }
+      withdrawal_requests: {
+        Row: {
+          account_email: string | null
+          account_holder: string | null
+          address: string | null
+          admin_note: string | null
+          amount: number | null
+          birth_date: string | null
+          code: string
+          created_at: string
+          document: string | null
+          documents: Json
+          full_name: string | null
+          id: string
+          stage: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_email?: string | null
+          account_holder?: string | null
+          address?: string | null
+          admin_note?: string | null
+          amount?: number | null
+          birth_date?: string | null
+          code: string
+          created_at?: string
+          document?: string | null
+          documents?: Json
+          full_name?: string | null
+          id?: string
+          stage?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_email?: string | null
+          account_holder?: string | null
+          address?: string | null
+          admin_note?: string | null
+          amount?: number | null
+          birth_date?: string | null
+          code?: string
+          created_at?: string
+          document?: string | null
+          documents?: Json
+          full_name?: string | null
+          id?: string
+          stage?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -203,6 +404,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
