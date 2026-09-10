@@ -407,6 +407,50 @@
     .suporte-success-msg { font-size: 13.5px; color: #a7a7a7; margin: 0 0 18px; line-height: 1.55; }
     .suporte-success-btn { padding: 11px 20px; background: transparent; color: #fff; border: 1px solid #3a3a3a; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
+    /* ─── COMPLAINT / REFUND FLOW ─────────────────── */
+    .sp-modal { position: fixed; inset: 0; z-index: 9000; display: none; align-items: flex-end; justify-content: center; background: rgba(0,0,0,0.68); backdrop-filter: blur(3px); }
+    .sp-modal.show { display: flex; }
+    .sp-sheet { width: 100%; max-width: 520px; max-height: 92vh; overflow-y: auto; background: #121212; border: 1px solid #2a2a2a; border-bottom: none; border-radius: 18px 18px 0 0; padding: 20px 18px calc(22px + env(safe-area-inset-bottom)); animation: fadeInUp 0.28s ease; }
+    .sp-sheet-grip { width: 38px; height: 4px; border-radius: 4px; background: #3a3a3a; margin: 0 auto 16px; }
+    .sp-sheet h3 { font-size: 17px; font-weight: 700; color: #fff; margin: 0 0 6px; }
+    .sp-sheet .sp-sheet-sub { font-size: 12.5px; color: #8f8f8f; margin: 0 0 18px; line-height: 1.5; }
+    .sp-ghost-btn { width: 100%; margin-top: 10px; padding: 12px; background: transparent; color: #b3b3b3; border: 1px solid #3a3a3a; border-radius: 999px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+
+    /* chat */
+    .sp-chat-head { display: flex; align-items: center; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid #242424; margin-bottom: 14px; }
+    .sp-chat-av { width: 36px; height: 36px; border-radius: 50%; background: #1DB954; color: #000; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex: none; }
+    .sp-chat-name { font-size: 14px; font-weight: 700; color: #fff; }
+    .sp-chat-state { font-size: 11.5px; color: #1DB954; }
+    .sp-chat-log { display: flex; flex-direction: column; gap: 10px; min-height: 180px; max-height: 46vh; overflow-y: auto; padding-right: 2px; }
+    .sp-msg { max-width: 84%; padding: 10px 13px; border-radius: 14px; font-size: 13.5px; line-height: 1.5; animation: fadeInUp 0.22s ease; }
+    .sp-msg.agent { align-self: flex-start; background: #202020; color: #e6e6e6; border-bottom-left-radius: 4px; }
+    .sp-msg.user { align-self: flex-end; background: #1DB954; color: #06240f; font-weight: 600; border-bottom-right-radius: 4px; }
+    .sp-msg.typing span { display: inline-block; width: 6px; height: 6px; margin-right: 3px; border-radius: 50%; background: #8f8f8f; animation: spBlink 1s infinite; }
+    .sp-msg.typing span:nth-child(2) { animation-delay: .15s; }
+    .sp-msg.typing span:nth-child(3) { animation-delay: .3s; }
+    @keyframes spBlink { 0%,60%,100% { opacity: .25; } 30% { opacity: 1; } }
+    .sp-chat-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .sp-chat-actions button { flex: 1; padding: 12px; border-radius: 999px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; border: none; }
+    .sp-btn-danger { background: #e0525f; color: #fff; }
+    .sp-btn-cancel { background: transparent; color: #b3b3b3; border: 1px solid #3a3a3a !important; }
+
+    /* refund status card */
+    .sp-refund-card { display: none; background: #181818; border: 1px solid #2a2a2a; border-radius: 14px; padding: 18px; margin-bottom: 20px; }
+    .sp-refund-card.show { display: block; }
+    .sp-refund-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+    .sp-refund-label { font-size: 12px; color: #8f8f8f; }
+    .sp-refund-badge { font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: rgba(29,185,84,0.14); color: #1DB954; }
+    .sp-refund-badge.warn { background: rgba(224,168,82,0.14); color: #e0a852; }
+    .sp-refund-status { font-size: 17px; font-weight: 700; color: #fff; margin: 2px 0 4px; }
+    .sp-refund-desc { font-size: 12.5px; color: #a7a7a7; line-height: 1.5; margin: 0 0 14px; }
+    .sp-steps { display: flex; flex-direction: column; gap: 10px; }
+    .sp-step { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; color: #6b6b6b; }
+    .sp-step .dot { width: 9px; height: 9px; border-radius: 50%; background: #333; margin-top: 4px; flex: none; }
+    .sp-step.done { color: #a7a7a7; }
+    .sp-step.done .dot { background: #1DB954; }
+    .sp-step.current { color: #fff; font-weight: 600; }
+    .sp-step.current .dot { background: #1DB954; box-shadow: 0 0 0 3px rgba(29,185,84,0.2); }
+
     /* ─── FAQ ─────────────────────────────────────── */
     .faq-title { font-size: 15px; font-weight: 600; color: #fff; margin: 4px 0 14px; text-align: left; }
     .faq-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
