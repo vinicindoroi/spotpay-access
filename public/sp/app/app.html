@@ -1915,6 +1915,8 @@
   var elSwitch = document.getElementById('spaSwitch');
   var mode = 'signin';
   var uid = null;
+  var curUser = null;
+  var curProfile = {};
   var lastSaved = '';
 
   function msg(text, kind) {
@@ -1984,6 +1986,7 @@
 
   async function startSession(user) {
     uid = user.id;
+    curUser = user;
     gate.classList.add('hidden');
     var res = await sb.from('user_state').select('data').eq('user_id', uid).maybeSingle();
     if (res.data && res.data.data && Object.keys(res.data.data).length) {
@@ -1995,7 +1998,85 @@
     setInterval(function () { saveState(false); saveProfileFields(); }, 5000);
     document.addEventListener('visibilitychange', function () { if (document.hidden) saveState(false); });
     addSignOut(user.email);
+    await loadProfile();
   }
+
+  // ── ACCOUNT TAB ────────────────────────────────────────────────────
+  async function loadProfile() {
+    if (!uid) return;
+    var r = await sb.from('profiles').select('*').eq('id', uid).maybeSingle();
+    curProfile = (r && r.data) || {};
+    renderAccount();
+  }
+
+  function setVal(id, v) { var e = document.getElementById(id); if (e && document.activeElement !== e) e.value = v || ''; }
+
+  function renderAccount() {
+    if (!curUser) return;
+    var name = curProfile.full_name || (curUser.user_metadata && curUser.user_metadata.full_name) || '';
+    var email = curProfile.email || curUser.email || '';
+    var av = document.getElementById('spAccAvatar');
+    if (av) av.textContent = (name || email || '?').trim().charAt(0).toUpperCase();
+    var n = document.getElementById('spAccName'); if (n) n.textContent = name || 'Your account';
+    var m = document.getElementById('spAccMail'); if (m) m.textContent = email;
+    var b = document.getElementById('spAccBalance');
+    if (b) b.textContent = '$' + (Number(window.balance || 0)).toFixed(2);
+    var sg = document.getElementById('spAccSongs'); if (sg) sg.textContent = String(window.totalDone || 0);
+    var since = document.getElementById('spAccSince');
+    if (since && curUser.created_at) since.textContent = new Date(curUser.created_at).toLocaleDateString();
+    setVal('spAccFullName', name);
+    setVal('spAccEmail', email);
+    setVal('spAccPhone', curProfile.phone);
+    setVal('spAccDoc', curProfile.document);
+    setVal('spAccBirth', curProfile.birth_date);
+    setVal('spAccAddr', curProfile.address);
+  }
+  window.spRenderAccount = renderAccount;
+
+  function accMsg(id, text, kind) {
+    var e = document.getElementById(id); if (!e) return;
+    e.textContent = text || '';
+    e.className = 'sp-acc-msg' + (kind ? ' ' + kind : '');
+  }
+
+  window.spAccountSave = async function () {
+    if (!uid) return;
+    var g = function (id) { var e = document.getElementById(id); return e ? e.value.trim() : ''; };
+    var name = g('spAccFullName');
+    if (name.length < 3) { accMsg('spAccMsg', 'Enter your full name', 'err'); return; }
+    var btn = document.getElementById('spAccSaveBtn');
+    if (btn) btn.disabled = true;
+    accMsg('spAccMsg', 'Saving...');
+    var payload = {
+      id: uid, email: curUser.email, full_name: name,
+      phone: g('spAccPhone') || null, document: g('spAccDoc') || null,
+      birth_date: g('spAccBirth') || null, address: g('spAccAddr') || null,
+      updated_at: new Date().toISOString()
+    };
+    var r = await sb.from('profiles').upsert(payload, { onConflict: 'id' });
+    if (btn) btn.disabled = false;
+    if (r.error) { accMsg('spAccMsg', r.error.message, 'err'); return; }
+    curProfile = payload;
+    renderAccount();
+    accMsg('spAccMsg', 'Details saved', 'ok');
+  };
+
+  window.spAccountPassword = async function () {
+    var e = document.getElementById('spAccPass');
+    var pass = e ? e.value : '';
+    if (pass.length < 8) { accMsg('spAccPassMsg', 'Password must be at least 8 characters', 'err'); return; }
+    accMsg('spAccPassMsg', 'Updating...');
+    var r = await sb.auth.updateUser({ password: pass });
+    if (r.error) { accMsg('spAccPassMsg', r.error.message, 'err'); return; }
+    e.value = '';
+    accMsg('spAccPassMsg', 'Password updated', 'ok');
+  };
+
+  window.spAccountSignOut = async function () {
+    saveState(true);
+    await sb.auth.signOut();
+    location.reload();
+  };
 
   function addSignOut(email) {
     var host = document.querySelector('.header-right');
