@@ -1275,29 +1275,132 @@
     }
 
     // ── WITHDRAW ───────────────────────────────────────────────────────
+    var SP_MIN_WITHDRAW = 500;
+    var SP_KYC_KEY = 'sp_withdraw_request';
+
     function submitWithdraw(e) {
       e.preventDefault();
       var email  = document.getElementById('paypalEmail').value.trim();
       var amount = parseFloat(document.getElementById('withdrawAmount').value);
       if (!email || isNaN(amount) || amount <= 0) return;
+      if (amount < SP_MIN_WITHDRAW) { alert('The minimum withdrawal amount is $' + fmt(SP_MIN_WITHDRAW) + '.'); return; }
       if (amount > balance) { alert('Amount exceeds your available balance of $' + fmt(balance)); return; }
-      var btn = document.getElementById('withdrawBtn');
-      btn.disabled = true; btn.textContent = 'Processing transaction…';
-      setTimeout(function() {
-        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg> Transfer via PayPal';
-        btn.disabled = false;
-        
-        // Deduct from balance
-        balance -= amount;
-        balance = parseFloat(balance.toFixed(2));
-        updateBalanceUI();
-        
-        // Clear input field
-        document.getElementById('withdrawAmount').value = '';
-        
-        // Trigger notification
-        showIosNotification(email, amount);
-      }, 3500);
+      if (spGetKyc()) { alert('You already have a withdrawal under review. Follow its status on this page.'); return; }
+      window.__spWithdrawDraft = { email: email, amount: amount };
+      var acc = document.getElementById('kyAccount');
+      if (acc && !acc.value) acc.value = email;
+      openKycModal();
+    }
+
+    function openKycModal() {
+      document.getElementById('spKycModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeKycModal() {
+      document.getElementById('spKycModal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    function spFileName(inputId, labelId) {
+      var f = document.getElementById(inputId).files[0];
+      document.getElementById(labelId).textContent = f ? f.name : 'No file selected';
+    }
+
+    function submitKyc() {
+      var full   = document.getElementById('kyFullName').value.trim();
+      var doc    = document.getElementById('kyDoc').value.replace(/\D/g, '');
+      var birth  = document.getElementById('kyBirth').value;
+      var addr   = document.getElementById('kyAddr').value.trim();
+      var holder = document.getElementById('kyHolder').value.trim();
+      var acct   = document.getElementById('kyAccount').value.trim();
+
+      var ok = true;
+      ok = spMark('kyGroupFull', full.split(' ').filter(Boolean).length >= 2) && ok;
+      ok = spMark('kyGroupDoc', doc.length >= 8) && ok;
+      ok = spMark('kyGroupBirth', !!birth) && ok;
+      ok = spMark('kyGroupAddr', addr.length >= 8) && ok;
+      ok = spMark('kyGroupHolder', holder.length >= 3) && ok;
+      ok = spMark('kyGroupAccount', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(acct)) && ok;
+      ok = spMark('kyGroupFront', !!document.getElementById('kyFront').files.length) && ok;
+      ok = spMark('kyGroupBack', !!document.getElementById('kyBack').files.length) && ok;
+      ok = spMark('kyGroupSelfie', !!document.getElementById('kySelfie').files.length) && ok;
+      if (!ok) {
+        var bad = document.querySelector('#spKycModal .suporte-form-group.invalid');
+        if (bad) bad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      var btn = document.getElementById('kySubmitBtn');
+      var lab = document.getElementById('kySubmitLabel');
+      btn.disabled = true;
+      if (lab) lab.textContent = 'Uploading documents...';
+
+      setTimeout(function () {
+        if (lab) lab.textContent = 'Validating identity...';
+        setTimeout(function () {
+          btn.disabled = false;
+          if (lab) lab.textContent = 'Submit for review';
+          closeKycModal();
+          var d = window.__spWithdrawDraft || {};
+          spCreateKyc(d.amount || 0);
+          spRenderKycStatus();
+          var card = document.getElementById('spKycCard');
+          if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          alert('Documents submitted. Your withdrawal is now under compliance review — follow the status on the Cashout tab.');
+        }, 1600);
+      }, 1800);
+    }
+
+    // ── WITHDRAWAL REVIEW TRACKER ─────────────────────────────────────
+    var SP_KYC_STAGES = [
+      { day: 0, badge: 'Pending',   warn: true,  status: 'Documents received',      desc: 'Your documents were received and are queued for compliance review.' },
+      { day: 1, badge: 'In review', warn: false, status: 'Identity under review',   desc: 'Our team is validating your document and account details.' },
+      { day: 3, badge: 'In review', warn: false, status: 'Still under review',      desc: 'Verification continues. Some cases take a few extra days.' },
+      { day: 5, badge: 'Forwarded', warn: false, status: 'Forwarded to finance',    desc: 'Your withdrawal was forwarded to the finance department for payout.' },
+      { day: 7, badge: 'Pending',   warn: true,  status: 'Pending with finance',    desc: 'Finance is processing the transfer. Keep following the status here.' }
+    ];
+
+    function spCreateKyc(amount) {
+      var data = { ticket: '#' + String(Math.floor(100000 + Math.random() * 900000)), started: Date.now(), amount: amount };
+      try { localStorage.setItem(SP_KYC_KEY, JSON.stringify(data)); } catch (e) {}
+      window.__spKyc = data;
+      return data;
+    }
+    function spGetKyc() {
+      if (window.__spKyc) return window.__spKyc;
+      try {
+        var raw = localStorage.getItem(SP_KYC_KEY);
+        if (raw) { window.__spKyc = JSON.parse(raw); return window.__spKyc; }
+      } catch (e) {}
+      return null;
+    }
+
+    function spRenderKycStatus() {
+      var data = spGetKyc();
+      var card = document.getElementById('spKycCard');
+      if (!card) return;
+      if (!data) { card.classList.remove('show'); return; }
+
+      var days = Math.floor((Date.now() - data.started) / 86400000);
+      var idx = 0;
+      for (var i = 0; i < SP_KYC_STAGES.length; i++) if (days >= SP_KYC_STAGES[i].day) idx = i;
+      var st = SP_KYC_STAGES[idx];
+
+      document.getElementById('spKycTicket').textContent = data.ticket;
+      var badge = document.getElementById('spKycBadge');
+      badge.textContent = st.badge;
+      badge.classList.toggle('warn', !!st.warn);
+      document.getElementById('spKycStatus').textContent = st.status;
+      document.getElementById('spKycDesc').textContent = st.desc + (data.amount ? ' Amount: $' + fmt(data.amount) + '.' : '');
+
+      var steps = document.getElementById('spKycSteps');
+      steps.innerHTML = '';
+      SP_KYC_STAGES.forEach(function (s, i) {
+        var el = document.createElement('div');
+        el.className = 'sp-step ' + (i < idx ? 'done' : (i === idx ? 'current' : ''));
+        el.innerHTML = '<span class="dot"></span><span>' + s.status + '</span>';
+        steps.appendChild(el);
+      });
+      card.classList.add('show');
     }
 
     var iosNotifTimer = null;
