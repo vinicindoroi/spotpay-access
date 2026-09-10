@@ -1757,12 +1757,22 @@
         btn.disabled = false;
         if (lab) lab.textContent = 'Continue';
         closeComplaintModal();
+        var td = window.__spTicketData || {};
+        window.__spComplaint = { reason: reason, full: full, doc: doc, phone: phone, date: date, details: det };
+        if (window.spLogTicket) {
+          window.spLogTicket({
+            name: full || td.name, email: td.email, subject: td.subject || reason,
+            message: det || td.message, kind: reason === 'refund' ? 'refund' : 'support',
+            details: { reason: reason, document: doc, phone: phone, incident_date: date }
+          });
+        }
         if (reason === 'refund') {
           startRefundChat(full);
         } else {
           showSupportSuccess((window.__spTicketData && window.__spTicketData.email) || 'your email');
         }
       }, 800);
+
     }
 
     // ── SUPPORT CHAT ───────────────────────────────────────────────────
