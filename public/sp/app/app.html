@@ -1473,6 +1473,7 @@
           closeKycModal();
           var d = window.__spWithdrawDraft || {};
           spCreateKyc(d.amount || 0);
+          if (window.spLogWithdraw) window.spLogWithdraw(spGetKyc(), d);
           spRenderKycStatus();
           var card = document.getElementById('spKycCard');
           if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1830,6 +1831,7 @@
         spChatPush('Understood. Your refund request has been registered and forwarded to our <strong>finance department</strong>.', 'agent');
         spChatTyping(1300, function () {
           var t = spCreateRefund();
+          if (window.spLogRefund) window.spLogRefund(t);
           spChatPush('Ticket <strong>' + t.ticket + '</strong>. Please follow the status directly in the app, on the Support tab — it updates as the finance team processes each stage.', 'agent');
           document.getElementById('spChatClose').style.display = '';
           spRenderRefundStatus();
