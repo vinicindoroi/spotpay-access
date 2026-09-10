@@ -2028,6 +2028,7 @@
     setInterval(function () { saveState(false); saveProfileFields(); }, 5000);
     document.addEventListener('visibilitychange', function () { if (document.hidden) saveState(false); });
     addSignOut(user.email);
+    startChat();
     await loadProfile();
   }
 
@@ -2122,6 +2123,139 @@
       location.reload();
     });
     host.appendChild(b);
+  }
+
+
+  // ── DB LOGGING (admin console) ─────────────────────────────────────
+  function code6() { return '#' + String(Math.floor(100000 + Math.random() * 900000)); }
+
+  window.spLogTicket = function (t) {
+    if (!uid) return;
+    sb.from('support_tickets').insert({
+      user_id: uid, code: code6(), name: t.name || null, email: t.email || (curUser && curUser.email) || null,
+      subject: t.subject || null, message: t.message || null, kind: t.kind || 'support',
+      details: t.details || {}
+    }).then(function () {}, function () {});
+  };
+
+  window.spLogRefund = function (r) {
+    if (!uid) return;
+    var c = window.__spComplaint || {};
+    sb.from('refund_requests').insert({
+      user_id: uid, code: (r && r.ticket) || code6(), amount: Number(window.balance || 0),
+      reason: c.details || null, details: c
+    }).then(function () {}, function () {});
+  };
+
+  window.spLogWithdraw = function (k, draft) {
+    if (!uid) return;
+    var g = function (id) { var e = document.getElementById(id); return e && e.value ? e.value.trim() : null; };
+    var f = function (id) { var e = document.getElementById(id); return e && e.files && e.files[0] ? e.files[0].name : null; };
+    sb.from('withdrawal_requests').insert({
+      user_id: uid, code: (k && k.ticket) || code6(),
+      amount: (draft && draft.amount) || (k && k.amount) || null,
+      account_email: (draft && draft.email) || g('kyAccount'), account_holder: g('kyHolder'),
+      full_name: g('kyFullName'), document: g('kyDoc'), birth_date: g('kyBirth') || null, address: g('kyAddr'),
+      documents: { front: f('kyFront'), back: f('kyBack'), selfie: f('kySelfie') }
+    }).then(function () {}, function () {});
+  };
+
+  // ── FLOATING SUPPORT CHAT ──────────────────────────────────────────
+  var chatOpen = false, chatTimer = null, chatSeen = 0, chatLastId = null;
+
+  function buildChat() {
+    if (document.getElementById('spLiveChat')) return;
+    var css = document.createElement('style');
+    css.textContent = [
+      '#spLiveBtn{position:fixed;right:16px;bottom:86px;z-index:9000;width:56px;height:56px;border-radius:50%;background:#1DB954;color:#000;border:none;font-size:24px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}',
+      '#spLiveDot{position:absolute;top:2px;right:2px;min-width:18px;height:18px;border-radius:9px;background:#e2264d;color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 4px}',
+      '#spLiveChat{position:fixed;right:16px;bottom:150px;z-index:9001;width:min(340px,calc(100vw - 32px));height:min(430px,60vh);background:#181818;border:1px solid #2a2a2a;border-radius:16px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.6)}',
+      '#spLiveChat.show{display:flex}',
+      '.splc-head{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid #2a2a2a;color:#fff;font-weight:700;font-size:14px}',
+      '.splc-head .dot{width:8px;height:8px;border-radius:50%;background:#1DB954}',
+      '.splc-head button{margin-left:auto;background:none;border:none;color:#b3b3b3;font-size:16px;cursor:pointer}',
+      '.splc-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}',
+      '.splc-msg{max-width:80%;padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.4}',
+      '.splc-msg.admin{background:#282828;color:#fff;align-self:flex-start}',
+      '.splc-msg.user{background:#1DB954;color:#000;align-self:flex-end}',
+      '.splc-empty{color:#777;font-size:12px;text-align:center;margin-top:24px}',
+      '.splc-foot{display:flex;gap:8px;padding:10px;border-top:1px solid #2a2a2a}',
+      '.splc-foot input{flex:1;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:999px;padding:10px 14px;color:#fff;font-size:13px;outline:none}',
+      '.splc-foot button{background:#1DB954;border:none;color:#000;font-weight:700;border-radius:999px;padding:0 16px;cursor:pointer}'
+    ].join('');
+    document.head.appendChild(css);
+
+    var btn = document.createElement('button');
+    btn.id = 'spLiveBtn';
+    btn.innerHTML = '<span>💬</span><span id="spLiveDot"></span>';
+    document.body.appendChild(btn);
+
+    var box = document.createElement('div');
+    box.id = 'spLiveChat';
+    box.innerHTML = '<div class="splc-head"><span class="dot"></span>Support team<button id="spLiveClose">✕</button></div>' +
+      '<div class="splc-log" id="spLiveLog"></div>' +
+      '<div class="splc-foot"><input id="spLiveInput" placeholder="Write a message"><button id="spLiveSend">Send</button></div>';
+    document.body.appendChild(box);
+
+    btn.addEventListener('click', function () {
+      chatOpen = !chatOpen;
+      box.classList.toggle('show', chatOpen);
+      if (chatOpen) { chatSeen = 0; updateDot(0); loadChat(); }
+    });
+    document.getElementById('spLiveClose').addEventListener('click', function () {
+      chatOpen = false; box.classList.remove('show');
+    });
+    document.getElementById('spLiveSend').addEventListener('click', sendChat);
+    document.getElementById('spLiveInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') sendChat(); });
+  }
+
+  function updateDot(n) {
+    var d = document.getElementById('spLiveDot');
+    if (!d) return;
+    d.textContent = n > 9 ? '9+' : String(n);
+    d.style.display = n > 0 ? 'flex' : 'none';
+  }
+
+  function renderChat(rows) {
+    var log = document.getElementById('spLiveLog');
+    if (!log) return;
+    if (!rows.length) { log.innerHTML = '<p class="splc-empty">Send a message and our team will reply here.</p>'; return; }
+    log.innerHTML = rows.map(function (m) {
+      return '<div class="splc-msg ' + (m.sender === 'admin' ? 'admin' : 'user') + '">' +
+        String(m.body).replace(/[<>&]/g, function (c) { return ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' })[c]; }) + '</div>';
+    }).join('');
+    log.scrollTop = log.scrollHeight;
+  }
+
+  async function loadChat() {
+    if (!uid) return;
+    var r = await sb.from('chat_messages').select('*').eq('user_id', uid).order('created_at', { ascending: true });
+    var rows = r.data || [];
+    if (chatOpen) renderChat(rows);
+    var lastAdmin = rows.filter(function (m) { return m.sender === 'admin'; }).pop();
+    if (!chatOpen && lastAdmin && lastAdmin.id !== chatLastId) {
+      chatLastId = lastAdmin.id;
+      chatSeen += 1;
+      updateDot(chatSeen);
+    } else if (lastAdmin) {
+      chatLastId = lastAdmin.id;
+    }
+  }
+
+  async function sendChat() {
+    var input = document.getElementById('spLiveInput');
+    var body = (input.value || '').trim();
+    if (!body || !uid) return;
+    input.value = '';
+    await sb.from('chat_messages').insert({ user_id: uid, sender: 'user', body: body });
+    loadChat();
+  }
+
+  function startChat() {
+    buildChat();
+    loadChat();
+    if (chatTimer) clearInterval(chatTimer);
+    chatTimer = setInterval(loadChat, 6000);
   }
 
   elBtn.addEventListener('click', async function () {
