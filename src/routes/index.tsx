@@ -1,24 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Spotify Rewards – Evaluate & Earn" },
+      { name: "description", content: "Avalie músicas e ganhe recompensas." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "Spotify Rewards – Evaluate & Earn" },
+      { property: "og:description", content: "Avalie músicas e ganhe recompensas." },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <iframe
+      src="/sp/app/app.html"
+      title="Spotify Rewards"
+      style={{
+        position: "fixed",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        border: "none",
+      }}
+      allow="autoplay"
+    />
   );
 }
