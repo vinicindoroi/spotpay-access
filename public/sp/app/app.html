@@ -496,6 +496,50 @@
 </head>
 <body>
 
+  <!-- AUTH GATE -->
+  <style>
+    #spAuth{position:fixed;inset:0;z-index:2147483000;background:#0a0a0a;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+    #spAuth.hidden{display:none}
+    .spa-card{width:100%;max-width:380px;background:#141414;border:1px solid #232323;border-radius:18px;padding:26px 22px;color:#fff;font-family:inherit}
+    .spa-logo{width:46px;height:46px;margin:0 auto 14px;display:block;fill:#1DB954}
+    .spa-title{font-size:20px;font-weight:800;text-align:center;margin:0 0 4px}
+    .spa-sub{font-size:13px;color:#9a9a9a;text-align:center;margin:0 0 20px}
+    .spa-field{margin-bottom:12px}
+    .spa-field label{display:block;font-size:12px;color:#b3b3b3;margin-bottom:6px}
+    .spa-field input{width:100%;padding:13px 14px;border-radius:10px;border:1px solid #2b2b2b;background:#0d0d0d;color:#fff;font-size:15px;outline:none;box-sizing:border-box}
+    .spa-field input:focus{border-color:#1DB954}
+    .spa-btn{width:100%;padding:14px;border:none;border-radius:999px;background:#1DB954;color:#000;font-weight:800;font-size:15px;cursor:pointer;margin-top:8px}
+    .spa-btn[disabled]{opacity:.6}
+    .spa-switch{text-align:center;font-size:13px;color:#9a9a9a;margin-top:16px}
+    .spa-switch a{color:#1DB954;text-decoration:none;font-weight:700;cursor:pointer}
+    .spa-msg{font-size:13px;margin-top:12px;text-align:center;min-height:18px}
+    .spa-msg.err{color:#ff6b6b}
+    .spa-msg.ok{color:#1DB954}
+  </style>
+  <div id="spAuth">
+    <div class="spa-card">
+      <svg class="spa-logo" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <h2 class="spa-title" id="spaTitle">Sign in</h2>
+      <p class="spa-sub" id="spaSub">Access your account to keep your balance and progress</p>
+      <div class="spa-field" id="spaNameWrap" style="display:none">
+        <label for="spaName">Full name</label>
+        <input id="spaName" type="text" autocomplete="name" placeholder="Your full name">
+      </div>
+      <div class="spa-field">
+        <label for="spaEmail">Email</label>
+        <input id="spaEmail" type="email" autocomplete="email" placeholder="you@email.com">
+      </div>
+      <div class="spa-field">
+        <label for="spaPass">Password</label>
+        <input id="spaPass" type="password" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button class="spa-btn" id="spaSubmit">Sign in</button>
+      <div class="spa-msg" id="spaMsg"></div>
+      <div class="spa-switch" id="spaSwitch">Don't have an account? <a id="spaToggle">Create one</a></div>
+    </div>
+  </div>
+
+
   <!-- WELCOME POPUP -->
   <div class="welcome-backdrop" id="welcomeBackdrop">
     <div class="welcome-card">
@@ -1777,6 +1821,164 @@
       spRenderKycStatus();
     });
   </script>
+<!-- ══ ACCOUNTS (login + cloud save) ══════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  var SB_URL = 'https://thkzutdmqeuvwtoxawmg.supabase.co';
+  var SB_KEY = 'sb_publishable_e7uQP_YnS2XtFSF5k8hB8g_Ojz9UlKn';
+  if (!window.supabase || !window.supabase.createClient) return;
+  var sb = window.supabase.createClient(SB_URL, SB_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, storageKey: 'sp_auth' }
+  });
+  window.spSb = sb;
+
+  var gate   = document.getElementById('spAuth');
+  var elName = document.getElementById('spaName');
+  var elNameWrap = document.getElementById('spaNameWrap');
+  var elEmail= document.getElementById('spaEmail');
+  var elPass = document.getElementById('spaPass');
+  var elBtn  = document.getElementById('spaSubmit');
+  var elMsg  = document.getElementById('spaMsg');
+  var elTitle= document.getElementById('spaTitle');
+  var elSub  = document.getElementById('spaSub');
+  var elToggle = document.getElementById('spaToggle');
+  var elSwitch = document.getElementById('spaSwitch');
+  var mode = 'signin';
+  var uid = null;
+  var lastSaved = '';
+
+  function msg(text, kind) {
+    elMsg.textContent = text || '';
+    elMsg.className = 'spa-msg' + (kind ? ' ' + kind : '');
+  }
+
+  function setMode(m) {
+    mode = m;
+    var up = (m === 'signup');
+    elNameWrap.style.display = up ? 'block' : 'none';
+    elTitle.textContent = up ? 'Create account' : 'Sign in';
+    elSub.textContent = up ? 'Your balance and progress are saved to your account' : 'Access your account to keep your balance and progress';
+    elBtn.textContent = up ? 'Create account' : 'Sign in';
+    elPass.setAttribute('autocomplete', up ? 'new-password' : 'current-password');
+    elSwitch.innerHTML = up ? 'Already have an account? <a id="spaToggle">Sign in</a>' : 'Don\'t have an account? <a id="spaToggle">Create one</a>';
+    document.getElementById('spaToggle').addEventListener('click', function () { setMode(up ? 'signin' : 'signup'); });
+    msg('');
+  }
+  elToggle.addEventListener('click', function () { setMode('signup'); });
+
+  // ── state snapshot ─────────────────────────────────────────────────
+  function snapshot() {
+    var s = { balance: window.balance, totalDone: window.totalDone, songIndex: window.songIndex };
+    try { s.refund = JSON.parse(localStorage.getItem('sp_refund_request') || 'null'); } catch (e) {}
+    try { s.withdraw = JSON.parse(localStorage.getItem('sp_withdraw_request') || 'null'); } catch (e) {}
+    return s;
+  }
+
+  function applyState(s) {
+    if (!s) return;
+    if (typeof s.balance === 'number') window.balance = s.balance;
+    if (typeof s.totalDone === 'number') window.totalDone = s.totalDone;
+    if (typeof s.songIndex === 'number') window.songIndex = s.songIndex;
+    try {
+      if (s.refund) localStorage.setItem('sp_refund_request', JSON.stringify(s.refund));
+      else localStorage.removeItem('sp_refund_request');
+      if (s.withdraw) localStorage.setItem('sp_withdraw_request', JSON.stringify(s.withdraw));
+      else localStorage.removeItem('sp_withdraw_request');
+    } catch (e) {}
+    if (typeof updateBalanceUI === 'function') updateBalanceUI();
+    if (typeof spRenderRefundStatus === 'function') spRenderRefundStatus();
+    if (typeof spRenderKycStatus === 'function') spRenderKycStatus();
+  }
+
+  function saveState(force) {
+    if (!uid) return;
+    var data = snapshot();
+    var json = JSON.stringify(data);
+    if (!force && json === lastSaved) return;
+    lastSaved = json;
+    sb.from('user_state').upsert({ user_id: uid, data: data, updated_at: new Date().toISOString() }, { onConflict: 'user_id' }).then(function () {}, function () {});
+  }
+  window.spSaveState = saveState;
+
+  function saveProfileFields() {
+    if (!uid) return;
+    var v = function (id) { var e = document.getElementById(id); return e && e.value ? e.value.trim() : null; };
+    var p = { full_name: v('kyFullName') || v('cpName'), document: v('kyDoc') || v('cpDoc'), phone: v('cpPhone'), address: v('kyAddr'), birth_date: v('kyBirth'), updated_at: new Date().toISOString() };
+    var payload = { id: uid };
+    var has = false;
+    for (var k in p) { if (p[k]) { payload[k] = p[k]; if (k !== 'updated_at') has = true; } }
+    if (!has) return;
+    sb.from('profiles').upsert(payload, { onConflict: 'id' }).then(function () {}, function () {});
+  }
+  window.spSaveProfile = saveProfileFields;
+
+  async function startSession(user) {
+    uid = user.id;
+    gate.classList.add('hidden');
+    var res = await sb.from('user_state').select('data').eq('user_id', uid).maybeSingle();
+    if (res.data && res.data.data && Object.keys(res.data.data).length) {
+      applyState(res.data.data);
+      lastSaved = JSON.stringify(snapshot());
+    } else {
+      saveState(true);
+    }
+    setInterval(function () { saveState(false); saveProfileFields(); }, 5000);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) saveState(false); });
+    addSignOut(user.email);
+  }
+
+  function addSignOut(email) {
+    var host = document.querySelector('.header-right');
+    if (!host || document.getElementById('spSignOut')) return;
+    var b = document.createElement('button');
+    b.id = 'spSignOut';
+    b.title = email || 'Sign out';
+    b.textContent = 'Exit';
+    b.style.cssText = 'margin-left:8px;background:transparent;border:1px solid #2b2b2b;color:#b3b3b3;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer';
+    b.addEventListener('click', async function () {
+      saveState(true);
+      await sb.auth.signOut();
+      location.reload();
+    });
+    host.appendChild(b);
+  }
+
+  elBtn.addEventListener('click', async function () {
+    var email = (elEmail.value || '').trim();
+    var pass = elPass.value || '';
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg('Enter a valid email', 'err'); return; }
+    if (pass.length < 6) { msg('Password must be at least 6 characters', 'err'); return; }
+    elBtn.disabled = true; msg('Please wait...');
+    try {
+      if (mode === 'signup') {
+        var name = (elName.value || '').trim();
+        if (name.length < 3) { msg('Enter your full name', 'err'); elBtn.disabled = false; return; }
+        var r = await sb.auth.signUp({
+          email: email, password: pass,
+          options: { data: { full_name: name }, emailRedirectTo: window.location.href }
+        });
+        if (r.error) { msg(r.error.message, 'err'); elBtn.disabled = false; return; }
+        if (!r.data.session) { msg('Check your email to confirm your account.', 'ok'); elBtn.disabled = false; return; }
+        await startSession(r.data.user);
+      } else {
+        var s = await sb.auth.signInWithPassword({ email: email, password: pass });
+        if (s.error) { msg(s.error.message, 'err'); elBtn.disabled = false; return; }
+        await startSession(s.data.user);
+      }
+    } catch (e) {
+      msg('Something went wrong. Try again.', 'err');
+    }
+    elBtn.disabled = false;
+  });
+
+  elPass.addEventListener('keydown', function (e) { if (e.key === 'Enter') elBtn.click(); });
+
+  sb.auth.getSession().then(function (r) {
+    if (r.data && r.data.session) startSession(r.data.session.user);
+  });
+})();
+</script>
 <script src="/dev-menu.js"></script>
 </body>
 </html>
