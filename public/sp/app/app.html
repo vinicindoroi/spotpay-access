@@ -699,6 +699,76 @@
         <button class="suporte-success-btn" onclick="resetSupportForm()">Send another</button>
       </div>
 
+      <!-- Complaint details sheet -->
+      <div class="sp-modal" id="spComplaintModal">
+        <div class="sp-sheet">
+          <div class="sp-sheet-grip"></div>
+          <h3>Complaint details</h3>
+          <p class="sp-sheet-sub">Before we open your ticket, please confirm your details. This information is required by our compliance team.</p>
+
+          <div class="suporte-form-group" id="cpGroupReason">
+            <label for="cpReason">Reason for dissatisfaction</label>
+            <select id="cpReason">
+              <option value="">Choose one</option>
+              <option value="refund">Refund request</option>
+              <option value="delay">Payment delay</option>
+              <option value="access">Cannot access my account</option>
+              <option value="charge">Unrecognized charge</option>
+              <option value="other">Other</option>
+            </select>
+            <span class="suporte-field-error">Pick a reason.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupFull">
+            <label for="cpFullName">Full name</label>
+            <input type="text" id="cpFullName" placeholder="As on your document" autocomplete="name">
+            <span class="suporte-field-error">Enter your full name.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupDoc">
+            <label for="cpDoc">Document (CPF / ID)</label>
+            <input type="text" id="cpDoc" placeholder="000.000.000-00" inputmode="numeric">
+            <span class="suporte-field-error">Enter a valid document number.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupPhone">
+            <label for="cpPhone">Phone</label>
+            <input type="tel" id="cpPhone" placeholder="(00) 00000-0000" inputmode="tel">
+            <span class="suporte-field-error">Enter your phone number.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupDate">
+            <label for="cpDate">Purchase date</label>
+            <input type="date" id="cpDate">
+            <span class="suporte-field-error">Select the purchase date.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupDetails">
+            <label for="cpDetails">What happened?</label>
+            <textarea id="cpDetails" maxlength="500" placeholder="Describe the problem in detail..."></textarea>
+            <span class="suporte-field-error">Please describe the problem.</span>
+          </div>
+
+          <button class="suporte-submit-btn" id="cpSubmitBtn" onclick="submitComplaint()"><span id="cpSubmitLabel">Continue</span></button>
+          <button class="sp-ghost-btn" onclick="closeComplaintModal()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Refund confirmation chat -->
+      <div class="sp-modal" id="spChatModal">
+        <div class="sp-sheet">
+          <div class="sp-sheet-grip"></div>
+          <div class="sp-chat-head">
+            <div class="sp-chat-av">S</div>
+            <div>
+              <div class="sp-chat-name">Support · Refunds</div>
+              <div class="sp-chat-state">Online now</div>
+            </div>
+          </div>
+          <div class="sp-chat-log" id="spChatLog"></div>
+          <div class="sp-chat-actions" id="spChatActions" style="display:none">
+            <button class="sp-btn-cancel" onclick="refundDecline()">No, keep it</button>
+            <button class="sp-btn-danger" onclick="refundConfirm()">Yes, refund</button>
+          </div>
+          <button class="sp-ghost-btn" id="spChatClose" style="display:none" onclick="closeChatModal()">Close</button>
+        </div>
+      </div>
+
       <!-- FAQ -->
       <h2 class="faq-title">Common questions</h2>
       <div class="faq-list" id="faqList">
