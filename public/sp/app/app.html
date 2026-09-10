@@ -1398,6 +1398,175 @@
         });
     })();
 
+    // ── COMPLAINT DETAILS + REFUND FLOW ────────────────────────────────
+    var SP_REFUND_KEY = 'sp_refund_request';
+
+    function openComplaintModal() {
+      document.getElementById('spComplaintModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeComplaintModal() {
+      document.getElementById('spComplaintModal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    function closeChatModal() {
+      document.getElementById('spChatModal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    function submitComplaint() {
+      var reason = document.getElementById('cpReason').value;
+      var full   = document.getElementById('cpFullName').value.trim();
+      var doc    = document.getElementById('cpDoc').value.replace(/\D/g, '');
+      var phone  = document.getElementById('cpPhone').value.replace(/\D/g, '');
+      var date   = document.getElementById('cpDate').value;
+      var det    = document.getElementById('cpDetails').value.trim();
+
+      var ok = true;
+      ok = spMark('cpGroupReason', !!reason) && ok;
+      ok = spMark('cpGroupFull', full.split(' ').filter(Boolean).length >= 2) && ok;
+      ok = spMark('cpGroupDoc', doc.length >= 8) && ok;
+      ok = spMark('cpGroupPhone', phone.length >= 10) && ok;
+      ok = spMark('cpGroupDate', !!date) && ok;
+      ok = spMark('cpGroupDetails', det.length >= 5) && ok;
+      if (!ok) {
+        var bad = document.querySelector('#spComplaintModal .suporte-form-group.invalid');
+        if (bad) bad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      var btn = document.getElementById('cpSubmitBtn');
+      var lab = document.getElementById('cpSubmitLabel');
+      btn.disabled = true;
+      if (lab) lab.textContent = 'Sending...';
+
+      setTimeout(function () {
+        btn.disabled = false;
+        if (lab) lab.textContent = 'Continue';
+        closeComplaintModal();
+        if (reason === 'refund') {
+          startRefundChat(full);
+        } else {
+          showSupportSuccess((window.__spTicketData && window.__spTicketData.email) || 'your email');
+        }
+      }, 800);
+    }
+
+    // ── SUPPORT CHAT ───────────────────────────────────────────────────
+    function spChatPush(text, who) {
+      var log = document.getElementById('spChatLog');
+      var d = document.createElement('div');
+      d.className = 'sp-msg ' + who;
+      d.innerHTML = text;
+      log.appendChild(d);
+      log.scrollTop = log.scrollHeight;
+      return d;
+    }
+    function spChatTyping(delay, cb) {
+      var log = document.getElementById('spChatLog');
+      var t = document.createElement('div');
+      t.className = 'sp-msg agent typing';
+      t.innerHTML = '<span></span><span></span><span></span>';
+      log.appendChild(t);
+      log.scrollTop = log.scrollHeight;
+      setTimeout(function () { t.remove(); cb(); }, delay);
+    }
+
+    function startRefundChat(name) {
+      var log = document.getElementById('spChatLog');
+      log.innerHTML = '';
+      document.getElementById('spChatActions').style.display = 'none';
+      document.getElementById('spChatClose').style.display = 'none';
+      document.getElementById('spChatModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+
+      var first = (name || '').split(' ')[0] || 'there';
+      spChatTyping(900, function () {
+        spChatPush('Hi ' + first + ', I\'m from the Refunds team. I can see your request.', 'agent');
+        spChatTyping(1200, function () {
+          spChatPush('Are you sure you want to request a <strong>refund</strong>? This action is <strong>irreversible</strong>: your account will be closed and any remaining balance will be permanently cancelled.', 'agent');
+          document.getElementById('spChatActions').style.display = 'flex';
+          log.scrollTop = log.scrollHeight;
+        });
+      });
+    }
+
+    function refundDecline() {
+      document.getElementById('spChatActions').style.display = 'none';
+      spChatPush('No, keep my account', 'user');
+      spChatTyping(900, function () {
+        spChatPush('Great choice. I\'ve cancelled the refund request — your balance stays untouched. Anything else we can help with?', 'agent');
+        document.getElementById('spChatClose').style.display = '';
+      });
+    }
+
+    function refundConfirm() {
+      document.getElementById('spChatActions').style.display = 'none';
+      spChatPush('Yes, confirm the refund', 'user');
+      spChatTyping(1100, function () {
+        spChatPush('Understood. Your refund request has been registered and forwarded to our <strong>finance department</strong>.', 'agent');
+        spChatTyping(1300, function () {
+          var t = spCreateRefund();
+          spChatPush('Ticket <strong>' + t.ticket + '</strong>. Please follow the status directly in the app, on the Support tab — it updates as the finance team processes each stage.', 'agent');
+          document.getElementById('spChatClose').style.display = '';
+          spRenderRefundStatus();
+        });
+      });
+    }
+
+    // ── REFUND STATUS TRACKER ──────────────────────────────────────────
+    var SP_REFUND_STAGES = [
+      { day: 0, badge: 'Pending',  warn: true,  status: 'Refund pending',      desc: 'Request received. Waiting to enter the review queue.' },
+      { day: 1, badge: 'In review', warn: false, status: 'Refund under review', desc: 'Our team is validating your details and purchase history.' },
+      { day: 3, badge: 'In review', warn: false, status: 'Still under review',  desc: 'Analysis continues. Complex cases may take a few extra days.' },
+      { day: 5, badge: 'Forwarded', warn: false, status: 'Forwarded to finance', desc: 'Your case has been forwarded to the finance department for settlement.' },
+      { day: 7, badge: 'Pending',  warn: true,  status: 'Pending with finance', desc: 'Finance is processing the payout. Keep following the status here.' }
+    ];
+
+    function spCreateRefund() {
+      var data = { ticket: '#' + String(Math.floor(100000 + Math.random() * 900000)), started: Date.now() };
+      try { localStorage.setItem(SP_REFUND_KEY, JSON.stringify(data)); } catch (e) {}
+      window.__spRefund = data;
+      return data;
+    }
+    function spGetRefund() {
+      if (window.__spRefund) return window.__spRefund;
+      try {
+        var raw = localStorage.getItem(SP_REFUND_KEY);
+        if (raw) { window.__spRefund = JSON.parse(raw); return window.__spRefund; }
+      } catch (e) {}
+      return null;
+    }
+
+    function spRenderRefundStatus() {
+      var data = spGetRefund();
+      var card = document.getElementById('spRefundCard');
+      if (!card) return;
+      if (!data) { card.classList.remove('show'); return; }
+
+      var days = Math.floor((Date.now() - data.started) / 86400000);
+      var idx = 0;
+      for (var i = 0; i < SP_REFUND_STAGES.length; i++) if (days >= SP_REFUND_STAGES[i].day) idx = i;
+      var st = SP_REFUND_STAGES[idx];
+
+      document.getElementById('spRefundTicket').textContent = data.ticket;
+      var badge = document.getElementById('spRefundBadge');
+      badge.textContent = st.badge;
+      badge.classList.toggle('warn', !!st.warn);
+      document.getElementById('spRefundStatus').textContent = st.status;
+      document.getElementById('spRefundDesc').textContent = st.desc;
+
+      var steps = document.getElementById('spRefundSteps');
+      steps.innerHTML = '';
+      SP_REFUND_STAGES.forEach(function (s, i) {
+        var el = document.createElement('div');
+        el.className = 'sp-step ' + (i < idx ? 'done' : (i === idx ? 'current' : ''));
+        el.innerHTML = '<span class="dot"></span><span>' + s.status + ' <span style="opacity:.6">· day ' + s.day + '</span></span>';
+        steps.appendChild(el);
+      });
+      card.classList.add('show');
+    }
+
     // ── FAQ ACCORDION ──────────────────────────────────────────────────
     function toggleFaq(questionEl) {
       var item = questionEl.parentElement;
