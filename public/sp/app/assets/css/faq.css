@@ -1,0 +1,84 @@
+/* FAQ Styles - Spotify Theme */
+.faq-content {
+    padding-top: 24px;
+    display: block !important;
+    align-items: unset !important;
+    justify-content: unset !important;
+    min-height: unset !important;
+}
+
+.faq-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faq-item {
+    background: #282828;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #333333;
+    transition: border-color 0.2s;
+}
+
+.faq-item.active {
+    border-color: #1DB954;
+}
+
+.faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    cursor: pointer;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.faq-question:hover {
+    background: rgba(29, 185, 84, 0.05);
+}
+
+.faq-question span {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    flex: 1;
+}
+
+.faq-chevron {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    color: #b3b3b3;
+    stroke: #b3b3b3;
+}
+
+.faq-item.active .faq-chevron {
+    transform: rotate(180deg);
+    stroke: #1DB954;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+}
+
+.faq-answer p {
+    padding: 0 20px 18px;
+    font-size: 14px;
+    color: #b3b3b3;
+    line-height: 1.6;
+}

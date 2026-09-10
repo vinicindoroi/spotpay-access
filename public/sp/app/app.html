@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Spotify Rewards – Evaluate & Earn</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%231DB954' d='M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z'/></svg>">
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '4472134583045790');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=4472134583045790&ev=PageView&noscript=1"
+  /></noscript>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ─── RESET ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(180deg, #07160b 0%, #121212 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── HEADER ─────────────────────────────────── */
+    .header {
+      background: #000;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      border-bottom: 1px solid #121212;
+    }
+    .header-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.5px;
+    }
+    .header-logo svg { width: 28px; height: 28px; fill: #1DB954; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .balance-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: #1DB954; border-radius: 999px;
+      padding: 8px 16px; font-size: 14px; font-weight: 700; color: #000;
+    }
+    .balance-pill svg { width: 14px; height: 14px; fill: #000; }
+
+    /* ─── BOTTOM NAV ────────────────────────────── */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 64px;
+      background: #000;
+      border-top: 1px solid #1a1a1a;
+      display: flex;
+      z-index: 200;
+    }
+    .nav-item {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 4px; text-decoration: none;
+      color: #727272; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; transition: color 0.2s;
+      position: relative;
+    }
+    .nav-item svg { width: 22px; height: 22px; }
+    .nav-item.active { color: #1DB954; }
+    .nav-item.active svg { stroke: #1DB954; }
+
+    /* ─── PAGES ──────────────────────────────────── */
+    .page { display: none; flex: 1; flex-direction: column; padding-bottom: 80px; }
+    .page.active { display: flex; }
+
+    /* ─── MAIN (evaluate) ────────────────────────── */
+    .main {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
+      padding: 24px 16px 0;
+    }
+    .container { width: 100%; max-width: 460px; display: flex; flex-direction: column; align-items: center; }
+
+    /* ─── TOP INFO ────────────────────────────────── */
+    .top-info { text-align: center; margin-bottom: 24px; }
+    .spotify-logo-mid {
+      width: 48px; height: 48px; background: #1DB954; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;
+    }
+    .spotify-logo-mid svg { width: 28px; height: 28px; fill: #fff; }
+    .hello-title { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .hello-sub { font-size: 14px; color: #b3b3b3; margin-bottom: 6px; }
+    .hello-sub span { color: #1DB954; }
+    .song-counter { font-size: 12px; color: #7f7f7f; }
+
+    /* ─── INSTRUCTION BANNER ─────────────────────── */
+    .instruction-banner {
+      background: rgba(29,185,84,0.08); border: 1px solid rgba(29,185,84,0.25);
+      border-radius: 8px; padding: 14px; font-size: 13px; font-weight: 500;
+      color: #1DB954; text-align: center; line-height: 1.5; width: 100%; margin-bottom: 16px;
+    }
+
+    /* ─── SONG CARD ───────────────────────────────── */
+    .song-card {
+      background: #181818; border-radius: 10px; width: 100%;
+      padding: 16px; display: flex; align-items: center; gap: 16px;
+      position: relative; margin-bottom: 24px;
+    }
+    .vinyl-container { width: 80px; height: 80px; position: relative; flex-shrink: 0; }
+    .vinyl-disc {
+      width: 100%; height: 100%; border-radius: 50%; background: #0d0d0d;
+      background-image: repeating-radial-gradient(circle,#0d0d0d,#0d0d0d 2px,#1c1c1c 3px,#0d0d0d 4px);
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.15), 0 4px 12px rgba(0,0,0,0.6);
+      display: flex; align-items: center; justify-content: center; position: relative;
+      animation: cover-spin 12s linear infinite; animation-play-state: paused;
+      border: 1px solid #222; transition: border-color 0.3s;
+    }
+    .vinyl-disc.playing { animation-play-state: running; border-color: #1DB954; }
+    .song-cover { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; z-index: 2; border: 1.5px solid #000; }
+    .vinyl-center-hole {
+      position: absolute; width: 6px; height: 6px; background: #181818;
+      border-radius: 50%; z-index: 3; border: 1px solid rgba(255,255,255,0.15);
+    }
+    @keyframes cover-spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+
+    .song-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+    .song-name { font-size: 16px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .song-artist-row { display: flex; align-items: center; gap: 6px; }
+    .badge-preview { font-size: 9px; font-weight: 700; color: #b3b3b3; border: 1px solid #727272; padding: 1px 4px; border-radius: 2px; text-transform: uppercase; }
+    .song-artist { font-size: 13px; color: #b3b3b3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .save-spotify {
+      display: flex; align-items: center; gap: 6px; background: none; border: none;
+      color: #fff; font-size: 12px; font-weight: 500; cursor: pointer;
+      padding: 4px 0; margin-top: 4px; width: fit-content;
+    }
+    .save-spotify svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .song-spotify-logo { position: absolute; top: 16px; right: 16px; width: 20px; height: 20px; fill: #1DB954; opacity: 0.9; }
+    .song-right-controls { display: flex; align-items: center; gap: 12px; align-self: flex-end; margin-left: auto; }
+    .more-dots { color: #b3b3b3; font-size: 20px; background: none; border: none; cursor: pointer; line-height: 1; padding: 4px; }
+    .play-btn {
+      width: 40px; height: 40px; background: #fff; border: none; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;
+    }
+    .play-btn:hover { transform: scale(1.05); }
+    .play-btn svg { width: 16px; height: 16px; fill: #000; }
+
+    /* ─── QUESTIONS ───────────────────────────────── */
+    .questions-wrap { width: 100%; display: flex; flex-direction: column; gap: 20px; margin-bottom: 24px; transition: opacity 0.3s; }
+    .questions-wrap.locked { pointer-events: none; opacity: 0.35; }
+    .question-block { display: flex; flex-direction: column; gap: 8px; }
+    .question-title { font-size: 14px; font-weight: 600; color: #fff; }
+    .yn-row { display: flex; gap: 10px; }
+    .yn-btn {
+      flex: 1; background: #242424; border: 1px solid #242424;
+      border-radius: 6px; padding: 12px 0; color: #fff;
+      font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .yn-btn.selected { background: #333; border-color: #555; }
+
+    /* ─── FINISH BTN ──────────────────────────────── */
+    .finish-btn {
+      width: 100%; background: #242424; color: #7f7f7f; border: none;
+      border-radius: 99px; padding: 16px; font-size: 15px; font-weight: 700;
+      cursor: not-allowed; text-transform: uppercase; letter-spacing: 0.5px;
+      transition: all 0.2s; margin-bottom: 16px; font-family: inherit;
+    }
+    .finish-btn.active { background: #1DB954; color: #000; cursor: pointer; }
+    .finish-btn.active:hover { background: #1ed760; }
+    .recaptcha-text { font-size: 9px; color: #535353; text-align: center; line-height: 1.4; text-transform: uppercase; letter-spacing: 0.2px; }
+    .recaptcha-text a { color: #1DB954; text-decoration: none; }
+
+    /* ─── SUCCESS CARD ────────────────────────────── */
+    .success-card {
+      background: #181818; border-radius: 12px; width: 100%;
+      padding: 32px 24px; display: none; flex-direction: column;
+      align-items: center; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .success-card.show { display: flex; }
+    .success-check {
+      width: 48px; height: 48px; background: #1DB954; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+    }
+    .success-check svg { width: 24px; height: 24px; stroke: #000; }
+    .success-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 24px; }
+    .received-box { background: #000; border: 1px solid #1e291b; border-radius: 8px; padding: 16px; width: 100%; margin-bottom: 24px; }
+    .received-label { font-size: 10px; font-weight: 700; color: #1DB954; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .received-val { font-size: 32px; font-weight: 800; color: #1DB954; letter-spacing: -0.5px; }
+    .next-song-btn {
+      width: 100%; background: #1DB954; color: #000; border: none;
+      border-radius: 99px; padding: 16px; font-size: 15px; font-weight: 700;
+      cursor: pointer; text-transform: uppercase; font-family: inherit; transition: background 0.2s;
+    }
+    .next-song-btn:hover { background: #1ed760; }
+
+    /* ─── FINAL SCREEN ────────────────────────────── */
+    #finalScreen {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      z-index: 9990; align-items: center; justify-content: center;
+      padding: 20px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    .final-inner {
+      background: #181818; border-radius: 20px; padding: 36px 28px 28px;
+      width: 100%; max-width: 380px; display: flex; flex-direction: column;
+      align-items: center; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+      border: 1px solid #282828; animation: popup-in 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    .final-alarm-icon { width: 64px; height: 64px; background: #1DB954; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+    .final-alarm-icon svg { width: 36px; height: 36px; fill: #fff; }
+    .final-badge { background: rgba(29,185,84,0.15); border: 1px solid rgba(29,185,84,0.35); border-radius: 99px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #1DB954; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+    .final-title { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 10px; line-height: 1.3; }
+    .final-desc { font-size: 13px; color: #b3b3b3; line-height: 1.6; margin-bottom: 24px; }
+    .final-desc strong { color: #fff; }
+    .final-stats-box { width: 100%; background: #282828; border: 1px solid #3e3e3e; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .final-stat-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .final-stat-label { color: #727272; font-weight: 500; }
+    .final-stat-value { color: #fff; font-weight: 700; }
+    .final-stat-value.highlight { color: #1DB954; font-size: 16px; font-weight: 900; }
+    .final-cta-btn {
+      width: 100%; background: #1DB954; color: #000; border: none; border-radius: 99px;
+      padding: 16px; font-size: 16px; font-weight: 800; cursor: pointer;
+      font-family: inherit; letter-spacing: 0.3px; transition: background 0.15s, transform 0.1s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .final-cta-btn:hover { background: #1ed760; transform: scale(1.02); }
+    .final-cta-btn svg { width: 18px; height: 18px; fill: #000; }
+    .final-note { font-size: 11px; color: #535353; margin-top: 14px; }
+
+    /* ─── CONFETTI ────────────────────────────────── */
+    .confetti-piece { position: fixed; top: -30px; z-index: 9998; pointer-events: none; opacity: 1; animation: confetti-fall linear forwards; }
+    @keyframes confetti-fall {
+      0%  { transform: translateY(0) rotate(0deg) scaleX(1); opacity: 1; }
+      50% { transform: translateY(50vh) rotate(400deg) scaleX(-1); opacity: 1; }
+      90% { opacity: 1; }
+      100%{ transform: translateY(110vh) rotate(800deg) scaleX(1); opacity: 0; }
+    }
+
+    /* ─── WELCOME POPUP ───────────────────────────── */
+    .welcome-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+    .welcome-backdrop.hidden { display: none; }
+    .welcome-card {
+      background: #181818; border-radius: 20px; padding: 36px 28px 28px;
+      width: 100%; max-width: 380px; display: flex; flex-direction: column;
+      align-items: center; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+      border: 1px solid #282828; animation: popup-in 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes popup-in { from{opacity:0;transform:scale(0.88) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+    .welcome-icon { width: 64px; height: 64px; background: #1DB954; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+    .welcome-icon svg { width: 36px; height: 36px; fill: #fff; }
+    .welcome-badge { background: rgba(29,185,84,0.15); border: 1px solid rgba(29,185,84,0.35); border-radius: 99px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #1DB954; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+    .welcome-title { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 10px; line-height: 1.3; }
+    .welcome-desc { font-size: 13px; color: #b3b3b3; line-height: 1.6; margin-bottom: 28px; }
+    .welcome-desc strong { color: #fff; }
+    .welcome-start-btn { width: 100%; background: #1DB954; color: #000; border: none; border-radius: 99px; padding: 16px; font-size: 16px; font-weight: 800; cursor: pointer; font-family: inherit; transition: background 0.15s, transform 0.1s; }
+    .welcome-start-btn:hover { background: #1ed760; transform: scale(1.02); }
+    .welcome-note { font-size: 11px; color: #535353; margin-top: 14px; }
+
+    /* ─── WITHDRAW PAGE ───────────────────────────── */
+    .page-inner { padding: 28px 16px 0; }
+
+    .withdraw-hero {
+      background: linear-gradient(135deg, #003087 0%, #009cde 100%);
+      border-radius: 16px; padding: 24px 22px; margin-bottom: 24px; position: relative; overflow: hidden;
+    }
+    .withdraw-hero::before { content:''; position:absolute; top:-40px; right:-40px; width:160px; height:160px; border-radius:50%; background:rgba(255,255,255,0.06); }
+    .withdraw-hero-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .withdraw-hero-amount { font-size: 42px; font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 4px; }
+    .withdraw-hero-sub { font-size: 12px; color: rgba(255,255,255,0.65); }
+
+    .paypal-logo-row { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; }
+    .paypal-logo-text { font-size: 13px; font-weight: 600; color: #333; line-height: 1.4; }
+    .paypal-logo-text small { display: block; font-size: 11px; color: #777; font-weight: 400; }
+
+    .withdraw-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-label { font-size: 13px; font-weight: 700; color: #b3b3b3; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-input {
+      width: 100%; padding: 15px 16px; background: #1a1a1a; border: 1px solid #333;
+      border-radius: 8px; color: #fff; font-family: inherit; font-size: 16px; font-weight: 500;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-input:focus { border-color: #1DB954; box-shadow: 0 0 0 3px rgba(29,185,84,0.15); }
+    .form-input::placeholder { color: #444; font-weight: 400; }
+    .form-hint { font-size: 11px; color: #b3b3b3; }
+    .withdraw-submit-btn {
+      width: 100%; padding: 16px; background: #003087; color: #fff; border: none;
+      border-radius: 12px; font-family: inherit; font-size: 16px; font-weight: 800;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background 0.2s, transform 0.15s; box-shadow: 0 6px 20px rgba(0,48,135,0.4);
+    }
+    .withdraw-submit-btn:hover { background: #004ab3; transform: translateY(-2px); }
+    .withdraw-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .security-note { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; color: #535353; margin-top: 8px; }
+
+    /* ─── iOS PayPal NOTIFICATION ─────────────────── */
+    .ios-notification {
+      position: fixed; top: 14px; left: 50%;
+      transform: translateX(-50%) translateY(-180px);
+      width: calc(100% - 24px); max-width: 375px;
+      background: rgba(30, 30, 30, 0.72);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-radius: 20px; padding: 12px 14px 18px 14px;
+      display: flex; align-items: flex-start; gap: 12px;
+      z-index: 9999;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(255,255,255,0.08);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+    }
+    .ios-notification.show {
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+      cursor: grab;
+    }
+    .ios-notification.dragging {
+      transition: none;
+      cursor: grabbing;
+    }
+    .ios-notif-handle {
+      position: absolute; bottom: 5px; left: 50%;
+      transform: translateX(-50%); width: 36px; height: 5px;
+      background: rgba(255, 255, 255, 0.25); border-radius: 10px;
+    }
+    .ios-notif-icon-container {
+      flex-shrink: 0; width: 38px; height: 38px;
+      border-radius: 9px; background: #ffffff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
+    .ios-notif-icon-container img {
+      width: 22px;
+      height: auto;
+      display: block;
+    }
+    .ios-notif-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+    .ios-notif-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
+    .ios-notif-app { font-size: 12px; font-weight: 500; color: rgba(255, 255, 255, 0.5); letter-spacing: -0.1px; }
+    .ios-notif-time { font-size: 11px; color: rgba(255, 255, 255, 0.4); }
+    .ios-notif-title { font-size: 14px; font-weight: 600; color: #ffffff; letter-spacing: -0.15px; }
+    .ios-notif-msg { font-size: 13px; color: rgba(255, 255, 255, 0.85); line-height: 1.35; letter-spacing: -0.1px; }
+
+    /* ─── SUPPORT PAGE ────────────────────────────── */
+    .suporte-hero { margin-bottom: 18px; }
+    .suporte-title { font-size: 22px; font-weight: 700; color: #fff; margin: 0 0 6px; letter-spacing: -0.2px; }
+    .suporte-subtitle { font-size: 13.5px; color: #a7a7a7; margin: 0; line-height: 1.5; }
+
+    .suporte-status { display: flex; align-items: center; gap: 8px; margin: 14px 0 22px; font-size: 12.5px; color: #a7a7a7; }
+    .suporte-status-dot { width: 7px; height: 7px; border-radius: 50%; background: #1DB954; box-shadow: 0 0 0 3px rgba(29,185,84,0.18); flex: none; }
+    .suporte-status strong { color: #fff; font-weight: 600; }
+
+    .suporte-form-card { background: #181818; border-radius: 14px; padding: 20px; border: 1px solid #2a2a2a; margin-bottom: 20px; }
+    .suporte-form-title { font-size: 15px; font-weight: 600; color: #fff; margin: 0 0 4px; }
+    .suporte-form-hint { font-size: 12.5px; color: #8f8f8f; margin: 0 0 18px; }
+    .suporte-form-group { margin-bottom: 14px; }
+    .suporte-form-group label { display: block; font-size: 12px; font-weight: 500; color: #a7a7a7; margin-bottom: 6px; }
+    .suporte-form-group input,
+    .suporte-form-group select,
+    .suporte-form-group textarea {
+      width: 100%; padding: 12px 14px; background: #121212; border: 1px solid #2f2f2f; border-radius: 10px;
+      color: #fff; font-size: 14.5px; font-family: inherit; outline: none; transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .suporte-form-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23b3b3b3' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .suporte-form-group select option { background: #181818; color: #fff; }
+    .suporte-form-group input::placeholder, .suporte-form-group textarea::placeholder { color: #5a5a5a; }
+    .suporte-form-group input:focus, .suporte-form-group select:focus, .suporte-form-group textarea:focus { border-color: #1DB954; box-shadow: 0 0 0 3px rgba(29,185,84,0.10); }
+    .suporte-form-group textarea { resize: none; height: 104px; line-height: 1.5; }
+    .suporte-form-group.invalid input, .suporte-form-group.invalid select, .suporte-form-group.invalid textarea { border-color: #e0525f; }
+    .suporte-field-error { display: none; font-size: 11.5px; color: #e0525f; margin-top: 6px; }
+    .suporte-form-group.invalid .suporte-field-error { display: block; }
+    .suporte-count { float: right; font-size: 11px; color: #6b6b6b; font-weight: 400; }
+
+    .suporte-submit-btn {
+      width: 100%; padding: 14px; background: #1DB954; color: #000; border: none; border-radius: 999px;
+      font-size: 14.5px; font-weight: 700; font-family: inherit; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .15s, opacity .15s;
+    }
+    .suporte-submit-btn:active { background: #17a247; }
+    .suporte-submit-btn:disabled { opacity: 0.55; cursor: default; }
+
+    .suporte-success { display: none; text-align: left; padding: 22px 20px; background: #181818; border-radius: 14px; border: 1px solid #2a2a2a; margin-bottom: 20px; }
+    .suporte-success.show { display: block; animation: fadeInUp 0.3s ease; }
+    .suporte-success-icon { width: 34px; height: 34px; border-radius: 50%; background: rgba(29,185,84,0.14); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .suporte-success-icon svg { width: 18px; height: 18px; stroke: #1DB954; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .suporte-success-title { font-size: 16px; font-weight: 700; color: #fff; margin: 0 0 6px; }
+    .suporte-success-msg { font-size: 13.5px; color: #a7a7a7; margin: 0 0 18px; line-height: 1.55; }
+    .suporte-success-btn { padding: 11px 20px; background: transparent; color: #fff; border: 1px solid #3a3a3a; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+    /* ─── FAQ ─────────────────────────────────────── */
+    .faq-title { font-size: 15px; font-weight: 600; color: #fff; margin: 4px 0 14px; text-align: left; }
+    .faq-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .faq-item { background: #282828; border-radius: 12px; overflow: hidden; border: 1px solid #333; transition: border-color 0.2s; }
+    .faq-item.active { border-color: #1DB954; }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; cursor: pointer; gap: 12px; transition: background 0.2s; }
+    .faq-question:hover { background: rgba(29,185,84,0.05); }
+    .faq-question span { font-size: 15px; font-weight: 600; color: #fff; flex: 1; }
+    .faq-chevron { flex-shrink: 0; transition: transform 0.3s ease; color: #b3b3b3; }
+    .faq-item.active .faq-chevron { transform: rotate(180deg); color: #1DB954; }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.active .faq-answer { max-height: 300px; }
+    .faq-answer p { padding: 0 20px 18px; font-size: 14px; color: #b3b3b3; line-height: 1.6; }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    .footer { text-align: center; padding: 24px 16px 16px; border-top: 1px solid #121212; }
+    .footer-copy { font-size: 11px; color: #535353; margin-bottom: 8px; }
+    .footer-links { display: flex; justify-content: center; gap: 16px; }
+    .footer-links a { font-size: 11px; color: #535353; text-decoration: underline; }
+
+    /* ─── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 480px) {
+      .header { height: 56px; padding: 0 14px; }
+      .header-logo { font-size: 17px; }
+      .header-logo svg { width: 22px; height: 22px; }
+      .balance-pill { padding: 6px 10px; font-size: 12px; }
+      .vinyl-container { width: 68px; height: 68px; }
+      .song-cover { width: 50px; height: 50px; }
+      .song-name { font-size: 14px; }
+      .play-btn { width: 36px; height: 36px; }
+      .yn-btn { padding: 11px 0; font-size: 13px; }
+      .received-val { font-size: 28px; }
+      .withdraw-hero-amount { font-size: 34px; }
+    }
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      .bottom-nav { padding-bottom: env(safe-area-inset-bottom); height: calc(64px + env(safe-area-inset-bottom)); }
+      .page { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- WELCOME POPUP -->
+  <div class="welcome-backdrop" id="welcomeBackdrop">
+    <div class="welcome-card">
+      <div class="welcome-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      </div>
+      <div class="welcome-badge">⭐ Selected Program</div>
+      <h1 class="welcome-title">You've been selected to evaluate music on Spotify!</h1>
+      <p class="welcome-desc">Listen to <strong>10 songs</strong> and rate them. Each evaluation is <strong>paid directly</strong> to your account — continuing from your previous session.</p>
+      <button class="welcome-start-btn" id="welcomeStartBtn">Start Evaluating →</button>
+      <p class="welcome-note">🔒 Secure and verified program</p>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      Spotify
+    </div>
+    <div class="header-right">
+      <div class="balance-pill">
+        <svg viewBox="0 0 24 24"><path d="M21 7H3a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zm-1 12H4V9h16v10zm-2-5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM3 5h16V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v1z"/></svg>
+        $<span id="balanceDisplay">0.00</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ EVALUATE PAGE ════════════════════════════════ -->
+  <div class="page active" id="pageEval">
+    <main class="main">
+      <div class="container">
+        <div class="top-info" id="topInfo">
+          <div class="spotify-logo-mid">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          </div>
+          <h1 class="hello-title">Spotify Rewards</h1>
+          <p class="hello-sub">Listen to the music below and <span>get paid for it</span></p>
+          <p class="song-counter" id="songCounter">Song 1 of 10</p>
+        </div>
+
+        <div class="instruction-banner" id="instructionBanner">
+          🎵 Press play, listen to the song, answer the questions below, then tap <strong>FINISH &amp; EARN</strong>
+        </div>
+
+        <div class="song-card" id="songCard">
+          <svg class="song-spotify-logo" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          <div class="vinyl-container">
+            <div class="vinyl-disc" id="vinylDisc">
+              <img class="song-cover" id="songCover" src="" alt="Cover">
+              <div class="vinyl-center-hole"></div>
+            </div>
+          </div>
+          <div class="song-info">
+            <div class="song-name" id="songName">Loading...</div>
+            <div class="song-artist-row">
+              <span class="badge-preview">Preview</span>
+              <span class="song-artist" id="songArtist">Artist</span>
+            </div>
+            <button class="save-spotify">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Save on Spotify
+            </button>
+          </div>
+          <div class="song-right-controls">
+            <button class="more-dots">···</button>
+            <button class="play-btn" id="playBtn">
+              <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="questions-wrap locked" id="questionsWrap">
+          <div class="question-block">
+            <p class="question-title" id="q1Title">Do you listen to this artist often?</p>
+            <div class="yn-row">
+              <button class="yn-btn" id="q1Yes">Yes</button>
+              <button class="yn-btn" id="q1No">No</button>
+            </div>
+          </div>
+          <div class="question-block">
+            <p class="question-title" id="q2Title">Do you usually listen to this song?</p>
+            <div class="yn-row">
+              <button class="yn-btn" id="q2Yes">Yes</button>
+              <button class="yn-btn" id="q2No">No</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="finish-btn" id="finishBtn" disabled>Finish &amp; Earn</button>
+        <p class="recaptcha-text" id="recaptchaText">This site is protected by reCAPTCHA and is subject to the <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>.</p>
+
+        <div class="success-card" id="successCard">
+          <div class="success-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h2 class="success-title">Evaluation Submitted!</h2>
+          <div class="received-box">
+            <div class="received-label">Balance Received</div>
+            <div class="received-val" id="rewardAmount">+$00.00</div>
+          </div>
+          <button class="next-song-btn" id="nextSongBtn">Next Song</button>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <p class="footer-copy">© 2026 Spotify Rewards Program. All rights reserved.</p>
+      <div class="footer-links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+    </footer>
+  </div>
+
+  <!-- ══ WITHDRAW PAGE ════════════════════════════════ -->
+  <div class="page" id="pageWithdraw">
+    <div class="page-inner">
+      <div class="withdraw-hero">
+        <p class="withdraw-hero-label">Available Balance</p>
+        <p class="withdraw-hero-amount">$<span id="withdrawBalance">0.00</span></p>
+        <p class="withdraw-hero-sub">Ready for instant PayPal transfer</p>
+      </div>
+      <div class="paypal-logo-row">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/PayPal_Logo_Icon_2014.svg" alt="PayPal" style="height:34px; width:auto; flex-shrink:0">
+        <div class="paypal-logo-text">PayPal Withdrawal<small>Funds arrive in 1–3 business days</small></div>
+      </div>
+      <form class="withdraw-form" onsubmit="submitWithdraw(event)">
+        <div class="form-group">
+          <label class="form-label">PayPal Email</label>
+          <input class="form-input" id="paypalEmail" type="email" placeholder="your@email.com" required>
+          <span class="form-hint">Enter your verified PayPal email address</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Amount (USD)</label>
+          <input class="form-input" id="withdrawAmount" type="number" min="10" step="0.01" placeholder="e.g. 438.77" required>
+          <span class="form-hint" id="maxHint">Max available: $0.00</span>
+        </div>
+        <button class="withdraw-submit-btn" type="submit" id="withdrawBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+          Transfer via PayPal
+        </button>
+        <p class="security-note">🔒 256-bit SSL encrypted · PayPal protected</p>
+      </form>
+    </div>
+    <footer class="footer" style="margin-top:auto;padding-top:32px">
+      <p class="footer-copy">© 2026 Spotify Rewards Program. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- ══ SUPPORT PAGE ═════════════════════════════════ -->
+  <div class="page" id="pageSupport">
+    <div class="page-inner">
+      <div class="suporte-hero">
+        <h2 class="suporte-title">Support</h2>
+        <p class="suporte-subtitle">Tell us what happened and we'll get back to you by email.</p>
+      </div>
+
+      <div class="suporte-status">
+        <span class="suporte-status-dot"></span>
+        <span>Team online now · replies in <strong>about 6 hours</strong></span>
+      </div>
+
+
+      <!-- Support form -->
+      <div class="suporte-form-card" id="supportFormCard">
+        <p class="suporte-form-title">Still need help?</p>
+        <p class="suporte-form-hint">Send us the details and we'll reply by email.</p>
+        <div class="suporte-form-group" id="spGroupName">
+          <label for="spName">Name</label>
+          <input type="text" id="spName" placeholder="Your name" autocomplete="name" required>
+          <span class="suporte-field-error">Please enter your name.</span>
+        </div>
+        <div class="suporte-form-group" id="spGroupEmail">
+          <label for="spEmail">Email</label>
+          <input type="email" id="spEmail" placeholder="you@email.com" autocomplete="email" inputmode="email" required>
+          <span class="suporte-field-error">Please enter a valid email.</span>
+        </div>
+        <div class="suporte-form-group" id="spGroupSubject">
+          <label for="spSubject">What is it about?</label>
+          <select id="spSubject">
+            <option value="">Choose one</option>
+            <option>Withdrawal issue</option>
+            <option>Balance not updated</option>
+            <option>Technical problem</option>
+            <option>Account question</option>
+            <option>Something else</option>
+          </select>
+          <span class="suporte-field-error">Pick a topic.</span>
+        </div>
+        <div class="suporte-form-group" id="spGroupMessage">
+          <label for="spMessage">Message <span class="suporte-count" id="spCount">0/500</span></label>
+          <textarea id="spMessage" maxlength="500" placeholder="Tell us what happened..."></textarea>
+          <span class="suporte-field-error">Please describe your issue.</span>
+        </div>
+        <button class="suporte-submit-btn" id="spSubmitBtn" onclick="submitSupport()">
+          <span id="spSubmitLabel">Send message</span>
+        </button>
+      </div>
+
+      <!-- Success state -->
+      <div class="suporte-success" id="supportSuccess">
+        <div class="suporte-success-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 class="suporte-success-title">Message sent</h3>
+        <p class="suporte-success-msg">Ticket <strong id="spTicket">#000000</strong> — we'll reply to <span id="spSentEmail">your email</span>.</p>
+        <button class="suporte-success-btn" onclick="resetSupportForm()">Send another</button>
+      </div>
+
+      <!-- FAQ -->
+      <h2 class="faq-title">Common questions</h2>
+      <div class="faq-list" id="faqList">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>How do I get paid?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer"><p>Your earnings accumulate with each song evaluation. Once you complete all 10 songs, you can withdraw your balance via PayPal directly from the Cashout tab.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>How long does a withdrawal take?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer"><p>PayPal transfers typically arrive within 1–3 business days after being processed. You will receive an email confirmation once the funds have been sent.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>What is the minimum withdrawal amount?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer"><p>The minimum withdrawal amount is $10.00. You can withdraw any amount up to your full available balance at any time.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>How many songs can I evaluate per day?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer"><p>You can evaluate up to 10 songs per day. Each evaluation rewards you with a different amount depending on the song's current popularity on Spotify's charts.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Is this program legitimate?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer"><p>Yes. Spotify Rewards is a verified market research program. Your honest music evaluations help Spotify improve their recommendation algorithms and playlist curation.</p></div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer" style="margin-top:auto;padding-top:24px">
+      <p class="footer-copy">© 2026 Spotify Rewards Program. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- FINAL SCREEN -->
+  <div id="finalScreen">
+    <div class="final-inner">
+      <div class="final-alarm-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+      </div>
+      <div class="final-badge">🔒 Status: Limit Reached</div>
+      <h1 class="final-title">Daily limit reached!</h1>
+      <p class="final-desc">You have evaluated <strong>10 songs</strong> today. Withdraw your balance to continue.</p>
+      <div class="final-stats-box">
+        <div class="final-stat-row"><span class="final-stat-label">Daily limit:</span><span class="final-stat-value">10 songs</span></div>
+        <div class="final-stat-row"><span class="final-stat-label">Today's earnings:</span><span class="final-stat-value highlight" id="finalBalance">$0.00</span></div>
+      </div>
+      <button class="final-cta-btn" id="finalCashoutBtn">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 7H3a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zm-1 12H4V9h16v10zm-2-5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM3 5h16V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v1z"/></svg>
+        Withdraw money
+      </button>
+      <p class="final-note">🔒 Instant withdrawal unlocked</p>
+    </div>
+  </div>
+
+  <!-- iOS PayPal notification -->
+  <div class="ios-notification" id="iosNotif">
+    <div class="ios-notif-icon-container">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/PayPal_Logo_Icon_2014.svg" alt="PayPal">
+    </div>
+    <div class="ios-notif-body">
+      <div class="ios-notif-header">
+        <span class="ios-notif-app">PayPal</span>
+        <span class="ios-notif-time">now</span>
+      </div>
+      <div class="ios-notif-title" id="notifTitle">Payment Received</div>
+      <div class="ios-notif-msg" id="notifMsg">You received $0.00 from Spotify Rewards.</div>
+    </div>
+    <div class="ios-notif-handle"></div>
+  </div>
+
+  <audio id="rewardSound" preload="auto">
+    <source src="../Presell/songs/reward.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="notifSound" preload="auto">
+    <source src="assets/audio/iphone_short_cropped.m4a" type="audio/mp4">
+  </audio>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="navEval" onclick="switchTab('eval')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+      Evaluate
+    </button>
+    <button class="nav-item" id="navWithdraw" onclick="switchTab('withdraw')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="22" height="18" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Cashout
+    </button>
+    <button class="nav-item" id="navSupport" onclick="switchTab('support')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Support
+    </button>
+  </nav>
+
+  <script>
+    // ══ SONGS — 10 tracks via Apple Music (diferentes da presell) ════════════
+    var SONGS = [
+      {
+        name: 'Espresso', artist: 'Sabrina Carpenter',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/57/e8/7b/57e87ba0-5057-9bb9-c247-ce7dbe426e89/24UMGIM55213.rgb.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e9/4d/02/e94d0230-11ee-ef94-d2cf-a5d547bd73f4/mzaf_554140808559155562.plus.aac.p.m4a',
+        reward: 47.32
+      },
+      {
+        name: 'Not Like Us', artist: 'Kendrick Lamar',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/31/3a/3f/313a3fbc-bb8f-80c7-b5a2-e226869a38cd/24UMGIM51924.rgb.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b6/6b/8c/b66b8c42-8c82-242b-4ef1-3655d19ac1aa/mzaf_1950801191699299821.plus.aac.p.m4a',
+        reward: 41.88
+      },
+      {
+        name: 'Die With A Smile', artist: 'Lady Gaga & Bruno Mars',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/11/ae/f2/11aef294-f57c-bab9-c9fc-529162984e62/24UMGIM85348.rgb.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e9/d1/46/e9d14699-9505-493e-cd27-a501095c81ff/mzaf_7283388936457278756.plus.aac.p.m4a',
+        reward: 44.65
+      },
+      {
+        name: 'APT.', artist: 'ROSÉ & Bruno Mars',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2d/14/66/2d14661b-345b-d0f3-4e86-56ef626e68aa/075679629203.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/70/41/42/70414259-14f5-245e-bd79-93c80401d556/mzaf_8687698460653166345.plus.aac.p.m4a',
+        reward: 43.20
+      },
+      {
+        name: 'Too Sweet', artist: 'Hozier',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/98/80/95/98809581-4a0e-68a6-04de-b72492e35939/196871908191.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a6/61/fc/a661fcaf-f8e5-03db-36f3-31f2e196b1a5/mzaf_18300083713037280538.plus.aac.p.m4a',
+        reward: 38.90
+      },
+      {
+        name: 'Good Luck, Babe!', artist: 'Chappell Roan',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/29/a7/c4/29a7c478-351d-25eb-a116-3e68118cdab8/24UMGIM31246.rgb.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c3/6d/4f/c36d4f23-b87f-046d-7a0e-e3e05d180b2a/mzaf_17235999651335214399.plus.aac.p.m4a',
+        reward: 42.55
+      },
+      {
+        name: 'Beautiful Things', artist: 'Benson Boone',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/54/f4/92/54f49210-e260-b519-ebbd-f4f40ee710cd/054391342751.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4d/d5/00/4dd5006f-ee02-c3f1-94db-0ed4b8dd68f1/mzaf_14250561294796027079.plus.aac.p.m4a',
+        reward: 39.70
+      },
+      {
+        name: 'BIRDS OF A FEATHER', artist: 'Billie Eilish',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/92/9f/69/929f69f1-9977-3a44-d674-11f70c852d1b/24UMGIM36186.rgb.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/31/d3/3431d34e-847f-5d66-df83-0bce688d997e/mzaf_18106743962423782018.plus.aac.p.m4a',
+        reward: 44.10
+      },
+      {
+        name: 'Cruel Summer', artist: 'Taylor Swift',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/49/3d/ab/493dab54-f920-9043-6181-80993b8116c9/19UMGIM53909.rgb.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/af/81/44af8168-9609-1b85-5048-ada08dceacf3/mzaf_1341699644335558812.plus.aac.p.m4a',
+        reward: 40.25
+      },
+      {
+        name: 'Sunflower', artist: 'Post Malone & Swae Lee',
+        cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/4b/30/2c/4b302cb6-7a14-5464-4e97-0577e9d0be49/18UMGIM82277.rgb.jpg/600x600bb.jpg',
+        src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/98/f0/d6/98f0d67e-f8bf-762d-cac7-1c6b3b6b35dd/mzaf_4543283896248560946.plus.aac.p.m4a',
+        reward: 56.22
+      },
+    ];
+    // rewards sum = 438.77
+
+    var DAILY_LIMIT = 10;
+
+    // Starting balance from URL (?balance=xxx) or default
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlBal = parseFloat(urlParams.get('balance'));
+    var balance = isNaN(urlBal) ? 438.77 : urlBal;
+
+    var songIndex   = 0;
+    var totalDone   = 0;
+    var q1Answer    = null;
+    var q2Answer    = null;
+    var isPlaying   = false;
+    var audioEl     = null;
+    var songUnlocked = false;
+    var simInterval = null;
+    var simSeconds  = 30;
+
+    // DOM refs
+    var balanceDisplay    = document.getElementById('balanceDisplay');
+    var songCounter       = document.getElementById('songCounter');
+    var songNameEl        = document.getElementById('songName');
+    var songArtistEl      = document.getElementById('songArtist');
+    var songCoverEl       = document.getElementById('songCover');
+    var q1Title           = document.getElementById('q1Title');
+    var q2Title           = document.getElementById('q2Title');
+    var q1Yes             = document.getElementById('q1Yes');
+    var q1No              = document.getElementById('q1No');
+    var q2Yes             = document.getElementById('q2Yes');
+    var q2No              = document.getElementById('q2No');
+    var finishBtn         = document.getElementById('finishBtn');
+    var playBtn           = document.getElementById('playBtn');
+    var playIcon          = document.getElementById('playIcon');
+    var instructionBanner = document.getElementById('instructionBanner');
+    var successCard       = document.getElementById('successCard');
+    var rewardAmountEl    = document.getElementById('rewardAmount');
+    var nextSongBtn       = document.getElementById('nextSongBtn');
+    var songCard          = document.getElementById('songCard');
+    var questionsWrap     = document.getElementById('questionsWrap');
+    var recaptchaText     = document.getElementById('recaptchaText');
+    var rewardSound       = document.getElementById('rewardSound');
+
+    // ── UTILS ──────────────────────────────────────────────────────────
+    function fmt(n) { return parseFloat(n).toFixed(2); }
+
+    function updateBalanceUI() {
+      balanceDisplay.textContent = fmt(balance);
+      var wb = document.getElementById('withdrawBalance');
+      if (wb) wb.textContent = fmt(balance);
+      var mh = document.getElementById('maxHint');
+      if (mh) mh.textContent = 'Max available: $' + fmt(balance);
+    }
+
+    // ── TABS ───────────────────────────────────────────────────────────
+    function switchTab(tab) {
+      ['eval','withdraw','support'].forEach(function(t) {
+        document.getElementById('nav'+t.charAt(0).toUpperCase()+t.slice(1)).classList.remove('active');
+        document.getElementById('page'+t.charAt(0).toUpperCase()+t.slice(1)).classList.remove('active');
+      });
+      document.getElementById('nav'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+      document.getElementById('page'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+      window.scrollTo(0, 0);
+      if (tab === 'withdraw') updateBalanceUI();
+    }
+
+    // ── SONG LOGIC ─────────────────────────────────────────────────────
+    function unlockQuestions() {
+      songUnlocked = true;
+      questionsWrap.classList.remove('locked');
+      instructionBanner.innerHTML = '🎉 Song finished! Answer the questions below and tap <strong>FINISH & EARN</strong>';
+      checkReady();
+    }
+
+    function startSimulatedCountdown() {
+      if (simInterval) return;
+      simInterval = setInterval(function() {
+        if (!isPlaying) return;
+        simSeconds--;
+        if (simSeconds <= 0) {
+          clearInterval(simInterval); simInterval = null;
+          unlockQuestions();
+        } else if (!songUnlocked) {
+          instructionBanner.innerHTML = '🎵 Listen to the song (' + simSeconds + 's remaining) to unlock the questions.';
+        }
+      }, 1000);
+    }
+
+    function loadSong() {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      var song = SONGS[songIndex % SONGS.length];
+      var pos  = totalDone + 1;
+
+      songNameEl.textContent   = song.name;
+      songArtistEl.textContent = song.artist;
+      songCoverEl.src          = song.cover;
+      q1Title.textContent      = 'Do you listen to ' + song.artist + ' often?';
+      q2Title.textContent      = 'Do you usually listen to ' + song.name + '?';
+      songCounter.textContent  = 'Song ' + pos + ' of ' + DAILY_LIMIT;
+      updateBalanceUI();
+
+      q1Answer = null; q2Answer = null;
+      [q1Yes, q1No, q2Yes, q2No].forEach(function(b) { b.classList.remove('selected'); });
+      finishBtn.disabled = true; finishBtn.classList.remove('active');
+      isPlaying = false; songUnlocked = false; setPlayIcon(false);
+      if (audioEl) { audioEl.pause(); audioEl.src = ''; audioEl = null; }
+      simSeconds = 30;
+      if (simInterval) { clearInterval(simInterval); simInterval = null; }
+
+      instructionBanner.style.display = '';
+      instructionBanner.innerHTML = '🎵 Press play and listen to the song to unlock the evaluation questions.';
+      songCard.style.display = '';
+      questionsWrap.style.display = '';
+      questionsWrap.classList.add('locked');
+      finishBtn.style.display = '';
+      recaptchaText.style.display = '';
+      successCard.classList.remove('show');
+    }
+
+    function setPlayIcon(playing) {
+      var vd = document.getElementById('vinylDisc');
+      if (playing) {
+        playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+        if (vd) vd.classList.add('playing');
+      } else {
+        playIcon.innerHTML = '<path d="M8 5.5v13l10-6.5z"/>';
+        if (vd) vd.classList.remove('playing');
+      }
+    }
+
+    function checkReady() {
+      if (q1Answer !== null && q2Answer !== null && songUnlocked) {
+        finishBtn.disabled = false; finishBtn.classList.add('active');
+      } else {
+        finishBtn.disabled = true; finishBtn.classList.remove('active');
+      }
+    }
+
+    function selectOption(btn, ans, type) {
+      var yes = document.getElementById(type+'Yes');
+      var no  = document.getElementById(type+'No');
+      yes.classList.remove('selected'); no.classList.remove('selected');
+      btn.classList.add('selected');
+      if (type === 'q1') q1Answer = ans; else q2Answer = ans;
+      checkReady();
+    }
+
+    // ── EVENTS ─────────────────────────────────────────────────────────
+    q1Yes.addEventListener('click', function() { selectOption(this,'yes','q1'); });
+    q1No.addEventListener('click',  function() { selectOption(this,'no','q1'); });
+    q2Yes.addEventListener('click', function() { selectOption(this,'yes','q2'); });
+    q2No.addEventListener('click',  function() { selectOption(this,'no','q2'); });
+
+    playBtn.addEventListener('click', function() {
+      var song = SONGS[songIndex % SONGS.length];
+      if (!audioEl) {
+        audioEl = new Audio(song.src);
+        audioEl.addEventListener('ended', function() {
+          isPlaying = false; setPlayIcon(false);
+          if (simInterval) { clearInterval(simInterval); simInterval = null; }
+          unlockQuestions();
+        });
+      }
+      if (isPlaying) {
+        audioEl.pause(); isPlaying = false; setPlayIcon(false);
+      } else {
+        audioEl.play().then(function() {
+          isPlaying = true; setPlayIcon(true); startSimulatedCountdown();
+        }).catch(function() {
+          isPlaying = true; setPlayIcon(true); startSimulatedCountdown();
+        });
+      }
+    });
+
+    finishBtn.addEventListener('click', function() {
+      if (finishBtn.disabled) return;
+      try { rewardSound.currentTime = 0; rewardSound.play().catch(function(){}); } catch(e){}
+
+      var song   = SONGS[songIndex % SONGS.length];
+      var reward = song.reward;
+      balance   += reward; balance = parseFloat(balance.toFixed(2));
+      totalDone += 1;
+      songIndex += 1;
+
+      instructionBanner.style.display = 'none';
+      songCard.style.display          = 'none';
+      questionsWrap.style.display     = 'none';
+      finishBtn.style.display         = 'none';
+      recaptchaText.style.display     = 'none';
+
+      rewardAmountEl.textContent = '+$' + fmt(reward);
+      successCard.classList.add('show');
+      updateBalanceUI();
+
+      if (audioEl) { audioEl.pause(); audioEl = null; }
+      launchConfetti();
+    });
+
+    nextSongBtn.addEventListener('click', function() {
+      if (totalDone >= DAILY_LIMIT) { showFinalScreen(); return; }
+      loadSong();
+    });
+
+    document.getElementById('finalCashoutBtn').addEventListener('click', function() {
+      document.getElementById('finalScreen').style.display = 'none';
+      document.body.style.overflow = '';
+      switchTab('withdraw');
+    });
+
+    function showFinalScreen() {
+      document.body.style.overflow = 'hidden';
+      document.getElementById('finalScreen').style.display = 'flex';
+      document.getElementById('finalBalance').textContent = '$' + fmt(balance);
+      launchConfetti(); launchConfetti();
+    }
+
+    // ── CONFETTI ───────────────────────────────────────────────────────
+    function launchConfetti() {
+      var colors = ['#1DB954','#1ed760','#ffffff','#23d460','#b3ffb3','#00e054','#57ff8f','#a8ff78','#00c853'];
+      var shapes = ['circle','rect','ribbon'];
+      for (var i = 0; i < 150; i++) {
+        (function() {
+          var delay    = (Math.random() * 1.2).toFixed(2);
+          var duration = (2.5 + Math.random() * 2.5).toFixed(2);
+          var left     = (Math.random() * 100).toFixed(2);
+          var color    = colors[Math.floor(Math.random() * colors.length)];
+          var shape    = shapes[Math.floor(Math.random() * shapes.length)];
+          var base     = Math.floor(Math.random() * 9) + 5;
+          var el = document.createElement('div');
+          el.className = 'confetti-piece';
+          var css = ['left:'+left+'vw','background:'+color,'animation-duration:'+duration+'s','animation-delay:'+delay+'s'];
+          if (shape === 'circle') {
+            css.push('width:'+base+'px','height:'+base+'px','border-radius:50%');
+          } else if (shape === 'rect') {
+            var h = Math.floor(base * (0.4 + Math.random() * 0.6));
+            css.push('width:'+base+'px','height:'+h+'px','border-radius:2px');
+          } else {
+            css.push('width:'+Math.floor(base*0.4)+'px','height:'+(base*2)+'px','border-radius:1px','opacity:0.85');
+          }
+          el.style.cssText = css.join(';');
+          document.body.appendChild(el);
+          setTimeout(function() { if (el.parentNode) el.remove(); }, (parseFloat(duration)+parseFloat(delay)+0.3)*1000);
+        })();
+      }
+    }
+
+    // ── WITHDRAW ───────────────────────────────────────────────────────
+    function submitWithdraw(e) {
+      e.preventDefault();
+      var email  = document.getElementById('paypalEmail').value.trim();
+      var amount = parseFloat(document.getElementById('withdrawAmount').value);
+      if (!email || isNaN(amount) || amount <= 0) return;
+      if (amount > balance) { alert('Amount exceeds your available balance of $' + fmt(balance)); return; }
+      var btn = document.getElementById('withdrawBtn');
+      btn.disabled = true; btn.textContent = 'Processing transaction…';
+      setTimeout(function() {
+        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg> Transfer via PayPal';
+        btn.disabled = false;
+        
+        // Deduct from balance
+        balance -= amount;
+        balance = parseFloat(balance.toFixed(2));
+        updateBalanceUI();
+        
+        // Clear input field
+        document.getElementById('withdrawAmount').value = '';
+        
+        // Trigger notification
+        showIosNotification(email, amount);
+      }, 3500);
+    }
+
+    var iosNotifTimer = null;
+    function showIosNotification(email, amount) {
+      document.getElementById('notifTitle').textContent = "You've got money!";
+      document.getElementById('notifMsg').textContent   = 'Spotify Rewards sent you $' + fmt(amount) + ' USD.';
+      
+      // Play iOS notification chime
+      var sound = document.getElementById('notifSound');
+      if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(function(e) { console.log('Audio error:', e); });
+      }
+      
+      var notif = document.getElementById('iosNotif');
+      notif.classList.remove('dragging');
+      notif.style.transform = '';
+      notif.classList.add('show');
+      
+      if (iosNotifTimer) clearTimeout(iosNotifTimer);
+      iosNotifTimer = setTimeout(dismissIosNotification, 5500);
+    }
+
+    function dismissIosNotification() {
+      var notif = document.getElementById('iosNotif');
+      notif.classList.remove('show');
+      notif.classList.remove('dragging');
+      notif.style.transform = '';
+    }
+
+    // iOS draggable notification swipe handling
+    (function() {
+      var notif = document.getElementById('iosNotif');
+      var startY = 0;
+      var currentY = 0;
+      var isDragging = false;
+      var diffY = 0;
+
+      function dragStart(e) {
+        isDragging = true;
+        startY = (e.type === 'touchstart') ? e.touches[0].clientY : e.clientY;
+        diffY = 0;
+        notif.classList.add('dragging');
+        if (iosNotifTimer) clearTimeout(iosNotifTimer);
+      }
+
+      function dragMove(e) {
+        if (!isDragging) return;
+        currentY = (e.type === 'touchmove') ? e.touches[0].clientY : e.clientY;
+        diffY = currentY - startY;
+        
+        var translateVal = 0;
+        if (diffY < 0) {
+          // Dragging up (dismissing)
+          translateVal = diffY;
+        } else {
+          // Dragging down (rubber band effect)
+          translateVal = diffY * 0.25;
+        }
+        
+        notif.style.transform = 'translateX(-50%) translateY(' + translateVal + 'px)';
+      }
+
+      function dragEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        notif.classList.remove('dragging');
+        notif.style.transform = '';
+        
+        if (diffY < -35) {
+          dismissIosNotification();
+        } else {
+          iosNotifTimer = setTimeout(dismissIosNotification, 3000);
+        }
+      }
+
+      // Touch events
+      notif.addEventListener('touchstart', dragStart, { passive: true });
+      notif.addEventListener('touchmove', dragMove, { passive: true });
+      notif.addEventListener('touchend', dragEnd);
+
+      // Mouse events
+      notif.addEventListener('mousedown', dragStart);
+      window.addEventListener('mousemove', dragMove);
+      window.addEventListener('mouseup', dragEnd);
+    })();
+
+    // ── SUPPORT FORM ───────────────────────────────────────────────────
+    function spMark(groupId, ok) {
+      var g = document.getElementById(groupId);
+      if (g) g.classList.toggle('invalid', !ok);
+      return ok;
+    }
+
+    function submitSupport() {
+      var name    = document.getElementById('spName').value.trim();
+      var email   = document.getElementById('spEmail').value.trim();
+      var subject = document.getElementById('spSubject').value;
+      var message = document.getElementById('spMessage').value.trim();
+
+      var okName    = spMark('spGroupName', name.length >= 2);
+      var okEmail   = spMark('spGroupEmail', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email));
+      var okSubject = spMark('spGroupSubject', !!subject);
+      var okMessage = spMark('spGroupMessage', message.length >= 5);
+      if (!okName || !okEmail || !okSubject || !okMessage) {
+        var firstBad = document.querySelector('.suporte-form-group.invalid');
+        if (firstBad) {
+          firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          var f = firstBad.querySelector('input, select, textarea');
+          if (f) try { f.focus({ preventScroll: true }); } catch (e) { f.focus(); }
+        }
+        return;
+      }
+
+      var btn = document.getElementById('spSubmitBtn');
+      var label = document.getElementById('spSubmitLabel');
+      btn.disabled = true;
+      if (label) label.textContent = 'Sending...';
+
+      setTimeout(function () {
+        var ticket = document.getElementById('spTicket');
+        if (ticket) ticket.textContent = '#' + String(Math.floor(100000 + Math.random() * 900000));
+        var sentTo = document.getElementById('spSentEmail');
+        if (sentTo) sentTo.textContent = email;
+        document.getElementById('supportFormCard').style.display = 'none';
+        var ok = document.getElementById('supportSuccess');
+        ok.classList.add('show');
+        ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        btn.disabled = false;
+        if (label) label.textContent = 'Send message';
+      }, 900);
+    }
+
+    function resetSupportForm() {
+      ['spGroupName','spGroupEmail','spGroupSubject','spGroupMessage'].forEach(function (id) {
+        var g = document.getElementById(id);
+        if (g) g.classList.remove('invalid');
+      });
+      document.getElementById('spName').value    = '';
+      document.getElementById('spEmail').value   = '';
+      document.getElementById('spSubject').value = '';
+      document.getElementById('spMessage').value = '';
+      var c = document.getElementById('spCount');
+      if (c) c.textContent = '0/500';
+      document.getElementById('supportFormCard').style.display = '';
+      document.getElementById('supportSuccess').classList.remove('show');
+      document.getElementById('supportFormCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Live feedback: character counter + clear error as the user types
+    (function () {
+      var msg = document.getElementById('spMessage');
+      var counter = document.getElementById('spCount');
+      if (msg && counter) {
+        msg.addEventListener('input', function () {
+          counter.textContent = msg.value.length + '/500';
+        });
+      }
+      [['spName','spGroupName'],['spEmail','spGroupEmail'],['spSubject','spGroupSubject'],['spMessage','spGroupMessage']]
+        .forEach(function (pair) {
+          var el = document.getElementById(pair[0]);
+          if (!el) return;
+          var ev = el.tagName === 'SELECT' ? 'change' : 'input';
+          el.addEventListener(ev, function () {
+            var g = document.getElementById(pair[1]);
+            if (g) g.classList.remove('invalid');
+          });
+        });
+    })();
+
+    // ── FAQ ACCORDION ──────────────────────────────────────────────────
+    function toggleFaq(questionEl) {
+      var item = questionEl.parentElement;
+      var isActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('active'); });
+      if (!isActive) item.classList.add('active');
+    }
+
+    // ── WELCOME & INIT ─────────────────────────────────────────────────
+    function shuffleArray(arr) {
+      for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+      }
+    }
+
+    document.body.style.overflow   = 'hidden';
+    document.getElementById('welcomeStartBtn').addEventListener('click', function() {
+      document.getElementById('welcomeBackdrop').classList.add('hidden');
+      document.body.style.overflow = '';
+      window.scrollTo(0, 0);
+      shuffleArray(SONGS);
+      updateBalanceUI();
+      loadSong();
+    });
+  </script>
+<script src="/dev-menu.js"></script>
+</body>
+</html>
