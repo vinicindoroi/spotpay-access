@@ -1562,7 +1562,7 @@
       SP_REFUND_STAGES.forEach(function (s, i) {
         var el = document.createElement('div');
         el.className = 'sp-step ' + (i < idx ? 'done' : (i === idx ? 'current' : ''));
-        el.innerHTML = '<span class="dot"></span><span>' + s.status + ' <span style="opacity:.6">· day ' + s.day + '</span></span>';
+        el.innerHTML = '<span class="dot"></span><span>' + s.status + '</span>';
         steps.appendChild(el);
       });
       card.classList.add('show');
