@@ -1,0 +1,292 @@
+/* ── Suporte Page - Spotify Theme ──────────────────────────────────────────── */
+.suporte-content {
+    padding-top: 28px;
+    display: block !important;
+    align-items: unset !important;
+    justify-content: unset !important;
+    min-height: unset !important;
+}
+
+.suporte-hero {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.suporte-hero-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #1DB954 0%, #158a3e 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 8px 24px rgba(29,185,84,0.3);
+}
+
+.suporte-hero-icon svg {
+    color: #000;
+    stroke: #000;
+}
+
+.suporte-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 8px;
+}
+
+.suporte-subtitle {
+    font-size: 14px;
+    color: #b3b3b3;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Info chips */
+.suporte-info-chips {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.suporte-chip {
+    flex: 1;
+    min-width: 120px;
+    background: #282828;
+    border-radius: 12px;
+    padding: 14px 12px;
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.suporte-chip-icon {
+    font-size: 22px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.suporte-chip-label {
+    font-size: 11px;
+    color: #b3b3b3;
+    display: block;
+}
+
+.suporte-chip-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+    display: block;
+    margin-top: 2px;
+}
+
+/* Form card */
+.suporte-form-card {
+    background: #282828;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    border: 1px solid #333;
+    margin-bottom: 20px;
+}
+
+.suporte-form-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.suporte-form-group {
+    margin-bottom: 16px;
+}
+
+.suporte-form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.suporte-form-group input,
+.suporte-form-group select,
+.suporte-form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #333;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    background: #1a1a1a;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    box-sizing: border-box;
+    font-family: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.suporte-form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23b3b3b3' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+}
+
+.suporte-form-group select option {
+    background: #282828;
+    color: #ffffff;
+}
+
+.suporte-form-group input::placeholder,
+.suporte-form-group textarea::placeholder {
+    color: #555;
+}
+
+.suporte-form-group input:focus,
+.suporte-form-group select:focus,
+.suporte-form-group textarea:focus {
+    border-color: #1DB954;
+    background: #222;
+    box-shadow: 0 0 0 3px rgba(29,185,84,0.12);
+}
+
+.suporte-form-group textarea {
+    resize: none;
+    height: 110px;
+    line-height: 1.5;
+}
+
+.suporte-char-count {
+    text-align: right;
+    font-size: 11px;
+    color: #555;
+    margin-top: 4px;
+}
+
+/* Submit button */
+.suporte-submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: #1DB954;
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s, background 0.15s;
+    box-shadow: 0 4px 16px rgba(29,185,84,0.3);
+    margin-top: 4px;
+    font-family: inherit;
+}
+
+.suporte-submit-btn:hover {
+    background: #1ed760;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29,185,84,0.4);
+}
+
+.suporte-submit-btn:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 8px rgba(29,185,84,0.2);
+}
+
+.suporte-submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Email direct link */
+.suporte-email-direct {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.suporte-email-direct p {
+    font-size: 13px;
+    color: #b3b3b3;
+    margin: 0 0 6px;
+}
+
+.suporte-email-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1DB954;
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1.5px solid rgba(29,185,84,0.3);
+    border-radius: 24px;
+    background: rgba(29,185,84,0.06);
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.suporte-email-link:active {
+    background: rgba(29,185,84,0.15);
+}
+
+/* Success state */
+.suporte-success {
+    display: none;
+    text-align: center;
+    padding: 32px 20px;
+    background: #282828;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    border: 1px solid #333;
+    margin-bottom: 20px;
+}
+
+.suporte-success.show {
+    display: block;
+    animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.suporte-success-icon {
+    font-size: 52px;
+    margin-bottom: 12px;
+}
+
+.suporte-success-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 8px;
+}
+
+.suporte-success-msg {
+    font-size: 14px;
+    color: #b3b3b3;
+    margin: 0 0 20px;
+    line-height: 1.5;
+}
+
+.suporte-success-back {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #1DB954;
+    color: #000;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(29,185,84,0.3);
+}

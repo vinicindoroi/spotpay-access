@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Spotify Rewards - Evalúa Música y Gana</title>
+    <link rel="icon" href="data:,">
+    <!-- Meta Pixel -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '4472134583045790');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=4472134583045790&ev=PageView&noscript=1"
+    /></noscript>
+    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/features.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-logo">
+                <div class="logo-icon-container">
+                    <div class="logo-icon">
+                        <!-- Spotify SVG Logo -->
+                        <svg class="logo-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                        </svg>
+                    </div>
+                    <div class="logo-pulse"></div>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">Spotify</span>
+                    <span class="logo-subtitle">Rewards</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="gift-card-badge">
+                    <img src="card.png" alt="Amazon" class="gift-card-img">
+                    <span>$100</span>
+                </div>
+                <div class="header-balance">
+                    <span class="balance-icon">💵</span>
+                    <span class="balance-text">$ <span id="balance">0.00</span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="evaluation-card">
+            <h2 class="card-title">Hello, scac!</h2>
+            <p class="subtitle-text">Listen to the music below and <strong style="color:#1DB954">get paid for it</strong></p>
+            <div class="progress-indicator">
+                <span id="progressText">0/10 completadas</span>
+            </div>
+
+            <!-- Song Player Card (inspired by screenshots) -->
+            <div class="song-player-card">
+                <!-- Spotify logo top-right -->
+                <svg class="song-spotify-logo" viewBox="0 0 24 24" fill="#1DB954" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                </svg>
+
+                <!-- Album art placeholder -->
+                <div class="song-album-placeholder">🎵</div>
+
+                <!-- Song info -->
+                <div class="song-details">
+                    <span class="song-badge">Music</span>
+                    <div class="song-title" id="songTitle">Loading...</div>
+                    <div class="song-artist" id="songArtist">Artist</div>
+                    <button class="song-save-btn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        Salvar no Spotify
+                    </button>
+                </div>
+
+                <!-- Play button -->
+                <button class="song-play-btn" id="songPlayBtn" aria-label="Play song">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="#000"><path d="M8 5.5v13l10-6.5z"/></svg>
+                </button>
+            </div>
+
+            <!-- Video info (timer) -->
+            <div class="video-info" id="videoInfo">
+                <div class="video-info-content">
+                    🎵 Press play, listen to the song, answer the questions below, then tap <strong>FINISH &amp; EARN</strong>
+                </div>
+                <div class="video-info-timer" id="videoInfoTimer">0s</div>
+            </div>
+
+            <!-- Evaluation actions -->
+            <div class="evaluation-actions is-hidden" id="evaluationActions">
+                <p class="question-text">Do you listen to <span id="songArtistQ" style="color:#1DB954"></span> often?</p>
+
+                <div class="action-buttons">
+                    <button class="action-btn like-btn" id="likeBtn">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+                        <span>Yes</span>
+                        <span class="emoji">✅</span>
+                    </button>
+                    <button class="action-btn dislike-btn" id="dislikeBtn">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+                        <span>No</span>
+                        <span class="emoji">❌</span>
+                    </button>
+                </div>
+
+                <!-- Withdraw progress bar -->
+                <div class="withdraw-progress-wrap" id="withdrawProgressWrap">
+                    <div class="withdraw-progress-header">
+                        <span>Progreso al saque</span>
+                        <strong>$<span id="wpCurrent">0</span> / $8,000</strong>
+                    </div>
+                    <div class="withdraw-progress-bar-bg">
+                        <div class="withdraw-progress-bar-fill" id="wpFill" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Reward Audio -->
+    <audio id="rewardAudio" preload="auto">
+        <source src="assets/audio/reward.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Quick Popup (no value) -->
+    <div class="quick-popup-overlay" id="quickPopupOverlay">
+        <div class="quick-popup">
+            <div class="quick-popup-icon">💵</div>
+            <p class="quick-popup-message" id="quickPopupMessage">¡Buena elección!</p>
+        </div>
+    </div>
+
+    <!-- Final Reward Popup -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <div class="popup-icon">✅</div>
+            <h3 class="popup-title">Evaluation Submitted!</h3>
+            <p class="popup-amount" id="popupAmount">+$49.50</p>
+            <button class="popup-close" id="popupClose">NEXT SONG</button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="faq.html" class="nav-item" id="navFaq">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <span>Preguntas</span>
+        </a>
+        <a href="home.html" class="nav-item active" id="navHome">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            <span>Inicio</span>
+        </a>
+        <a href="saque.html" class="nav-item" id="navWithdraw">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="22" height="18" rx="2" ry="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+            <span>Retirar</span>
+        </a>
+        <a href="suporte.html" class="nav-item" id="navSuporte">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Soporte</span>
+        </a>
+    </nav>
+
+    <script src="assets/js/songs.js"></script>
+    <script src="assets/js/features.js"></script>
+    <script src="assets/js/home.js"></script>
+    <script>
+    // Keep question text in sync with song artist
+    (function() {
+        const orig = window.loadNewSong;
+        // Patch after DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const artistQ = document.getElementById('songArtistQ');
+            const observer = new MutationObserver(function() {
+                const artist = document.getElementById('songArtist');
+                if (artist && artistQ) artistQ.textContent = artist.textContent;
+            });
+            const songArtistEl = document.getElementById('songArtist');
+            if (songArtistEl) observer.observe(songArtistEl, { childList: true, characterData: true, subtree: true });
+        });
+    })();
+    </script>
+<script src="/dev-menu.js"></script>
+</body>
+</html>
