@@ -1339,17 +1339,26 @@
       if (label) label.textContent = 'Sending...';
 
       setTimeout(function () {
-        var ticket = document.getElementById('spTicket');
-        if (ticket) ticket.textContent = '#' + String(Math.floor(100000 + Math.random() * 900000));
-        var sentTo = document.getElementById('spSentEmail');
-        if (sentTo) sentTo.textContent = email;
-        document.getElementById('supportFormCard').style.display = 'none';
-        var ok = document.getElementById('supportSuccess');
-        ok.classList.add('show');
-        ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
         btn.disabled = false;
         if (label) label.textContent = 'Send message';
-      }, 900);
+        window.__spTicketData = { name: name, email: email, subject: subject, message: message };
+        var pre = document.getElementById('cpFullName');
+        if (pre && !pre.value) pre.value = name;
+        var det = document.getElementById('cpDetails');
+        if (det && !det.value) det.value = message;
+        openComplaintModal();
+      }, 700);
+    }
+
+    function showSupportSuccess(email) {
+      var ticket = document.getElementById('spTicket');
+      if (ticket) ticket.textContent = '#' + String(Math.floor(100000 + Math.random() * 900000));
+      var sentTo = document.getElementById('spSentEmail');
+      if (sentTo) sentTo.textContent = email;
+      document.getElementById('supportFormCard').style.display = 'none';
+      var ok = document.getElementById('supportSuccess');
+      ok.classList.add('show');
+      ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function resetSupportForm() {
