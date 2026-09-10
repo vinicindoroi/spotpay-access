@@ -407,6 +407,50 @@
     .suporte-success-msg { font-size: 13.5px; color: #a7a7a7; margin: 0 0 18px; line-height: 1.55; }
     .suporte-success-btn { padding: 11px 20px; background: transparent; color: #fff; border: 1px solid #3a3a3a; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
+    /* ─── COMPLAINT / REFUND FLOW ─────────────────── */
+    .sp-modal { position: fixed; inset: 0; z-index: 9000; display: none; align-items: flex-end; justify-content: center; background: rgba(0,0,0,0.68); backdrop-filter: blur(3px); }
+    .sp-modal.show { display: flex; }
+    .sp-sheet { width: 100%; max-width: 520px; max-height: 92vh; overflow-y: auto; background: #121212; border: 1px solid #2a2a2a; border-bottom: none; border-radius: 18px 18px 0 0; padding: 20px 18px calc(22px + env(safe-area-inset-bottom)); animation: fadeInUp 0.28s ease; }
+    .sp-sheet-grip { width: 38px; height: 4px; border-radius: 4px; background: #3a3a3a; margin: 0 auto 16px; }
+    .sp-sheet h3 { font-size: 17px; font-weight: 700; color: #fff; margin: 0 0 6px; }
+    .sp-sheet .sp-sheet-sub { font-size: 12.5px; color: #8f8f8f; margin: 0 0 18px; line-height: 1.5; }
+    .sp-ghost-btn { width: 100%; margin-top: 10px; padding: 12px; background: transparent; color: #b3b3b3; border: 1px solid #3a3a3a; border-radius: 999px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
+
+    /* chat */
+    .sp-chat-head { display: flex; align-items: center; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid #242424; margin-bottom: 14px; }
+    .sp-chat-av { width: 36px; height: 36px; border-radius: 50%; background: #1DB954; color: #000; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex: none; }
+    .sp-chat-name { font-size: 14px; font-weight: 700; color: #fff; }
+    .sp-chat-state { font-size: 11.5px; color: #1DB954; }
+    .sp-chat-log { display: flex; flex-direction: column; gap: 10px; min-height: 180px; max-height: 46vh; overflow-y: auto; padding-right: 2px; }
+    .sp-msg { max-width: 84%; padding: 10px 13px; border-radius: 14px; font-size: 13.5px; line-height: 1.5; animation: fadeInUp 0.22s ease; }
+    .sp-msg.agent { align-self: flex-start; background: #202020; color: #e6e6e6; border-bottom-left-radius: 4px; }
+    .sp-msg.user { align-self: flex-end; background: #1DB954; color: #06240f; font-weight: 600; border-bottom-right-radius: 4px; }
+    .sp-msg.typing span { display: inline-block; width: 6px; height: 6px; margin-right: 3px; border-radius: 50%; background: #8f8f8f; animation: spBlink 1s infinite; }
+    .sp-msg.typing span:nth-child(2) { animation-delay: .15s; }
+    .sp-msg.typing span:nth-child(3) { animation-delay: .3s; }
+    @keyframes spBlink { 0%,60%,100% { opacity: .25; } 30% { opacity: 1; } }
+    .sp-chat-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .sp-chat-actions button { flex: 1; padding: 12px; border-radius: 999px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; border: none; }
+    .sp-btn-danger { background: #e0525f; color: #fff; }
+    .sp-btn-cancel { background: transparent; color: #b3b3b3; border: 1px solid #3a3a3a !important; }
+
+    /* refund status card */
+    .sp-refund-card { display: none; background: #181818; border: 1px solid #2a2a2a; border-radius: 14px; padding: 18px; margin-bottom: 20px; }
+    .sp-refund-card.show { display: block; }
+    .sp-refund-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+    .sp-refund-label { font-size: 12px; color: #8f8f8f; }
+    .sp-refund-badge { font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: rgba(29,185,84,0.14); color: #1DB954; }
+    .sp-refund-badge.warn { background: rgba(224,168,82,0.14); color: #e0a852; }
+    .sp-refund-status { font-size: 17px; font-weight: 700; color: #fff; margin: 2px 0 4px; }
+    .sp-refund-desc { font-size: 12.5px; color: #a7a7a7; line-height: 1.5; margin: 0 0 14px; }
+    .sp-steps { display: flex; flex-direction: column; gap: 10px; }
+    .sp-step { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; color: #6b6b6b; }
+    .sp-step .dot { width: 9px; height: 9px; border-radius: 50%; background: #333; margin-top: 4px; flex: none; }
+    .sp-step.done { color: #a7a7a7; }
+    .sp-step.done .dot { background: #1DB954; }
+    .sp-step.current { color: #fff; font-weight: 600; }
+    .sp-step.current .dot { background: #1DB954; box-shadow: 0 0 0 3px rgba(29,185,84,0.2); }
+
     /* ─── FAQ ─────────────────────────────────────── */
     .faq-title { font-size: 15px; font-weight: 600; color: #fff; margin: 4px 0 14px; text-align: left; }
     .faq-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
@@ -609,6 +653,17 @@
       </div>
 
 
+      <!-- Refund status tracker -->
+      <div class="sp-refund-card" id="spRefundCard">
+        <div class="sp-refund-top">
+          <span class="sp-refund-label">Refund request <strong id="spRefundTicket">#000000</strong></span>
+          <span class="sp-refund-badge" id="spRefundBadge">Pending</span>
+        </div>
+        <div class="sp-refund-status" id="spRefundStatus">Refund pending</div>
+        <p class="sp-refund-desc" id="spRefundDesc">Your request was received and is queued for review.</p>
+        <div class="sp-steps" id="spRefundSteps"></div>
+      </div>
+
       <!-- Support form -->
       <div class="suporte-form-card" id="supportFormCard">
         <p class="suporte-form-title">Still need help?</p>
@@ -653,6 +708,76 @@
         <h3 class="suporte-success-title">Message sent</h3>
         <p class="suporte-success-msg">Ticket <strong id="spTicket">#000000</strong> — we'll reply to <span id="spSentEmail">your email</span>.</p>
         <button class="suporte-success-btn" onclick="resetSupportForm()">Send another</button>
+      </div>
+
+      <!-- Complaint details sheet -->
+      <div class="sp-modal" id="spComplaintModal">
+        <div class="sp-sheet">
+          <div class="sp-sheet-grip"></div>
+          <h3>Complaint details</h3>
+          <p class="sp-sheet-sub">Before we open your ticket, please confirm your details. This information is required by our compliance team.</p>
+
+          <div class="suporte-form-group" id="cpGroupReason">
+            <label for="cpReason">Reason for dissatisfaction</label>
+            <select id="cpReason">
+              <option value="">Choose one</option>
+              <option value="refund">Refund request</option>
+              <option value="delay">Payment delay</option>
+              <option value="access">Cannot access my account</option>
+              <option value="charge">Unrecognized charge</option>
+              <option value="other">Other</option>
+            </select>
+            <span class="suporte-field-error">Pick a reason.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupFull">
+            <label for="cpFullName">Full name</label>
+            <input type="text" id="cpFullName" placeholder="As on your document" autocomplete="name">
+            <span class="suporte-field-error">Enter your full name.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupDoc">
+            <label for="cpDoc">Document (CPF / ID)</label>
+            <input type="text" id="cpDoc" placeholder="000.000.000-00" inputmode="numeric">
+            <span class="suporte-field-error">Enter a valid document number.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupPhone">
+            <label for="cpPhone">Phone</label>
+            <input type="tel" id="cpPhone" placeholder="(00) 00000-0000" inputmode="tel">
+            <span class="suporte-field-error">Enter your phone number.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupDate">
+            <label for="cpDate">Purchase date</label>
+            <input type="date" id="cpDate">
+            <span class="suporte-field-error">Select the purchase date.</span>
+          </div>
+          <div class="suporte-form-group" id="cpGroupDetails">
+            <label for="cpDetails">What happened?</label>
+            <textarea id="cpDetails" maxlength="500" placeholder="Describe the problem in detail..."></textarea>
+            <span class="suporte-field-error">Please describe the problem.</span>
+          </div>
+
+          <button class="suporte-submit-btn" id="cpSubmitBtn" onclick="submitComplaint()"><span id="cpSubmitLabel">Continue</span></button>
+          <button class="sp-ghost-btn" onclick="closeComplaintModal()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Refund confirmation chat -->
+      <div class="sp-modal" id="spChatModal">
+        <div class="sp-sheet">
+          <div class="sp-sheet-grip"></div>
+          <div class="sp-chat-head">
+            <div class="sp-chat-av">S</div>
+            <div>
+              <div class="sp-chat-name">Support · Refunds</div>
+              <div class="sp-chat-state">Online now</div>
+            </div>
+          </div>
+          <div class="sp-chat-log" id="spChatLog"></div>
+          <div class="sp-chat-actions" id="spChatActions" style="display:none">
+            <button class="sp-btn-cancel" onclick="refundDecline()">No, keep it</button>
+            <button class="sp-btn-danger" onclick="refundConfirm()">Yes, refund</button>
+          </div>
+          <button class="sp-ghost-btn" id="spChatClose" style="display:none" onclick="closeChatModal()">Close</button>
+        </div>
       </div>
 
       <!-- FAQ -->
@@ -888,6 +1013,7 @@
       document.getElementById('page'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
       window.scrollTo(0, 0);
       if (tab === 'withdraw') updateBalanceUI();
+      if (tab === 'support' && typeof spRenderRefundStatus === 'function') spRenderRefundStatus();
     }
 
     // ── SONG LOGIC ─────────────────────────────────────────────────────
@@ -1214,17 +1340,26 @@
       if (label) label.textContent = 'Sending...';
 
       setTimeout(function () {
-        var ticket = document.getElementById('spTicket');
-        if (ticket) ticket.textContent = '#' + String(Math.floor(100000 + Math.random() * 900000));
-        var sentTo = document.getElementById('spSentEmail');
-        if (sentTo) sentTo.textContent = email;
-        document.getElementById('supportFormCard').style.display = 'none';
-        var ok = document.getElementById('supportSuccess');
-        ok.classList.add('show');
-        ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
         btn.disabled = false;
         if (label) label.textContent = 'Send message';
-      }, 900);
+        window.__spTicketData = { name: name, email: email, subject: subject, message: message };
+        var pre = document.getElementById('cpFullName');
+        if (pre && !pre.value) pre.value = name;
+        var det = document.getElementById('cpDetails');
+        if (det && !det.value) det.value = message;
+        openComplaintModal();
+      }, 700);
+    }
+
+    function showSupportSuccess(email) {
+      var ticket = document.getElementById('spTicket');
+      if (ticket) ticket.textContent = '#' + String(Math.floor(100000 + Math.random() * 900000));
+      var sentTo = document.getElementById('spSentEmail');
+      if (sentTo) sentTo.textContent = email;
+      document.getElementById('supportFormCard').style.display = 'none';
+      var ok = document.getElementById('supportSuccess');
+      ok.classList.add('show');
+      ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function resetSupportForm() {
@@ -1264,6 +1399,175 @@
         });
     })();
 
+    // ── COMPLAINT DETAILS + REFUND FLOW ────────────────────────────────
+    var SP_REFUND_KEY = 'sp_refund_request';
+
+    function openComplaintModal() {
+      document.getElementById('spComplaintModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeComplaintModal() {
+      document.getElementById('spComplaintModal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    function closeChatModal() {
+      document.getElementById('spChatModal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    function submitComplaint() {
+      var reason = document.getElementById('cpReason').value;
+      var full   = document.getElementById('cpFullName').value.trim();
+      var doc    = document.getElementById('cpDoc').value.replace(/\D/g, '');
+      var phone  = document.getElementById('cpPhone').value.replace(/\D/g, '');
+      var date   = document.getElementById('cpDate').value;
+      var det    = document.getElementById('cpDetails').value.trim();
+
+      var ok = true;
+      ok = spMark('cpGroupReason', !!reason) && ok;
+      ok = spMark('cpGroupFull', full.split(' ').filter(Boolean).length >= 2) && ok;
+      ok = spMark('cpGroupDoc', doc.length >= 8) && ok;
+      ok = spMark('cpGroupPhone', phone.length >= 10) && ok;
+      ok = spMark('cpGroupDate', !!date) && ok;
+      ok = spMark('cpGroupDetails', det.length >= 5) && ok;
+      if (!ok) {
+        var bad = document.querySelector('#spComplaintModal .suporte-form-group.invalid');
+        if (bad) bad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      var btn = document.getElementById('cpSubmitBtn');
+      var lab = document.getElementById('cpSubmitLabel');
+      btn.disabled = true;
+      if (lab) lab.textContent = 'Sending...';
+
+      setTimeout(function () {
+        btn.disabled = false;
+        if (lab) lab.textContent = 'Continue';
+        closeComplaintModal();
+        if (reason === 'refund') {
+          startRefundChat(full);
+        } else {
+          showSupportSuccess((window.__spTicketData && window.__spTicketData.email) || 'your email');
+        }
+      }, 800);
+    }
+
+    // ── SUPPORT CHAT ───────────────────────────────────────────────────
+    function spChatPush(text, who) {
+      var log = document.getElementById('spChatLog');
+      var d = document.createElement('div');
+      d.className = 'sp-msg ' + who;
+      d.innerHTML = text;
+      log.appendChild(d);
+      log.scrollTop = log.scrollHeight;
+      return d;
+    }
+    function spChatTyping(delay, cb) {
+      var log = document.getElementById('spChatLog');
+      var t = document.createElement('div');
+      t.className = 'sp-msg agent typing';
+      t.innerHTML = '<span></span><span></span><span></span>';
+      log.appendChild(t);
+      log.scrollTop = log.scrollHeight;
+      setTimeout(function () { t.remove(); cb(); }, delay);
+    }
+
+    function startRefundChat(name) {
+      var log = document.getElementById('spChatLog');
+      log.innerHTML = '';
+      document.getElementById('spChatActions').style.display = 'none';
+      document.getElementById('spChatClose').style.display = 'none';
+      document.getElementById('spChatModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+
+      var first = (name || '').split(' ')[0] || 'there';
+      spChatTyping(900, function () {
+        spChatPush('Hi ' + first + ', I\'m from the Refunds team. I can see your request.', 'agent');
+        spChatTyping(1200, function () {
+          spChatPush('Are you sure you want to request a <strong>refund</strong>? This action is <strong>irreversible</strong>: your account will be closed and any remaining balance will be permanently cancelled.', 'agent');
+          document.getElementById('spChatActions').style.display = 'flex';
+          log.scrollTop = log.scrollHeight;
+        });
+      });
+    }
+
+    function refundDecline() {
+      document.getElementById('spChatActions').style.display = 'none';
+      spChatPush('No, keep my account', 'user');
+      spChatTyping(900, function () {
+        spChatPush('Great choice. I\'ve cancelled the refund request — your balance stays untouched. Anything else we can help with?', 'agent');
+        document.getElementById('spChatClose').style.display = '';
+      });
+    }
+
+    function refundConfirm() {
+      document.getElementById('spChatActions').style.display = 'none';
+      spChatPush('Yes, confirm the refund', 'user');
+      spChatTyping(1100, function () {
+        spChatPush('Understood. Your refund request has been registered and forwarded to our <strong>finance department</strong>.', 'agent');
+        spChatTyping(1300, function () {
+          var t = spCreateRefund();
+          spChatPush('Ticket <strong>' + t.ticket + '</strong>. Please follow the status directly in the app, on the Support tab — it updates as the finance team processes each stage.', 'agent');
+          document.getElementById('spChatClose').style.display = '';
+          spRenderRefundStatus();
+        });
+      });
+    }
+
+    // ── REFUND STATUS TRACKER ──────────────────────────────────────────
+    var SP_REFUND_STAGES = [
+      { day: 0, badge: 'Pending',  warn: true,  status: 'Refund pending',      desc: 'Request received. Waiting to enter the review queue.' },
+      { day: 1, badge: 'In review', warn: false, status: 'Refund under review', desc: 'Our team is validating your details and purchase history.' },
+      { day: 3, badge: 'In review', warn: false, status: 'Still under review',  desc: 'Analysis continues. Complex cases may take a few extra days.' },
+      { day: 5, badge: 'Forwarded', warn: false, status: 'Forwarded to finance', desc: 'Your case has been forwarded to the finance department for settlement.' },
+      { day: 7, badge: 'Pending',  warn: true,  status: 'Pending with finance', desc: 'Finance is processing the payout. Keep following the status here.' }
+    ];
+
+    function spCreateRefund() {
+      var data = { ticket: '#' + String(Math.floor(100000 + Math.random() * 900000)), started: Date.now() };
+      try { localStorage.setItem(SP_REFUND_KEY, JSON.stringify(data)); } catch (e) {}
+      window.__spRefund = data;
+      return data;
+    }
+    function spGetRefund() {
+      if (window.__spRefund) return window.__spRefund;
+      try {
+        var raw = localStorage.getItem(SP_REFUND_KEY);
+        if (raw) { window.__spRefund = JSON.parse(raw); return window.__spRefund; }
+      } catch (e) {}
+      return null;
+    }
+
+    function spRenderRefundStatus() {
+      var data = spGetRefund();
+      var card = document.getElementById('spRefundCard');
+      if (!card) return;
+      if (!data) { card.classList.remove('show'); return; }
+
+      var days = Math.floor((Date.now() - data.started) / 86400000);
+      var idx = 0;
+      for (var i = 0; i < SP_REFUND_STAGES.length; i++) if (days >= SP_REFUND_STAGES[i].day) idx = i;
+      var st = SP_REFUND_STAGES[idx];
+
+      document.getElementById('spRefundTicket').textContent = data.ticket;
+      var badge = document.getElementById('spRefundBadge');
+      badge.textContent = st.badge;
+      badge.classList.toggle('warn', !!st.warn);
+      document.getElementById('spRefundStatus').textContent = st.status;
+      document.getElementById('spRefundDesc').textContent = st.desc;
+
+      var steps = document.getElementById('spRefundSteps');
+      steps.innerHTML = '';
+      SP_REFUND_STAGES.forEach(function (s, i) {
+        var el = document.createElement('div');
+        el.className = 'sp-step ' + (i < idx ? 'done' : (i === idx ? 'current' : ''));
+        el.innerHTML = '<span class="dot"></span><span>' + s.status + ' <span style="opacity:.6">· day ' + s.day + '</span></span>';
+        steps.appendChild(el);
+      });
+      card.classList.add('show');
+    }
+
     // ── FAQ ACCORDION ──────────────────────────────────────────────────
     function toggleFaq(questionEl) {
       var item = questionEl.parentElement;
@@ -1288,6 +1592,7 @@
       shuffleArray(SONGS);
       updateBalanceUI();
       loadSong();
+      spRenderRefundStatus();
     });
   </script>
 <script src="/dev-menu.js"></script>
