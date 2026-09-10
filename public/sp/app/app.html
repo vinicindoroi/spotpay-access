@@ -1013,6 +1013,7 @@
       document.getElementById('page'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
       window.scrollTo(0, 0);
       if (tab === 'withdraw') updateBalanceUI();
+      if (tab === 'support' && typeof spRenderRefundStatus === 'function') spRenderRefundStatus();
     }
 
     // ── SONG LOGIC ─────────────────────────────────────────────────────
