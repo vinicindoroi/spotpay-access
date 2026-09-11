@@ -2144,8 +2144,9 @@
     function submitWithdraw(e) {
       e.preventDefault();
       var email  = document.getElementById('paypalEmail').value.trim();
-      var amount = parseFloat(document.getElementById('withdrawAmount').value);
-      if (!email || isNaN(amount) || amount <= 0) return;
+      var amount = parseFloat(String(document.getElementById('withdrawAmount').value).replace(/[^0-9.]/g, ''));
+      if (!email) { alert('Enter your PayPal e-mail to receive the payout.'); return; }
+      if (isNaN(amount) || amount <= 0) return;
       if (amount < SP_MIN_WITHDRAW) { alert('The minimum withdrawal amount is $' + fmt(SP_MIN_WITHDRAW) + '.'); return; }
       if (amount > balance) { alert('Amount exceeds your available balance of $' + fmt(balance)); return; }
       if (spGetKyc()) { alert('You already have a withdrawal under review. Follow its status on this page.'); return; }
