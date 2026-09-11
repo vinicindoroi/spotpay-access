@@ -2206,7 +2206,7 @@
     if (b) b.textContent = '$' + (Number(window.balance || 0)).toFixed(2);
     var sg = document.getElementById('spAccSongs'); if (sg) sg.textContent = String(window.totalDone || 0);
     var since = document.getElementById('spAccSince');
-    if (since && curUser.created_at) since.textContent = new Date(curUser.created_at).toLocaleDateString();
+    if (since && curUser.created_at) since.value = new Date(curUser.created_at).toLocaleDateString();
     setVal('spAccFullName', name);
     setVal('spAccEmail', email);
     setVal('spAccPhone', curProfile.phone);
