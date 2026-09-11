@@ -2207,6 +2207,11 @@
           spCreateKyc(d.amount || 0);
           if (window.spLogWithdraw) window.spLogWithdraw(spGetKyc(), d);
           spRenderKycStatus();
+          try {
+            var pe = (d && d.email) || (document.getElementById('paypalEmail') || {}).value || '';
+            if (pe) localStorage.setItem('sp_payout', JSON.stringify({ email: pe }));
+          } catch (e) {}
+          if (typeof spRenderPayoutUI === 'function') spRenderPayoutUI();
           var card = document.getElementById('spKycCard');
           if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
           alert('Documents submitted. Your withdrawal is now under compliance review — follow the status on the Cashout tab.');
