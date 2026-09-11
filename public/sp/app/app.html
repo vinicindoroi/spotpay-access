@@ -1157,6 +1157,14 @@
     #pageSupport .chat-header { border-radius: 16px 16px 0 0; }
     .sp-chat-avatar-sq { width: 44px; height: 44px; border-radius: 8px; background: linear-gradient(135deg,#1DB954,#0e6b31); color:#000; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
     .sp-chat-avatar-sm { width: 32px; height: 32px; border-radius: 6px; background: linear-gradient(135deg,#1DB954,#0e6b31); color:#000; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; margin-top:4px; }
+    /* floating support chat modal */
+    .sc-modal { position: fixed; inset: 0; z-index: 9500; background: rgba(0,0,0,.72); display: none; align-items: flex-end; justify-content: center; padding: 12px; }
+    .sc-modal.show { display: flex; }
+    .sc-modal #scCard { width: 100%; max-width: 440px; height: min(78vh, 620px); animation: scSlideUp .28s ease; }
+    @keyframes scSlideUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .sc-close-btn { display: none; margin-left: auto; background: none; border: none; color: #b3b3b3; font-size: 16px; cursor: pointer; padding: 4px 6px; }
+    .sc-modal .sc-close-btn { display: block; }
+    .chat-header { display: flex; align-items: center; }
   </style>
 </head>
 <body>
@@ -3036,5 +3044,8 @@
 })();
 </script>
 <script src="/dev-menu.js"></script>
+  <div class="sc-modal" id="scModal" onclick="if(event.target===this)closeSupportChat()">
+    <div id="scModalHost" style="width:100%;max-width:440px;display:flex"></div>
+  </div>
 </body>
 </html>
