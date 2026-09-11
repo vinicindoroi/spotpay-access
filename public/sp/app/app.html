@@ -2937,7 +2937,7 @@
   };
 
   // ── FLOATING SUPPORT CHAT ──────────────────────────────────────────
-  var chatOpen = false, chatTimer = null, chatSeen = 0, chatLastId = null;
+  var chatOpen = false, chatTimer = null, chatSeen = 0, chatLastId = null, shownAdmin = {};
 
   function buildChat() {
     if (document.getElementById('spLiveChat')) return;
@@ -2973,16 +2973,10 @@
       '<div class="splc-foot"><input id="spLiveInput" placeholder="Write a message"><button id="spLiveSend">Send</button></div>';
     document.body.appendChild(box);
 
+    box.style.display = 'none';
     btn.addEventListener('click', function () {
-      chatOpen = !chatOpen;
-      box.classList.toggle('show', chatOpen);
-      if (chatOpen) { chatSeen = 0; updateDot(0); loadChat(); }
+      if (typeof window.openSupportChat === 'function') window.openSupportChat();
     });
-    document.getElementById('spLiveClose').addEventListener('click', function () {
-      chatOpen = false; box.classList.remove('show');
-    });
-    document.getElementById('spLiveSend').addEventListener('click', sendChat);
-    document.getElementById('spLiveInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') sendChat(); });
   }
 
   function updateDot(n) {
@@ -2993,39 +2987,38 @@
   }
 
   function renderChat(rows) {
-    var log = document.getElementById('spLiveLog');
-    if (!log) return;
-    if (!rows.length) { log.innerHTML = '<p class="splc-empty">Send a message and our team will reply here.</p>'; return; }
-    log.innerHTML = rows.map(function (m) {
-      return '<div class="splc-msg ' + (m.sender === 'admin' ? 'admin' : 'user') + '">' +
-        String(m.body).replace(/[<>&]/g, function (c) { return ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' })[c]; }) + '</div>';
-    }).join('');
-    log.scrollTop = log.scrollHeight;
+    // admin replies are rendered inside the styled support chat
+    if (typeof window.scAdminMessage !== 'function') return;
+    rows.filter(function (m) { return m.sender === 'admin'; }).forEach(function (m) {
+      if (shownAdmin[m.id]) return;
+      shownAdmin[m.id] = true;
+      window.scAdminMessage(m.body);
+    });
   }
 
   async function loadChat() {
     if (!uid) return;
     var r = await sb.from('chat_messages').select('*').eq('user_id', uid).order('created_at', { ascending: true });
     var rows = r.data || [];
-    if (chatOpen) renderChat(rows);
     var lastAdmin = rows.filter(function (m) { return m.sender === 'admin'; }).pop();
-    if (!chatOpen && lastAdmin && lastAdmin.id !== chatLastId) {
-      chatLastId = lastAdmin.id;
+    if (chatOpen) {
+      renderChat(rows);
+    } else if (lastAdmin && lastAdmin.id !== chatLastId) {
       chatSeen += 1;
       updateDot(chatSeen);
-    } else if (lastAdmin) {
-      chatLastId = lastAdmin.id;
     }
+    if (lastAdmin) chatLastId = lastAdmin.id;
   }
 
-  async function sendChat() {
-    var input = document.getElementById('spLiveInput');
-    var body = (input.value || '').trim();
+  window.spChatSend = async function (body) {
     if (!body || !uid) return;
-    input.value = '';
     await sb.from('chat_messages').insert({ user_id: uid, sender: 'user', body: body });
     loadChat();
-  }
+  };
+
+  window.spChatOpened = function () {
+    chatOpen = true; chatSeen = 0; updateDot(0); loadChat();
+  };
 
   function startChat() {
     buildChat();
