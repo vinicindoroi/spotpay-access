@@ -1959,6 +1959,7 @@
       if (card && slot) slot.appendChild(card);
       if (modal) modal.classList.remove('show');
       document.body.style.overflow = '';
+      if (typeof window.spChatClosed === 'function') window.spChatClosed();
     }
     window.openSupportChat = openSupportChat;
     window.closeSupportChat = closeSupportChat;
@@ -3015,6 +3016,8 @@
     await sb.from('chat_messages').insert({ user_id: uid, sender: 'user', body: body });
     loadChat();
   };
+
+  window.spChatClosed = function () { chatOpen = false; };
 
   window.spChatOpened = function () {
     chatOpen = true; chatSeen = 0; updateDot(0); loadChat();
