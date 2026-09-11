@@ -1940,6 +1940,31 @@
         setTimeout(scPresets, 600);
       }, 900);
     }
+    function openSupportChat() {
+      var card = document.getElementById('scCard');
+      var host = document.getElementById('scModalHost');
+      var modal = document.getElementById('scModal');
+      if (!card || !host || !modal) return;
+      host.appendChild(card);
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      if (typeof window.spChatOpened === 'function') window.spChatOpened();
+      scInit();
+      setTimeout(function () { var b = document.getElementById('scMessages'); if (b) b.scrollTop = b.scrollHeight; }, 60);
+    }
+    function closeSupportChat() {
+      var card = document.getElementById('scCard');
+      var slot = document.getElementById('scSlot');
+      var modal = document.getElementById('scModal');
+      if (card && slot) slot.appendChild(card);
+      if (modal) modal.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    window.openSupportChat = openSupportChat;
+    window.closeSupportChat = closeSupportChat;
+    window.scAdminMessage = function (text) {
+      scBubble(String(text).replace(/</g, '&lt;'), 'them');
+    };
     function scKey(e) { if (e.key === 'Enter') scSend(); }
     function scSend() {
       var i = document.getElementById('scInput');
@@ -1948,6 +1973,7 @@
       i.value = '';
       scBubble(txt.replace(/</g, '&lt;'), 'me');
       if (typeof window.spLogTicket === 'function') { try { window.spLogTicket({ subject: 'Live chat', message: txt }); } catch (e) {} }
+      if (typeof window.spChatSend === 'function') { try { window.spChatSend(txt); } catch (e) {} }
       scTyping(function () {
         scBubble('Thanks for the details. I registered your message in our system — an agent will follow up here and by email shortly.', 'them');
         setTimeout(scPresets, 800);
