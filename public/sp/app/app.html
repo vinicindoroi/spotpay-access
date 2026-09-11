@@ -23,7 +23,7 @@
     src="https://www.facebook.com/tr?id=4472134583045790&ev=PageView&noscript=1"
   /></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* ─── RESET ─────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -527,6 +527,136 @@
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
       .bottom-nav { padding-bottom: env(safe-area-inset-bottom); height: calc(64px + env(safe-area-inset-bottom)); }
       .page { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+
+    /* ─── SPOTIFY REWARDS PRO ───────────────────── */
+    :root {
+      --sp-bg: #050505;
+      --sp-surface: #121212;
+      --sp-card: #181818;
+      --sp-card-strong: #202020;
+      --sp-line: #292929;
+      --sp-green: #1ed760;
+      --sp-green-dark: #16ad4d;
+      --sp-text: #f5f5f5;
+      --sp-muted: #9b9b9b;
+    }
+    html { background: var(--sp-bg); }
+    body {
+      font-family: 'Hind', sans-serif;
+      background: linear-gradient(180deg, #07140b 0, var(--sp-bg) 360px);
+      color: var(--sp-text);
+      letter-spacing: 0;
+    }
+    h1, h2, h3, .header-logo, .balance-pill, .hello-title, .song-name,
+    .withdraw-hero-amount, .sp-acc-name, .sp-acc-stat b, button {
+      font-family: 'Archivo Black', sans-serif;
+      letter-spacing: 0;
+    }
+    .header {
+      height: 58px;
+      padding: 0 max(16px, calc((100vw - 520px) / 2));
+      border-bottom-color: var(--sp-line);
+      box-shadow: 0 8px 24px rgba(0,0,0,.28);
+    }
+    .header-logo { font-size: 18px; }
+    .header-logo svg { width: 29px; height: 29px; }
+    .balance-pill {
+      min-width: 104px; justify-content: center; padding: 8px 14px;
+      background: var(--sp-green); box-shadow: 0 0 18px rgba(30,215,96,.28);
+    }
+    .page { padding-bottom: 98px; }
+    .main { padding: 22px 15px 0; }
+    .container, .page-inner, .sp-acc { max-width: 390px; }
+    .top-info { margin-bottom: 18px; }
+    .spotify-logo-mid {
+      width: 46px; height: 46px; margin-bottom: 10px;
+      box-shadow: 0 0 22px rgba(30,215,96,.35);
+    }
+    .hello-title { font-size: 22px; }
+    .hello-sub { font-size: 14px; }
+    .instruction-banner {
+      min-height: 66px; display: grid; place-items: center; padding: 14px 18px;
+      border-color: rgba(30,215,96,.32); background: rgba(30,215,96,.07);
+      border-radius: 8px; font-weight: 600;
+    }
+    .song-card {
+      padding: 17px 15px; border-radius: 12px; gap: 13px; margin-bottom: 18px;
+      background: linear-gradient(145deg, var(--sp-card-strong), var(--sp-card));
+      border: 1px solid var(--sp-line); box-shadow: 0 12px 30px rgba(0,0,0,.28);
+    }
+    .vinyl-container { width: 74px; height: 74px; }
+    .song-cover { width: 55px; height: 55px; }
+    .song-name { font-size: 15px; }
+    .play-btn { width: 44px; height: 44px; box-shadow: 0 5px 16px rgba(0,0,0,.45); }
+    .question-title { color: var(--sp-text); font-weight: 700; }
+    .yn-btn { min-height: 44px; border-radius: 8px; background: var(--sp-card); border-color: var(--sp-line); }
+    .yn-btn.selected { border-color: var(--sp-green); color: var(--sp-green); background: rgba(30,215,96,.09); }
+    .finish-btn, .withdraw-submit-btn, .suporte-submit-btn, .sp-acc-btn {
+      min-height: 50px; background: var(--sp-green); color: var(--sp-bg); border-radius: 999px;
+      box-shadow: 0 7px 22px rgba(30,215,96,.22); text-transform: uppercase;
+    }
+    .finish-btn:disabled, .withdraw-submit-btn:disabled { box-shadow: none; }
+    .page-inner { padding: 26px 14px 0; }
+    .withdraw-hero {
+      background: linear-gradient(145deg, #0d3920, #092414); border: 1px solid rgba(30,215,96,.48);
+      border-radius: 16px; padding: 24px 22px; margin-bottom: 20px;
+      box-shadow: 0 16px 34px rgba(0,0,0,.25);
+    }
+    .withdraw-hero-label { color: var(--sp-green); font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .withdraw-hero-amount { font-size: 38px; color: var(--sp-text); margin: 4px 0 3px; }
+    .withdraw-hero-sub { color: #a9c7b3; }
+    .paypal-logo-row, .withdraw-form, .suporte-form-card, .sp-refund-card {
+      background: var(--sp-card); border: 1px solid var(--sp-line); border-radius: 16px;
+    }
+    .paypal-logo-row { margin-bottom: 0; border-bottom: 0; border-radius: 16px 16px 0 0; padding: 22px 20px 14px; }
+    .withdraw-form { border-top: 0; border-radius: 0 0 16px 16px; padding: 4px 20px 22px; }
+    .form-input, .suporte-form-group input, .suporte-form-group select, .suporte-form-group textarea,
+    .sp-acc-field input { background: var(--sp-surface); border-color: #343434; border-radius: 8px; }
+    .security-note { color: var(--sp-muted); }
+    .sp-acc { padding: 18px 14px 24px; }
+    .sp-acc-hero {
+      position: relative; overflow: hidden; align-items: center; min-height: 198px;
+      padding: 24px 20px; border-radius: 16px; border: 1px solid rgba(30,215,96,.48);
+      background: linear-gradient(145deg, #104023, #082514); box-shadow: 0 16px 34px rgba(0,0,0,.3);
+    }
+    .sp-acc-hero::before { content: 'SPOTIFY RESEARCH'; position: absolute; top: 20px; left: 20px; color: var(--sp-green); font: 12px 'Archivo Black',sans-serif; letter-spacing: 1.4px; }
+    .sp-acc-hero::after { content: 'ACTIVE MEMBER'; position: absolute; right: 20px; bottom: 20px; color: var(--sp-green); font-size: 11px; font-weight: 700; }
+    .sp-acc-avatar {
+      width: 52px; height: 40px; border-radius: 7px; background: #d7ac2b; color: transparent;
+      box-shadow: none; margin-top: 12px;
+    }
+    .sp-acc-hero-txt { align-self: flex-end; width: 100%; padding-bottom: 15px; }
+    .sp-acc-kicker { display: none; }
+    .sp-acc-name { font-size: 21px; text-transform: uppercase; margin-bottom: 5px; }
+    .sp-acc-mail { color: #d0d0d0; }
+    .sp-acc-body { padding: 20px 0 0; }
+    .sp-acc-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+    .sp-acc-stat { border: 1px solid var(--sp-line); border-radius: 12px; padding: 17px 15px; }
+    .sp-acc-stat b { font-size: 18px; }
+    .sp-acc-stat span { color: var(--sp-muted); }
+    .sp-acc-group { background: var(--sp-card); border: 1px solid var(--sp-line); border-radius: 16px; padding: 18px; margin-bottom: 14px; }
+    .sp-acc-divider { display: none; }
+    .sp-acc-btn.ghost { margin-left: 0; border-color: #484848; color: var(--sp-text); box-shadow: none; }
+    .bottom-nav {
+      height: 72px; max-width: 520px; margin: 0 auto; border: 1px solid var(--sp-line); border-bottom: 0;
+      background: rgba(5,5,5,.94); backdrop-filter: blur(18px);
+    }
+    .nav-item { font-size: 9px; }
+    #navSupport { display: none; }
+    .support-fab {
+      position: fixed; right: max(14px, calc((100vw - 500px) / 2)); bottom: 84px; z-index: 240;
+      height: 42px; padding: 0 17px; display: flex; align-items: center; gap: 9px;
+      border: 1px solid var(--sp-green); border-radius: 999px; background: rgba(15,15,15,.96);
+      color: var(--sp-text); font: 12px 'Archivo Black', sans-serif; cursor: pointer;
+      box-shadow: 0 7px 25px rgba(0,0,0,.42), 0 0 18px rgba(30,215,96,.14);
+    }
+    .support-fab::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--sp-green); box-shadow: 0 0 10px rgba(30,215,96,.8); }
+    @media (max-width: 520px) {
+      .header { padding: 0 16px; }
+      .song-card { gap: 10px; }
+      .song-right-controls { gap: 5px; }
+      .more-dots { display: none; }
+    }
     }
   </style>
 </head>
