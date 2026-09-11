@@ -1904,7 +1904,7 @@
         scTyping(function () {
           scBubble('I understand. A refund is handled by our financial department and is <strong>irreversible</strong>. I will open the request form for you now.', 'them');
           setTimeout(function () {
-            var s = document.getElementById('spComplaintReason') || document.getElementById('cmpReason');
+            var s = document.getElementById('cpReason');
             if (s) { try { s.value = 'Refund'; } catch (e) {} }
             if (typeof openComplaintModal === 'function') openComplaintModal();
           }, 900);
