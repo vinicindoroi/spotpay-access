@@ -2267,7 +2267,7 @@
       if (ticket) ticket.textContent = '#' + String(Math.floor(100000 + Math.random() * 900000));
       var sentTo = document.getElementById('spSentEmail');
       if (sentTo) sentTo.textContent = email;
-      document.getElementById('supportFormCard').style.display = 'none';
+      var fc = document.getElementById('supportFormCard'); if (fc) fc.style.display = 'none';
       var ok = document.getElementById('supportSuccess');
       ok.classList.add('show');
       ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
