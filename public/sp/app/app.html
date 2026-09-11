@@ -1818,8 +1818,8 @@
       document.getElementById('nav'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
       document.getElementById('page'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
       window.scrollTo(0, 0);
-      if (tab === 'withdraw') { updateBalanceUI(); if (typeof spRenderKycStatus === 'function') spRenderKycStatus(); }
-      if (tab === 'support' && typeof spRenderRefundStatus === 'function') spRenderRefundStatus();
+      if (tab === 'withdraw') { updateBalanceUI(); if (typeof spRenderKycStatus === 'function') spRenderKycStatus(); spRenderPayoutUI(); }
+      if (tab === 'support') { if (typeof spRenderRefundStatus === 'function') spRenderRefundStatus(); scInit(); }
       if (tab === 'account' && typeof spRenderAccount === 'function') spRenderAccount();
     }
 
