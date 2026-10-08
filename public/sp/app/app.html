@@ -2028,7 +2028,6 @@
     setInterval(function () { saveState(false); saveProfileFields(); }, 5000);
     document.addEventListener('visibilitychange', function () { if (document.hidden) saveState(false); });
     addSignOut(user.email);
-    startChat();
     await loadProfile();
   }
 
