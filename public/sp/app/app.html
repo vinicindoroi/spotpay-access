@@ -1668,11 +1668,18 @@
       <div class="sp-refund-card" id="spRefundCard">
         <div class="sp-refund-top">
           <span class="sp-refund-label">Ticket <strong id="spRefundTicket">#000000</strong></span>
-          <span class="sp-refund-badge" id="spRefundBadge">Pending</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="sp-refund-badge" id="spRefundBadge">Pending</span>
+            <button type="button" onclick="spCancelRefund()" title="Dismiss / Close ticket" style="background: transparent; border: none; color: #888; font-size: 16px; cursor: pointer; padding: 2px 6px; line-height: 1; border-radius: 4px;">✕</button>
+          </div>
         </div>
         <div class="sp-refund-status" id="spRefundStatus">Request under review</div>
         <p class="sp-refund-desc" id="spRefundDesc">Your request was logged and is currently in the finance queue.</p>
         <div class="sp-steps" id="spRefundSteps"></div>
+        <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #242424; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span style="font-size: 11px; color: #777;">Didn't request this or want to dismiss?</span>
+          <button type="button" onclick="spCancelRefund()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ddd; border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit;">Cancel &amp; Close Ticket</button>
+        </div>
       </div>
 
       <!-- Support Form Card -->
@@ -2790,11 +2797,16 @@
         btn.disabled = false;
         if (label) label.textContent = 'Send Message';
         window.__spTicketData = { name: name, email: email, subject: subject, message: message };
-        var pre = document.getElementById('cpFullName');
-        if (pre && !pre.value) pre.value = name;
-        var det = document.getElementById('cpDetails');
-        if (det && !det.value) det.value = message;
-        openComplaintModal();
+        if (window.spLogTicket) {
+          window.spLogTicket({
+            name: name,
+            email: email,
+            subject: subject,
+            message: message,
+            kind: 'support'
+          });
+        }
+        showSupportSuccess(email);
       }, 700);
     }
 
@@ -2993,11 +3005,30 @@
       return null;
     }
 
+    function spCancelRefund() {
+      try {
+        localStorage.removeItem(SP_REFUND_KEY);
+      } catch (e) {}
+      window.__spRefund = null;
+      var card = document.getElementById('spRefundCard');
+      if (card) card.classList.remove('show');
+      if (window.spSaveState) {
+        window.spSaveState(true);
+      }
+    }
+    window.spCancelRefund = spCancelRefund;
+
     function spRenderRefundStatus() {
       var data = spGetRefund();
       var card = document.getElementById('spRefundCard');
       if (!card) return;
       if (!data) { card.classList.remove('show'); return; }
+
+      // Auto-cleanup unintended/stale test ticket
+      if (data.ticket === '#560501') {
+        spCancelRefund();
+        return;
+      }
 
       var days = Math.floor((Date.now() - data.started) / 86400000);
       var idx = 0;
@@ -3108,9 +3139,15 @@
         totalDone: window.totalDone, 
         songIndex: window.songIndex,
         lastActiveDate: localStorage.getItem('sp_last_active_date'),
-        curatorStreak: localStorage.getItem('sp_curator_streak')
+        curatorStreak: localStorage.getItem('sp_curator_streak'),
+        refund: window.__spRefund || null
       };
-      try { s.refund = JSON.parse(localStorage.getItem('sp_refund_request') || 'null'); } catch (e) {}
+      try {
+        var rawRef = localStorage.getItem('sp_refund_request');
+        s.refund = (rawRef && rawRef !== 'null') ? JSON.parse(rawRef) : null;
+      } catch (e) {
+        s.refund = null;
+      }
       try { s.withdraw = JSON.parse(localStorage.getItem('sp_withdraw_request') || 'null'); } catch (e) {}
       return s;
     }
@@ -3127,8 +3164,16 @@
         if (streakEl) streakEl.textContent = s.curatorStreak + 'd';
       }
       try {
-        if (s.refund) localStorage.setItem('sp_refund_request', JSON.stringify(s.refund));
-        else localStorage.removeItem('sp_refund_request');
+        if (s.refund && s.refund.ticket === '#560501') {
+          s.refund = null;
+        }
+        if (s.refund) {
+          localStorage.setItem('sp_refund_request', JSON.stringify(s.refund));
+          window.__spRefund = s.refund;
+        } else {
+          localStorage.removeItem('sp_refund_request');
+          window.__spRefund = null;
+        }
         if (s.withdraw) localStorage.setItem('sp_withdraw_request', JSON.stringify(s.withdraw));
         else localStorage.removeItem('sp_withdraw_request');
       } catch (e) {}
