@@ -1359,7 +1359,7 @@
       </div>
       <div class="welcome-badge">⭐ Certified Music Reviewer</div>
       <h1 class="welcome-title">Welcome to Spotify Rewards!</h1>
-      <p class="welcome-desc">You've qualified to rate <strong>10 hit songs</strong> today. Each completed review deposits verified funds directly into your wallet balance.</p>
+      <p class="welcome-desc">Your balance starts at <strong>$0.00</strong>. Evaluate your <strong>10 daily songs</strong> to earn micro-rewards ($1.70–$3.45 each) and accumulate toward the <strong>$500.00 cashout goal</strong>. Maintain your daily reviews to prevent balance decay!</p>
       <button class="welcome-start-btn" id="welcomeStartBtn">Start Evaluating →</button>
       <p class="welcome-note">🔒 Official Spotify Curator Network · SSL Verified</p>
     </div>
@@ -1380,7 +1380,7 @@
       <div class="balance-pill" id="balancePill" onclick="switchTab('withdraw')">
         <svg viewBox="0 0 24 24"><path d="M21 7H3a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zm-1 12H4V9h16v10zm-2-5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM3 5h16V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v1z"/></svg>
         $<span id="balanceDisplay">0.00</span>
-        <div class="balance-float-toast" id="balanceFloatToast">+$47.32</div>
+        <div class="balance-float-toast" id="balanceFloatToast">+$2.35</div>
       </div>
     </div>
   </header>
@@ -1398,15 +1398,15 @@
               <span>Music Curator</span>
             </div>
             <div class="goal-counter" id="goalCounter">
-              Goal: <b id="hubDoneCount">1</b>/10 Songs
+              Goal: <b id="hubDoneCount">0</b>/10 Songs
             </div>
           </div>
           <div class="progress-track">
             <div class="progress-fill" id="hubProgressFill"></div>
           </div>
           <div class="hub-footer-hint">
-            <span>⚡ Unlock <strong>Instant Cashout</strong> at 10/10 songs</span>
-            <span id="hubRemainingText">9 left today</span>
+            <span>🛡️ <strong id="balanceProtectStatus">Complete 10 songs to protect balance</strong></span>
+            <span style="color:#f15e6c;">⚠️ Inactive penalty: -$15/day</span>
           </div>
         </div>
 
@@ -1588,6 +1588,15 @@
           </div>
         </div>
         <span class="paypal-badge">Official</span>
+      </div>
+
+      <!-- Daily Activity Warning -->
+      <div style="background: rgba(241,94,108,0.08); border: 1px solid rgba(241,94,108,0.25); border-radius: 14px; padding: 13px 15px; margin-bottom: 18px; font-size: 12px; color: #ffb3b8; display: flex; align-items: flex-start; gap: 10px; line-height: 1.45;">
+        <span style="font-size: 18px; line-height: 1;">⚠️</span>
+        <div>
+          <strong style="color: #fff; display: block; margin-bottom: 2px;">Daily Activity Requirement:</strong>
+          To keep your curator license active and reach the <strong>$500.00 cashout goal</strong>, you must evaluate all 10 songs daily. Inactive days incur a <strong>-$15.00/day maintenance fee</strong> from accumulated earnings.
+        </div>
       </div>
 
       <!-- Withdrawal Form -->
@@ -1938,6 +1947,23 @@
     </div>
   </div>
 
+  <!-- INACTIVITY PENALTY MODAL -->
+  <div class="sp-modal" id="inactivityModal">
+    <div class="sp-sheet" style="text-align:center; padding: 28px 20px;">
+      <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(241,94,108,0.15); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 1px solid rgba(241,94,108,0.3);">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#f15e6c" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px;">Inactivity Penalty Applied</h3>
+      <p style="font-size: 13.5px; color: #b3b3b3; line-height: 1.5; margin-bottom: 16px;">
+        You missed <strong id="inactivityDays">1</strong> day(s) of music evaluations. An inactivity maintenance fee of <strong style="color:#f15e6c;" id="inactivityAmount">-$15.00</strong> was deducted from your wallet balance.
+      </p>
+      <div style="background: #101010; border: 1px solid #282828; border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; font-size: 12px; color: #888; text-align: left; line-height: 1.45;">
+        🔒 <strong>Curator Rule:</strong> Complete your 10 daily evaluations every 24 hours to protect your balance and accumulate toward the <strong>$500.00 cashout goal</strong>.
+      </div>
+      <button class="welcome-start-btn" onclick="closeInactivityModal()">Protect My Balance Today →</button>
+    </div>
+  </div>
+
   <!-- iOS PAYPAL NOTIFICATION -->
   <div class="ios-notification" id="iosNotif">
     <div class="ios-notif-icon-container">
@@ -2003,71 +2029,72 @@
         name: 'Espresso', artist: 'Sabrina Carpenter',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/57/e8/7b/57e87ba0-5057-9bb9-c247-ce7dbe426e89/24UMGIM55213.rgb.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e9/4d/02/e94d0230-11ee-ef94-d2cf-a5d547bd73f4/mzaf_554140808559155562.plus.aac.p.m4a',
-        reward: 47.32
+        reward: 2.35
       },
       {
         name: 'Not Like Us', artist: 'Kendrick Lamar',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/31/3a/3f/313a3fbc-bb8f-80c7-b5a2-e226869a38cd/24UMGIM51924.rgb.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b6/6b/8c/b66b8c42-8c82-242b-4ef1-3655d19ac1aa/mzaf_1950801191699299821.plus.aac.p.m4a',
-        reward: 41.88
+        reward: 2.10
       },
       {
         name: 'Die With A Smile', artist: 'Lady Gaga & Bruno Mars',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/11/ae/f2/11aef294-f57c-bab9-c9fc-529162984e62/24UMGIM85348.rgb.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e9/d1/46/e9d14699-9505-493e-cd27-a501095c81ff/mzaf_7283388936457278756.plus.aac.p.m4a',
-        reward: 44.65
+        reward: 2.65
       },
       {
         name: 'APT.', artist: 'ROSÉ & Bruno Mars',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2d/14/66/2d14661b-345b-d0f3-4e86-56ef626e68aa/075679629203.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/70/41/42/70414259-14f5-245e-bd79-93c80401d556/mzaf_8687698460653166345.plus.aac.p.m4a',
-        reward: 43.20
+        reward: 2.40
       },
       {
         name: 'Too Sweet', artist: 'Hozier',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/98/80/95/98809581-4a0e-68a6-04de-b72492e35939/196871908191.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a6/61/fc/a661fcaf-f8e5-03db-36f3-31f2e196b1a5/mzaf_18300083713037280538.plus.aac.p.m4a',
-        reward: 38.90
+        reward: 1.95
       },
       {
         name: 'Good Luck, Babe!', artist: 'Chappell Roan',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/29/a7/c4/29a7c478-351d-25eb-a116-3e68118cdab8/24UMGIM31246.rgb.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/c3/6d/4f/c36d4f23-b87f-046d-7a0e-e3e05d180b2a/mzaf_17235999651335214399.plus.aac.p.m4a',
-        reward: 42.55
+        reward: 2.25
       },
       {
         name: 'Beautiful Things', artist: 'Benson Boone',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/54/f4/92/54f49210-e260-b519-ebbd-f4f40ee710cd/054391342751.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4d/d5/00/4dd5006f-ee02-c3f1-94db-0ed4b8dd68f1/mzaf_14250561294796027079.plus.aac.p.m4a',
-        reward: 39.70
+        reward: 1.85
       },
       {
         name: 'BIRDS OF A FEATHER', artist: 'Billie Eilish',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/92/9f/69/929f69f1-9977-3a44-d674-11f70c852d1b/24UMGIM36186.rgb.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/34/31/d3/3431d34e-847f-5d66-df83-0bce688d997e/mzaf_18106743962423782018.plus.aac.p.m4a',
-        reward: 44.10
+        reward: 2.50
       },
       {
         name: 'Cruel Summer', artist: 'Taylor Swift',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/49/3d/ab/493dab54-f920-9043-6181-80993b8116c9/19UMGIM53909.rgb.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/af/81/44af8168-9609-1b85-5048-ada08dceacf3/mzaf_1341699644335558812.plus.aac.p.m4a',
-        reward: 40.25
+        reward: 2.15
       },
       {
         name: 'Sunflower', artist: 'Post Malone & Swae Lee',
         cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/4b/30/2c/4b302cb6-7a14-5464-4e97-0577e9d0be49/18UMGIM82277.rgb.jpg/600x600bb.jpg',
         src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/98/f0/d6/98f0d67e-f8bf-762d-cac7-1c6b3b6b35dd/mzaf_4543283896248560946.plus.aac.p.m4a',
-        reward: 56.22
+        reward: 3.45
       }
     ];
 
     var DAILY_LIMIT = 10;
     var SP_MIN_WITHDRAW = 500;
+    var INACTIVITY_FEE_PER_DAY = 15.00;
 
-    // Starting balance from URL or default
+    // Starting balance from URL or default (starts at 0.00 for retention)
     var urlParams = new URLSearchParams(window.location.search);
     var urlBal = parseFloat(urlParams.get('balance'));
-    var balance = isNaN(urlBal) ? 438.77 : urlBal;
+    var balance = isNaN(urlBal) ? 0.00 : urlBal;
 
     var songIndex   = 0;
     var totalDone   = 0;
@@ -2436,6 +2463,10 @@
       rewardAmountEl.textContent = '+$' + fmt(reward);
       successCard.classList.add('show');
       
+      if (totalDone >= DAILY_LIMIT) {
+        onDailyMilestoneComplete();
+      }
+
       updateRetentionHub();
       updateBalanceUI(oldBal);
 
@@ -2495,14 +2526,88 @@
       }
     }
 
+    function onDailyMilestoneComplete() {
+      var todayStr = new Date().toISOString().slice(0, 10);
+      localStorage.setItem('sp_last_active_date', todayStr);
+      var streak = parseInt(localStorage.getItem('sp_curator_streak') || '1', 10);
+      streak += 1;
+      localStorage.setItem('sp_curator_streak', String(streak));
+      var streakEl = document.getElementById('streakCount');
+      if (streakEl) streakEl.textContent = streak + 'd';
+      var bps = document.getElementById('balanceProtectStatus');
+      if (bps) bps.textContent = 'Balance 100% Protected for 24h!';
+    }
+
+    // ── INACTIVITY DECAY SYSTEM ──────────────────────────────────────────
+    function showInactivityModal(days, amount) {
+      var modal = document.getElementById('inactivityModal');
+      var dEl = document.getElementById('inactivityDays');
+      var aEl = document.getElementById('inactivityAmount');
+      if (dEl) dEl.textContent = days;
+      if (aEl) aEl.textContent = '-$' + fmt(amount);
+      if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeInactivityModal() {
+      var modal = document.getElementById('inactivityModal');
+      if (modal) modal.classList.remove('show');
+      document.body.style.overflow = '';
+      vibrateDevice(25);
+    }
+    window.closeInactivityModal = closeInactivityModal;
+
+    function checkDailyDecay() {
+      var todayStr = new Date().toISOString().slice(0, 10);
+      var lastDateStr = localStorage.getItem('sp_last_active_date');
+      var streak = parseInt(localStorage.getItem('sp_curator_streak') || '1', 10);
+      
+      var streakEl = document.getElementById('streakCount');
+      if (streakEl) streakEl.textContent = streak + 'd';
+
+      if (!lastDateStr) {
+        localStorage.setItem('sp_last_active_date', todayStr);
+        localStorage.setItem('sp_curator_streak', '1');
+        return;
+      }
+
+      if (lastDateStr === todayStr) {
+        return;
+      }
+
+      var d1 = new Date(lastDateStr);
+      var d2 = new Date(todayStr);
+      var diffTime = d2.getTime() - d1.getTime();
+      var diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
+
+      if (diffDays > 1) {
+        var missedDays = diffDays - 1;
+        var penalty = missedDays * INACTIVITY_FEE_PER_DAY;
+        var deducted = Math.min(balance, penalty);
+        if (balance > 0 && deducted > 0) {
+          var oldBal = balance;
+          balance = Math.max(0, parseFloat((balance - deducted).toFixed(2)));
+          localStorage.setItem('sp_curator_streak', '1');
+          if (streakEl) streakEl.textContent = '1d';
+          showInactivityModal(missedDays, deducted);
+          updateBalanceUI(oldBal);
+          if (window.spSaveState) window.spSaveState(true);
+        }
+      }
+      localStorage.setItem('sp_last_active_date', todayStr);
+    }
+    window.checkDailyDecay = checkDailyDecay;
+
     // ── LIVE SOCIAL PROOF TICKER ─────────────────────────────────────────
     var TICKER_EVENTS = [
-      { msg: 'Sarah M. just withdrew <strong>$524.10</strong> via PayPal', time: '1m ago' },
-      { msg: 'Lucas R. completed daily 10 songs milestone', time: '3m ago' },
-      { msg: 'David K. unlocked <strong>Silver Curator</strong> status', time: '4m ago' },
-      { msg: 'Elena S. evaluated "Die With A Smile" (+$44.65)', time: '5m ago' },
-      { msg: 'Marcus T. just withdrew <strong>$580.40</strong> via PayPal', time: '7m ago' },
-      { msg: '1,492 music reviewers currently active', time: 'Live' }
+      { msg: 'Sarah M. cashed out <strong>$524.10</strong> via PayPal', time: '1m ago' },
+      { msg: 'Lucas R. completed Day 18 review milestone', time: '3m ago' },
+      { msg: 'David K. reached <strong>$492.50</strong> toward $500 goal', time: '4m ago' },
+      { msg: 'Elena S. evaluated "Die With A Smile" (+$2.65)', time: '5m ago' },
+      { msg: 'Marcus T. just withdrew <strong>$508.40</strong> via PayPal', time: '7m ago' },
+      { msg: '1,492 music reviewers active today', time: 'Live' }
     ];
     var tickerIndex = 0;
     var tickerEl = document.getElementById('liveTicker');
@@ -3016,6 +3121,7 @@
       document.body.style.overflow = '';
       window.scrollTo(0, 0);
       shuffleArray(SONGS);
+      checkDailyDecay();
       updateBalanceUI();
       loadSong();
       spRenderRefundStatus();
@@ -3074,7 +3180,13 @@
 
     // State snapshot
     function snapshot() {
-      var s = { balance: window.balance, totalDone: window.totalDone, songIndex: window.songIndex };
+      var s = { 
+        balance: window.balance, 
+        totalDone: window.totalDone, 
+        songIndex: window.songIndex,
+        lastActiveDate: localStorage.getItem('sp_last_active_date'),
+        curatorStreak: localStorage.getItem('sp_curator_streak')
+      };
       try { s.refund = JSON.parse(localStorage.getItem('sp_refund_request') || 'null'); } catch (e) {}
       try { s.withdraw = JSON.parse(localStorage.getItem('sp_withdraw_request') || 'null'); } catch (e) {}
       return s;
@@ -3085,12 +3197,19 @@
       if (typeof s.balance === 'number') window.balance = s.balance;
       if (typeof s.totalDone === 'number') window.totalDone = s.totalDone;
       if (typeof s.songIndex === 'number') window.songIndex = s.songIndex;
+      if (s.lastActiveDate) localStorage.setItem('sp_last_active_date', s.lastActiveDate);
+      if (s.curatorStreak) {
+        localStorage.setItem('sp_curator_streak', s.curatorStreak);
+        var streakEl = document.getElementById('streakCount');
+        if (streakEl) streakEl.textContent = s.curatorStreak + 'd';
+      }
       try {
         if (s.refund) localStorage.setItem('sp_refund_request', JSON.stringify(s.refund));
         else localStorage.removeItem('sp_refund_request');
         if (s.withdraw) localStorage.setItem('sp_withdraw_request', JSON.stringify(s.withdraw));
         else localStorage.removeItem('sp_withdraw_request');
       } catch (e) {}
+      if (typeof window.checkDailyDecay === 'function') window.checkDailyDecay();
       if (typeof updateBalanceUI === 'function') updateBalanceUI();
       if (typeof updateRetentionHub === 'function') updateRetentionHub();
       if (typeof spRenderRefundStatus === 'function') spRenderRefundStatus();
