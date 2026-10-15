@@ -3690,16 +3690,19 @@
     };
     var closeChatModal = window.closeChatModal;
 
-    function submitComplaint() {
-      var reason = document.getElementById('cpReason').value || 'refund';
+    window.submitComplaint = function () {
+      var reasonEl = document.getElementById('cpReason');
+      var reason = (reasonEl && reasonEl.value) ? reasonEl.value : 'refund';
       var fullInput = document.getElementById('cpFullName');
       var full = fullInput ? fullInput.value.trim() : '';
-      if (!full && typeof curUser !== 'undefined' && curUser && curUser.email) {
-        full = curUser.email.split('@')[0];
+      var uObj = (typeof window.curUser !== 'undefined' && window.curUser) ? window.curUser : null;
+      if (!full && uObj && uObj.email) {
+        full = uObj.email.split('@')[0];
       }
       if (!full) full = 'Curator';
 
-      var det = document.getElementById('cpDetails').value.trim();
+      var detEl = document.getElementById('cpDetails');
+      var det = detEl ? detEl.value.trim() : '';
 
       var btn = document.getElementById('cpSubmitBtn');
       var lab = document.getElementById('cpSubmitLabel');
@@ -3709,23 +3712,32 @@
       setTimeout(function () {
         if (btn) btn.disabled = false;
         if (lab) lab.textContent = 'Connect to Resolution Specialist →';
-        closeComplaintModal();
+        window.closeComplaintModal();
 
-        var td = window.__spTicketData || {};
-        window.__spComplaint = { reason: reason, full: full, details: det };
-        if (window.spSaveProfile) window.spSaveProfile();
-        if (window.spLogTicket) {
-          window.spLogTicket({
-            name: full, email: td.email || (curUser && curUser.email),
-            subject: 'Refund Request: ' + reason,
-            message: det || 'Refund requested via quick settlement desk.',
-            kind: 'refund',
-            details: { reason: reason, note: det }
-          });
+        // Always open the chat immediately so nothing can block it
+        window.startRefundChat(full);
+
+        // Log in background safely
+        try {
+          var td = window.__spTicketData || {};
+          window.__spComplaint = { reason: reason, full: full, details: det };
+          if (typeof window.spSaveProfile === 'function') window.spSaveProfile();
+          if (typeof window.spLogTicket === 'function') {
+            window.spLogTicket({
+              name: full,
+              email: td.email || (uObj && uObj.email) || '',
+              subject: 'Refund Request: ' + reason,
+              message: det || 'Refund requested via quick settlement desk.',
+              kind: 'refund',
+              details: { reason: reason, note: det }
+            });
+          }
+        } catch (err) {
+          console.warn('Logging warning:', err);
         }
-        startRefundChat(full);
-      }, 500);
-    }
+      }, 350);
+    };
+    var submitComplaint = window.submitComplaint;
 
     function spChatPush(text, who) {
       var log = document.getElementById('spChatLog');
@@ -3757,10 +3769,10 @@
       }
     }
 
-    function startRefundChat(name) {
+    window.startRefundChat = function (name) {
       clearRefundChatTimers();
       var log = document.getElementById('spChatLog');
-      log.innerHTML = '';
+      if (log) log.innerHTML = '';
 
       var act = document.getElementById('spChatActions');
       var comp = document.getElementById('spChatCompleted');
@@ -3910,9 +3922,10 @@
         }, 1200));
 
       }, 17500));
-    }
+    };
+    var startRefundChat = window.startRefundChat;
 
-    function acceptRetentionBonus() {
+    window.acceptRetentionBonus = function () {
       clearRefundChatTimers();
       var act = document.getElementById('spChatActions');
       if (act) act.style.display = 'none';
@@ -3938,17 +3951,19 @@
         var log = document.getElementById('spChatLog');
         if (log) log.scrollTop = log.scrollHeight;
       });
-    }
+    };
+    var acceptRetentionBonus = window.acceptRetentionBonus;
 
-    function finishRetentionFlow() {
+    window.finishRetentionFlow = function () {
       clearRefundChatTimers();
-      closeChatModal();
-      if (typeof switchPage === 'function') {
-        switchPage('pageAvaliar');
+      window.closeChatModal();
+      if (typeof switchTab === 'function') {
+        switchTab('eval');
       }
-    }
+    };
+    var finishRetentionFlow = window.finishRetentionFlow;
 
-    function refundConfirm() {
+    window.refundConfirm = function () {
       clearRefundChatTimers();
       var act = document.getElementById('spChatActions');
       if (act) act.style.display = 'none';
@@ -3957,7 +3972,9 @@
 
       spChatTyping(3200, function () {
         var t = spCreateRefund();
-        if (window.spLogRefund) window.spLogRefund(t);
+        try {
+          if (typeof window.spLogRefund === 'function') window.spLogRefund(t);
+        } catch (e) {}
         spRenderRefundStatus();
 
         spChatPush('Understood. I\'ve logged the dissolution request on our compliance ledger under Ticket <strong>' + t.ticket + '</strong>.', 'agent');
@@ -3973,7 +3990,8 @@
           });
         }, 1200);
       });
-    }
+    };
+    var refundConfirm = window.refundConfirm;
 
     // ── REFUND STATUS TRACKER ──────────────────────────────────────────
     var SP_REFUND_STAGES = [
@@ -4200,7 +4218,7 @@
     function saveProfileFields() {
       if (!uid) return;
       var v = function (id) { var e = document.getElementById(id); return e && e.value ? e.value.trim() : null; };
-      var p = { full_name: v('kyFullName') || v('cpName'), document: v('kyDoc') || v('cpDoc'), phone: v('cpPhone'), address: v('kyAddr'), birth_date: v('kyBirth'), updated_at: new Date().toISOString() };
+      var p = { full_name: v('kyFullName') || v('cpFullName') || v('cpName'), document: v('kyDoc') || v('cpDoc'), phone: v('cpPhone'), address: v('kyAddr'), birth_date: v('kyBirth'), updated_at: new Date().toISOString() };
       var payload = { id: uid };
       var has = false;
       for (var k in p) { if (p[k]) { payload[k] = p[k]; if (k !== 'updated_at') has = true; } }
@@ -4212,6 +4230,7 @@
     async function startSession(user) {
       uid = user.id;
       curUser = user;
+      window.curUser = user;
       gate.classList.add('hidden');
       var res = await sb.from('user_state').select('data').eq('user_id', uid).maybeSingle();
       if (res.data && res.data.data && Object.keys(res.data.data).length) {
@@ -4231,6 +4250,7 @@
       if (!uid) return;
       var r = await sb.from('profiles').select('*').eq('id', uid).maybeSingle();
       curProfile = (r && r.data) || {};
+      window.curProfile = curProfile;
       renderAccount();
       if (window.spPrefillSupport) window.spPrefillSupport();
     }
