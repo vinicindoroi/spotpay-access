@@ -1414,6 +1414,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="assets/css/support-experience.css">
 </head>
 <body>
 
@@ -1905,66 +1906,15 @@
   <div class="page" id="pageSupport">
     <div class="page-inner">
       <div class="suporte-hero">
-        <div class="suporte-kicker">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-          Curator Concierge &amp; Help Desk
-        </div>
-        <h2 class="suporte-title">Support &amp; Assistance</h2>
-        <p class="suporte-subtitle">Direct partner support, payout guidelines, and curator assistance available 24/7.</p>
+        <div class="suporte-kicker">Help center</div>
+        <h2 class="suporte-title">Support</h2>
+        <p class="suporte-subtitle">What can we help you with?</p>
       </div>
-
-      <!-- Live Support Status Pill -->
-      <div class="suporte-status-bar">
-        <div class="suporte-status-left">
-          <div class="suporte-avatars-group">
-            <span class="suporte-avatar-dot" style="background:#2d4a3e; color:#1DB954;">JD</span>
-            <span class="suporte-avatar-dot" style="background:#3b3353; color:#a78bfa;">AL</span>
-            <span class="suporte-avatar-dot" style="background:#4a3b2c; color:#fbbf24;">SK</span>
-          </div>
-          <span class="suporte-status-dot"></span>
-          <span style="font-weight:700; font-size:12px;">Live Desk Active</span>
-        </div>
-        <span style="color:var(--sp-text-secondary); font-size:11.5px;">Avg reply: <strong>&lt; 15 mins</strong></span>
+      <div class="support-tabs" role="tablist" aria-label="Support sections">
+        <button class="support-tab" id="supportTab-help" role="tab" aria-selected="true" aria-controls="supportPanel-help" onclick="spSupportView('help')">Help &amp; FAQs</button>
+        <button class="support-tab" id="supportTab-contact" role="tab" aria-selected="false" tabindex="-1" aria-controls="supportPanel-contact" onclick="spSupportView('contact')">Contact us</button>
+        <button class="support-tab" id="supportTab-requests" role="tab" aria-selected="false" tabindex="-1" aria-controls="supportPanel-requests" onclick="spSupportView('requests')">My requests</button>
       </div>
-
-      <!-- Quick Resolution Channels Grid -->
-      <div class="support-quick-grid">
-        <div class="support-quick-card" onclick="document.getElementById('faqSection').scrollIntoView({behavior:'smooth'})">
-          <div class="support-quick-icon" style="background:rgba(29,185,84,0.15); color:#1DB954;">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-              <line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-          </div>
-          <span class="support-quick-title">Instant FAQs</span>
-          <span class="support-quick-sub">Payouts &amp; rules</span>
-        </div>
-
-        <div class="support-quick-card" onclick="switchTab('withdraw')">
-          <div class="support-quick-icon" style="background:rgba(59,130,246,0.15); color:#3b82f6;">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <line x1="2" y1="10" x2="22" y2="10"/>
-            </svg>
-          </div>
-          <span class="support-quick-title">Cashout Gate</span>
-          <span class="support-quick-sub">24h maturation</span>
-        </div>
-
-        <div class="support-quick-card" onclick="document.getElementById('supportFormCard').scrollIntoView({behavior:'smooth'})">
-          <div class="support-quick-icon" style="background:rgba(245,158,11,0.15); color:#f59e0b;">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-          </div>
-          <span class="support-quick-title">Open Ticket</span>
-          <span class="support-quick-sub">Senior specialist</span>
-        </div>
-      </div>
-
       <!-- Active Ticket Tracker Card (Dynamic) -->
       <div class="sp-refund-card" id="spRefundCard">
         <div class="sp-refund-top">
@@ -1983,64 +1933,26 @@
         </div>
       </div>
 
-      <!-- FAQ Section (Prioritized for instant answers) -->
-      <div id="faqSection">
-        <div class="faq-title">
-          <span>Curator Knowledge Base &amp; FAQs</span>
-          <span style="font-size:11px; color:#1DB954; font-weight:600;">5 articles</span>
-        </div>
-        <div class="faq-list" id="faqList">
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <span>How does curator earnings and PayPal cashout work?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="faq-answer"><p>Curators earn verified rewards for previewing and rating daily song submissions. Payouts accumulate in your wallet and can be transferred directly to your PayPal account once you reach the $500.00 minimum settlement threshold.</p></div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <span>Why is there a 24-hour maturation gate on new accounts?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="faq-answer"><p>To comply with Spotify partner security protocols and prevent automated bot fraud, all newly activated curator wallets require a standard 24-hour activity maturation window. Once Day 2 begins, your PayPal withdrawal gate unlocks automatically.</p></div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <span>What is the minimum cashout threshold?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="faq-answer"><p>The minimum cashout threshold is set at $500.00. Completing your 10 daily evaluations allows you to reach and exceed this milestone rapidly with zero platform fees.</p></div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <span>When do my 10 daily evaluation slots reset?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="faq-answer"><p>Your evaluation allowance resets every night at midnight. Evaluating songs daily maintains your curator streak, which protects your standing and unlocks higher-tier rewards.</p></div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-              <span>Are there any transfer or withdrawal fees on PayPal?</span>
-              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="faq-answer"><p>Zero fees. Spotify Partner Network absorbs all transaction processing costs, ensuring you receive 100% of your accumulated curator balance upon payout.</p></div>
-          </div>
-        </div>
-      </div>
-
+      <section id="supportPanel-help" role="tabpanel" aria-labelledby="supportTab-help">
+        <label class="support-search" for="supportSearch"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="supportSearch" type="search" placeholder="Search for help" aria-label="Search help articles"></label>
+        <div id="faqSection"><h3 class="faq-title">Common questions</h3><div class="faq-list" id="faqList">
+<div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>How do I request a withdrawal?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>Open Cashout to check your balance and enter your PayPal details. Withdrawals require a balance of at least $500 and document review. <button class="support-inline-link" onclick="switchTab('withdraw')">Go to Cashout →</button></p></div></div><div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>Which documents do I need?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>The withdrawal form asks for the front and back of your identity document and a clear selfie. You can also review your personal details in Account.</p></div></div><div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>Where can I check my withdrawal?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>Open Cashout to see the status of your withdrawal and document review. Sending documents does not mean your withdrawal has been approved. <button class="support-inline-link" onclick="switchTab('withdraw')">Go to Cashout →</button></p></div></div><div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>How do I check a support request?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>Open My requests to see your saved tickets and their latest status. If you contact us about an existing request, include its reference number.</p></div></div><div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>How can I update my account details?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>Open Account to update your name, phone number, address and other personal details. You can also change your password there.</p></div></div></div><p class="support-empty" id="supportNoResults" hidden>No answers found. Try another search or contact us.</p></div>
+        <button class="support-inline-link" onclick="spSupportView('contact')">Still need help? Contact us →</button>
+      </section>
+      <section id="supportPanel-requests" role="tabpanel" aria-labelledby="supportTab-requests" hidden>
+        <h3 class="faq-title">Your support requests<button class="support-inline-link" onclick="spLoadSupportRequests()" aria-label="Refresh requests" title="Refresh requests">↻</button></h3>
+        <div id="supportRequests" aria-live="polite"><p class="support-empty">Loading your requests…</p></div>
+      </section>
+      <section id="supportPanel-contact" role="tabpanel" aria-labelledby="supportTab-contact" hidden>
       <!-- Direct Message Support Form Card -->
       <div class="suporte-form-card" id="supportFormCard">
         <p class="suporte-form-title">
           <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
-          Direct Specialist Assistance
+          Send us a message
         </p>
-        <p class="suporte-form-hint">Have a specific question not covered in our FAQ? Send a priority message directly to our senior curator desk.</p>
+        <p class="suporte-form-hint">Tell us what happened so we can help. Your request will be saved to your account.</p>
         
         <div class="suporte-form-group" id="spGroupName">
           <label for="spName">
@@ -2060,7 +1972,7 @@
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
               <polyline points="22,6 12,13 2,6"/>
             </svg>
-            Registered Email Address
+            Email address
           </label>
           <input type="email" id="spEmail" placeholder="you@email.com" autocomplete="email" inputmode="email" required>
           <span class="suporte-field-error">Please enter a valid email address.</span>
@@ -2073,16 +1985,16 @@
               <polyline points="2 17 12 22 22 17"/>
               <polyline points="2 12 12 17 22 12"/>
             </svg>
-            Inquiry Category
+            Topic
           </label>
           <select id="spSubject">
             <option value="">Select a category</option>
-            <option>Withdrawal &amp; Cashout Assistance</option>
-            <option>24h Security Maturation Inquiries</option>
-            <option>Balance &amp; Reward Clarification</option>
-            <option>Daily Music Evaluation Help</option>
-            <option>Account Credentials &amp; Verification</option>
-            <option>General Support Question</option>
+            <option value="Withdrawal &amp; Cashout Assistance">Withdrawals</option>
+            <option value="24h Security Maturation Inquiries">Withdrawal availability</option>
+            <option value="Balance &amp; Reward Clarification">Balance and rewards</option>
+            <option value="Daily Music Evaluation Help">Song evaluations</option>
+            <option value="Account Credentials &amp; Verification">Account and verification</option>
+            <option value="General Support Question">Something else</option>
           </select>
           <span class="suporte-field-error">Please select an inquiry topic.</span>
         </div>
@@ -2095,19 +2007,20 @@
               <line x1="16" y1="13" x2="8" y2="13"/>
               <line x1="16" y1="17" x2="8" y2="17"/>
             </svg>
-            Message Details
+            Your message
             <span class="suporte-count" id="spCount">0/500</span>
           </label>
-          <textarea id="spMessage" maxlength="500" placeholder="Please describe how our curator support specialists can assist you..."></textarea>
+          <textarea id="spMessage" maxlength="500" placeholder="What happened? Include any error message or ticket reference. Please do not share passwords or document numbers."></textarea>
           <span class="suporte-field-error">Please enter at least 5 characters.</span>
         </div>
 
+        <p id="supportSendError" class="support-error" role="alert" hidden></p>
         <button class="suporte-submit-btn" id="spSubmitBtn" onclick="submitSupport()">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"/>
             <polygon points="22 2 15 22 11 13 2 9 22 2"/>
           </svg>
-          <span id="spSubmitLabel">Submit Support Request</span>
+          <span id="spSubmitLabel">Send message</span>
         </button>
 
         <p style="font-size:11px; color:#666; margin-top:12px; text-align:center; display:flex; align-items:center; justify-content:center; gap:5px;">
@@ -2115,7 +2028,7 @@
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
-          Official Partner Desk · Protected by 256-Bit SSL Encryption
+          Please do not include passwords or payment details.
         </p>
       </div>
 
@@ -2124,11 +2037,13 @@
         <div class="suporte-success-icon">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <h3 class="suporte-success-title">Support Ticket Logged</h3>
-        <p class="suporte-success-msg">Ticket Reference <strong id="spTicket">#000000</strong> — our senior curator agent has queued your inquiry and will reply directly to <span id="spSentEmail">your email</span> shortly.</p>
-        <button class="suporte-success-btn" onclick="resetSupportForm()">Create Another Ticket</button>
+        <h3 class="suporte-success-title">Message received</h3>
+        <p class="suporte-success-msg">Your reference is <strong id="spTicket">#000000</strong>. Follow your request in My requests. Contact email: <span id="spSentEmail">your email</span>.</p>
+        <button class="support-inline-link" onclick="spSupportView('requests')">View my requests →</button><br>
+        <button class="suporte-success-btn" onclick="resetSupportForm()">Send another message</button>
       </div>
 
+      </section>
       <!-- Complaint Details Sheet -->
       <div class="sp-modal" id="spComplaintModal">
         <div class="sp-sheet">
@@ -2587,7 +2502,11 @@
         updateWithdrawSecurityState();
         if (typeof spRenderKycStatus === 'function') spRenderKycStatus();
       }
-      if (tab === 'support' && typeof spRenderRefundStatus === 'function') spRenderRefundStatus();
+      if (tab === 'support') {
+        if (typeof spRenderRefundStatus === 'function') spRenderRefundStatus();
+        if (window.spPrefillSupport) window.spPrefillSupport();
+        if (window.spLoadSupportRequests) window.spLoadSupportRequests();
+      }
       if (tab === 'account' && typeof spRenderAccount === 'function') spRenderAccount();
     }
 
@@ -3194,7 +3113,7 @@
     // ── SUPPORT & ANTI-CHARGEBACK ENGINE ─────────────────────────────────
     function spMark(groupId, ok) {
       var g = document.getElementById(groupId);
-      if (g) g.classList.toggle('invalid', !ok);
+      if (g) { g.classList.toggle('invalid', !ok); var field = g.querySelector('input, select, textarea'); if (field) field.setAttribute('aria-invalid', String(!ok)); }
       return ok;
     }
 
@@ -3210,7 +3129,7 @@
       var okMessage = spMark('spGroupMessage', message.length >= 5);
       if (!okName || !okEmail || !okSubject || !okMessage) {
         var firstBad = document.querySelector('.suporte-form-group.invalid');
-        if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (firstBad) { firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' }); var field = firstBad.querySelector('input, select, textarea'); if (field) field.focus({ preventScroll: true }); }
         return;
       }
 
@@ -3219,26 +3138,28 @@
       btn.disabled = true;
       if (label) label.textContent = 'Submitting ticket...';
 
-      setTimeout(function () {
+      var error = document.getElementById('supportSendError');
+      error.hidden = true;
+      window.__spTicketData = { name: name, email: email, subject: subject, message: message };
+      Promise.resolve().then(function () {
+        if (!window.spLogTicket) throw new Error('Sign in to send your message.');
+        return window.spLogTicket({ name: name, email: email, subject: subject, message: message, kind: 'support' });
+      }).then(function (saved) {
+        if (!saved) throw new Error('Your message was not saved. Please try again.');
+        showSupportSuccess(email, saved.code);
+        if (window.spLoadSupportRequests) window.spLoadSupportRequests();
+      }).catch(function () {
+        error.textContent = 'We could not send your message. Your text is still here — please try again.';
+        error.hidden = false;
+      }).finally(function () {
         btn.disabled = false;
-        if (label) label.textContent = 'Send Message';
-        window.__spTicketData = { name: name, email: email, subject: subject, message: message };
-        if (window.spLogTicket) {
-          window.spLogTicket({
-            name: name,
-            email: email,
-            subject: subject,
-            message: message,
-            kind: 'support'
-          });
-        }
-        showSupportSuccess(email);
-      }, 700);
+        if (label) label.textContent = 'Send message';
+      });
     }
 
-    function showSupportSuccess(email) {
+    function showSupportSuccess(email, savedCode) {
       var ticket = document.getElementById('spTicket');
-      if (ticket) ticket.textContent = '#' + String(Math.floor(100000 + Math.random() * 900000));
+      if (ticket) ticket.textContent = savedCode || '#' + String(Math.floor(100000 + Math.random() * 900000));
       var sentTo = document.getElementById('spSentEmail');
       if (sentTo) sentTo.textContent = email;
       document.getElementById('supportFormCard').style.display = 'none';
@@ -3260,6 +3181,7 @@
       if (c) c.textContent = '0/500';
       document.getElementById('supportFormCard').style.display = '';
       document.getElementById('supportSuccess').classList.remove('show');
+      if (window.spPrefillSupport) window.spPrefillSupport();
       document.getElementById('supportFormCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
@@ -3483,7 +3405,8 @@
     function toggleFaq(questionEl) {
       var item = questionEl.parentElement;
       var isActive = item.classList.contains('active');
-      document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('active'); });
+      document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('active'); var button = i.querySelector('.faq-question'); if (button) button.setAttribute('aria-expanded', 'false'); });
+      questionEl.setAttribute('aria-expanded', String(!isActive));
       if (!isActive) item.classList.add('active');
     }
 
@@ -3661,6 +3584,7 @@
       var r = await sb.from('profiles').select('*').eq('id', uid).maybeSingle();
       curProfile = (r && r.data) || {};
       renderAccount();
+      if (window.spPrefillSupport) window.spPrefillSupport();
     }
 
     function setVal(id, v) { var e = document.getElementById(id); if (e && document.activeElement !== e) e.value = v || ''; }
@@ -3751,13 +3675,44 @@
     // ── DATABASE LOGGING (ADMIN DASHBOARD) ─────────────────────────────
     function code6() { return '#' + String(Math.floor(100000 + Math.random() * 900000)); }
 
-    window.spLogTicket = function (t) {
-      if (!uid) return;
-      sb.from('support_tickets').insert({
+    window.spPrefillSupport = function () {
+      if (!curUser) return;
+      if (!document.getElementById('spName').value) setVal('spName', curProfile.full_name || (curUser.user_metadata && curUser.user_metadata.full_name));
+      if (!document.getElementById('spEmail').value) setVal('spEmail', curUser.email);
+    };
+    window.spLoadSupportRequests = async function () {
+      var host = document.getElementById('supportRequests');
+      if (!host) return;
+      if (!uid) { host.textContent = 'Sign in to see your requests.'; return; }
+      var currentUid = uid;
+      var result;
+      try { result = await sb.from('support_tickets').select('code,subject,message,status,created_at').eq('user_id', currentUid).order('created_at', { ascending: false }).limit(30); }
+      catch (error) { result = { error: error }; }
+      if (uid !== currentUid) return;
+      host.replaceChildren();
+      if (result.error) { host.textContent = 'Your requests could not be loaded. Please refresh to try again.'; return; }
+      if (!result.data.length) { host.textContent = 'No support requests yet.'; return; }
+      var statuses = { open: 'Received', pending: 'Pending', in_progress: 'In review', resolved: 'Resolved', closed: 'Closed' };
+      result.data.forEach(function (ticket) {
+        var item = document.createElement('article'); item.className = 'support-request';
+        var head = document.createElement('div'); head.className = 'support-request-head';
+        var title = document.createElement('h3'); title.textContent = ticket.subject || 'Support request';
+        var badge = document.createElement('span'); badge.className = 'support-request-status'; badge.textContent = statuses[ticket.status] || ticket.status;
+        head.append(title, badge); item.append(head);
+        var meta = document.createElement('small'); meta.textContent = ticket.code + ' · ' + new Date(ticket.created_at).toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' }); item.append(meta);
+        var detail = document.createElement('details'); var summary = document.createElement('summary'); summary.textContent = 'View your message';
+        var text = document.createElement('p'); text.textContent = ticket.message || 'No message provided.'; detail.append(summary, text); item.append(detail); host.append(item);
+      });
+    };
+    window.spLogTicket = async function (t) {
+      if (!uid) return null;
+      var payload = {
         user_id: uid, code: code6(), name: t.name || null, email: t.email || (curUser && curUser.email) || null,
-        subject: t.subject || null, message: t.message || null, kind: t.kind || 'support',
-        details: t.details || {}
-      }).then(function () {}, function () {});
+        subject: t.subject || null, message: t.message || null, kind: t.kind || 'support', details: t.details || {}
+      };
+      var result = await sb.from('support_tickets').insert(payload);
+      if (result.error) return null;
+      return payload;
     };
 
     window.spLogRefund = function (r) {
@@ -3818,5 +3773,6 @@
   })();
   </script>
   <script src="/dev-menu.js"></script>
+  <script src="assets/js/support-experience.js"></script>
 </body>
 </html>
