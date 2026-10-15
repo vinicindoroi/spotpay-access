@@ -3136,7 +3136,7 @@
       var btn = document.getElementById('spSubmitBtn');
       var label = document.getElementById('spSubmitLabel');
       btn.disabled = true;
-      if (label) label.textContent = 'Submitting ticket...';
+      if (label) label.textContent = 'Sending…';
 
       var error = document.getElementById('supportSendError');
       error.hidden = true;
@@ -3679,6 +3679,8 @@
       if (!curUser) return;
       if (!document.getElementById('spName').value) setVal('spName', curProfile.full_name || (curUser.user_metadata && curUser.user_metadata.full_name));
       if (!document.getElementById('spEmail').value) setVal('spEmail', curUser.email);
+      if (document.getElementById('spName').value.trim().length >= 2) spMark('spGroupName', true);
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(document.getElementById('spEmail').value)) spMark('spGroupEmail', true);
     };
     window.spLoadSupportRequests = async function () {
       var host = document.getElementById('supportRequests');

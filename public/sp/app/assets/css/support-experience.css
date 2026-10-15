@@ -7,6 +7,7 @@
 #pageSupport .suporte-kicker { background: none; border: 0; padding: 0; font-size: 12px; letter-spacing: 0; text-transform: none; }
 #pageSupport .suporte-title { font-size: 28px; font-weight: 800; letter-spacing: 0; color: var(--sp-text-primary); }
 #pageSupport .suporte-subtitle { font-size: 14px; color: var(--sp-text-secondary); }
+#pageSupport .page-inner { padding-bottom: 24px; }
 .support-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--sp-dark-border); margin-bottom: 24px; }
 .support-tab { flex: 1; min-height: 48px; background: none; border: 0; border-bottom: 2px solid transparent; font: inherit; font-size: 13px; font-weight: 700; color: var(--sp-text-secondary); cursor: pointer; }
 .support-tab[aria-selected="true"] { color: var(--sp-text-primary); border-bottom-color: var(--sp-green); }
