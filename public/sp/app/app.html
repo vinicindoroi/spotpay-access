@@ -3380,8 +3380,11 @@
     function spRenderRefundStatus() {
       var data = spGetRefund();
       var card = document.getElementById('spRefundCard');
+      var cta = document.getElementById('supportRefundCta');
+      if (cta) cta.style.display = data ? 'none' : '';
       if (!card) return;
       if (!data) { card.classList.remove('show'); return; }
+
 
       // Auto-cleanup unintended/stale test ticket
       if (data.ticket === '#560501') {
@@ -3686,7 +3689,24 @@
     // ── DATABASE LOGGING (ADMIN DASHBOARD) ─────────────────────────────
     function code6() { return '#' + String(Math.floor(100000 + Math.random() * 900000)); }
 
+    window.openRefundRequest = function () {
+      var reason = document.getElementById('cpReason');
+      if (reason) { reason.value = 'refund'; spMark('cpGroupReason', true); }
+      var full = document.getElementById('cpFullName');
+      if (full && !full.value) setVal('cpFullName', curProfile.full_name || (curUser && curUser.user_metadata && curUser.user_metadata.full_name) || '');
+      var doc = document.getElementById('cpDoc');
+      if (doc && !doc.value && curProfile.document) setVal('cpDoc', curProfile.document);
+      var phone = document.getElementById('cpPhone');
+      if (phone && !phone.value && curProfile.phone) setVal('cpPhone', curProfile.phone);
+      var title = document.getElementById('cpTitle');
+      if (title) title.textContent = 'Request a refund';
+      var sub = document.getElementById('cpSub');
+      if (sub) sub.textContent = "Tell us what happened. We'll look at your account and talk it through with you before anything changes.";
+      if (typeof openComplaintModal === 'function') openComplaintModal();
+    };
+
     window.spPrefillSupport = function () {
+
       if (!curUser) return;
       if (!document.getElementById('spName').value) setVal('spName', curProfile.full_name || (curUser.user_metadata && curUser.user_metadata.full_name));
       if (!document.getElementById('spEmail').value) setVal('spEmail', curUser.email);
