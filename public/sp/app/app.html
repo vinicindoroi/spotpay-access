@@ -592,42 +592,56 @@
     .page-inner { padding: 20px 16px 0; width: 100%; max-width: 480px; margin: 0 auto; }
 
     .withdraw-hero {
-      background: linear-gradient(135deg, #002c77 0%, #0070ba 100%);
-      border-radius: 20px; padding: 24px; margin-bottom: 20px; position: relative; overflow: hidden;
-      box-shadow: 0 12px 32px rgba(0, 48, 135, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: radial-gradient(circle at 85% 0%, rgba(29, 185, 84, 0.15) 0%, transparent 60%), #141414;
+      border-radius: 20px; padding: 22px 20px; margin-bottom: 16px; position: relative; overflow: hidden;
+      border: 1px solid #282828; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
     }
-    .withdraw-hero::before {
-      content:''; position:absolute; top:-30px; right:-30px; width:150px; height:150px;
-      border-radius:50%; background:rgba(255,255,255,0.08); pointer-events: none;
+    .withdraw-hero-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .withdraw-hero-label {
+      font-size: 11px; font-weight: 700; color: #9a9a9a; text-transform: uppercase; letter-spacing: 0.8px;
+      display: inline-flex; align-items: center; gap: 5px;
     }
-    .withdraw-hero-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .withdraw-hero-label { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 1px; }
     .withdraw-verified-tag {
-      font-size: 10px; font-weight: 800; text-transform: uppercase;
-      background: rgba(255,255,255,0.18); color: #fff; padding: 3px 8px; border-radius: 999px;
+      font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px;
+      background: rgba(29, 185, 84, 0.14); color: #1DB954; border: 1px solid rgba(29, 185, 84, 0.3);
+      padding: 3px 9px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;
     }
-    .withdraw-hero-amount { font-size: 44px; font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 12px; }
+    .withdraw-hero-amount {
+      font-size: 42px; font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 14px;
+      line-height: 1.05; font-variant-numeric: tabular-nums;
+    }
 
     /* Withdrawal threshold progress */
-    .threshold-wrap { margin-top: 8px; }
-    .threshold-bar { width: 100%; height: 6px; background: rgba(0,0,0,0.3); border-radius: 999px; overflow: hidden; margin-bottom: 6px; }
-    .threshold-fill { height: 100%; background: #25d366; border-radius: 999px; width: 87%; transition: width 0.4s; }
-    .threshold-desc { font-size: 11.5px; color: rgba(255,255,255,0.85); font-weight: 500; }
-    .threshold-desc strong { color: #fff; }
+    .threshold-wrap {
+      background: #0d0d0d; border: 1px solid #202020; border-radius: 12px; padding: 12px 14px;
+    }
+    .threshold-bar {
+      width: 100%; height: 6px; background: #222; border-radius: 999px; overflow: hidden; margin-bottom: 7px;
+    }
+    .threshold-fill {
+      height: 100%; background: linear-gradient(90deg, #1DB954 0%, #25d366 100%);
+      border-radius: 999px; width: 0%; transition: width 0.4s ease;
+    }
+    .threshold-desc {
+      font-size: 11.5px; color: #a0a0a0; font-weight: 500; line-height: 1.4;
+    }
+    .threshold-desc strong { color: #1DB954; font-weight: 700; }
 
     /* Trust & Guarantees Strip */
     .trust-strip {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      background: #111111; border: 1px solid #222222; border-radius: 14px;
+      padding: 10px 6px; margin-bottom: 18px;
     }
     .trust-item {
-      background: var(--sp-dark-card); border: 1px solid var(--sp-dark-border);
-      border-radius: 12px; padding: 10px 8px; text-align: center;
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      text-align: center; display: flex; flex-direction: column; align-items: center; gap: 3px; position: relative;
     }
-    .trust-icon { font-size: 16px; }
-    .trust-title { font-size: 11px; font-weight: 700; color: #fff; }
-    .trust-sub { font-size: 9.5px; color: var(--sp-text-muted); }
+    .trust-item:not(:last-child)::after {
+      content: ''; position: absolute; right: 0; top: 15%; height: 70%; width: 1px; background: #222222;
+    }
+    .trust-icon { font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    .trust-title { font-size: 11px; font-weight: 700; color: #e5e5e5; letter-spacing: -0.2px; }
+    .trust-sub { font-size: 10px; color: #777777; font-weight: 500; }
 
     .paypal-box {
       background: #ffffff; border-radius: 16px; padding: 14px 18px; margin-bottom: 20px;
@@ -1183,23 +1197,22 @@
         font-size: 10.5px;
       }
       .trust-strip {
-        gap: 5px;
         margin-bottom: 14px;
+        padding: 8px 4px;
       }
       .trust-item {
-        padding: 8px 3px;
-        border-radius: 10px;
+        padding: 4px 2px;
       }
       .trust-icon {
         font-size: 13px;
       }
       .trust-title {
-        font-size: 9.5px;
-        line-height: 1.1;
+        font-size: 10.5px;
+        line-height: 1.2;
       }
       .trust-sub {
-        font-size: 8px;
-        line-height: 1.1;
+        font-size: 9px;
+        line-height: 1.2;
       }
       .paypal-box {
         padding: 10px 12px;
@@ -1576,8 +1589,19 @@
       <!-- Balance Hero Card -->
       <div class="withdraw-hero">
         <div class="withdraw-hero-top">
-          <p class="withdraw-hero-label">Available for Cashout</p>
-          <span class="withdraw-verified-tag">Instant Payouts</span>
+          <span class="withdraw-hero-label">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+            Curator Wallet Balance
+          </span>
+          <span class="withdraw-verified-tag">
+            <svg viewBox="0 0 24 24" width="8" height="8" fill="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+            Direct Payouts
+          </span>
         </div>
         <p class="withdraw-hero-amount">$<span id="withdrawBalance">0.00</span></p>
         
@@ -1594,33 +1618,33 @@
       <!-- Trust Guarantees Strip -->
       <div class="trust-strip">
         <div class="trust-item">
-          <span class="trust-icon" style="display:flex; align-items:center; justify-content:center; color:#3b82f6;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <span class="trust-icon" style="color:#3b82f6;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               <path d="m9 12 2 2 4-4"/>
             </svg>
           </span>
           <span class="trust-title">PayPal Verified</span>
-          <span class="trust-sub">Zero transfer fees</span>
+          <span class="trust-sub">0% Transfer Fee</span>
         </div>
         <div class="trust-item">
-          <span class="trust-icon" style="display:flex; align-items:center; justify-content:center; color:#f59e0b;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <span class="trust-icon" style="color:#f59e0b;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
             </svg>
           </span>
           <span class="trust-title">Fast Settlement</span>
-          <span class="trust-sub">24–48h delivery</span>
+          <span class="trust-sub">Direct Deposit</span>
         </div>
         <div class="trust-item">
-          <span class="trust-icon" style="display:flex; align-items:center; justify-content:center; color:#10b981;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <span class="trust-icon" style="color:#10b981;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
           </span>
           <span class="trust-title">256-Bit SSL</span>
-          <span class="trust-sub">Bank-level safety</span>
+          <span class="trust-sub">Bank Encrypted</span>
         </div>
       </div>
 
@@ -1635,79 +1659,87 @@
         <div class="sp-steps" id="spKycSteps"></div>
       </div>
 
-      <!-- 24-Hour Anti-Bot Security Clearance Gate -->
-      <div class="withdraw-lock-card" id="withdrawLockCard" style="display:none; background:#141414; border:1px solid #282828; border-radius:20px; padding:26px 20px; margin-bottom:24px; text-align:center;">
-        <div style="width:60px; height:60px; border-radius:50%; background:rgba(29,185,84,0.12); border:1px solid rgba(29,185,84,0.3); display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#1DB954" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
-        </div>
-        <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(29,185,84,0.15); color:var(--sp-green); padding:4px 12px; border-radius:999px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px;">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- 24-Hour Settlement & Security Clearance Gate -->
+      <div class="withdraw-lock-card" id="withdrawLockCard" style="display:none; background:#141414; border:1px solid #262626; border-radius:18px; padding:20px 16px; margin-bottom:20px; text-align:center; box-shadow:0 8px 24px rgba(0,0,0,0.35);">
+        
+        <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(29,185,84,0.12); border:1px solid rgba(29,185,84,0.25); color:var(--sp-green); padding:4px 11px; border-radius:999px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.7px; margin-bottom:12px;">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           </svg>
-          <span>Anti-Bot Verification Clearance</span>
+          <span>Settlement Protocol In Progress</span>
         </div>
-        <h3 style="font-size:20px; font-weight:900; color:#fff; margin-bottom:8px; letter-spacing:-0.4px;">
-          Cashout Gate Unlocks on Day 2
+        
+        <h3 style="font-size:18px; font-weight:900; color:#fff; margin-bottom:6px; letter-spacing:-0.3px;">
+          PayPal Cashout Unlocks on Day 2
         </h3>
-        <p style="font-size:13px; color:#a0a0a0; line-height:1.55; margin-bottom:20px; max-width:380px; margin-left:auto; margin-right:auto;">
-          To prevent bot fraud and confirm human reviewer legitimacy, new curator accounts require a <strong>mandatory 24-hour activity maturation period</strong> before accessing live PayPal cashout gateways.
+        
+        <p style="font-size:12.5px; color:#959595; line-height:1.5; margin-bottom:16px; max-width:360px; margin-left:auto; margin-right:auto;">
+          To comply with Spotify partner security protocols, newly activated curator wallets undergo a standard <strong>24-hour verification window</strong> before initial deposit processing.
         </p>
 
         <!-- Live Countdown Pill -->
-        <div style="background:#0c0c0c; border:1px solid #222; border-radius:14px; padding:14px; margin-bottom:22px;">
-          <span style="font-size:11px; color:#777; text-transform:uppercase; letter-spacing:0.7px; font-weight:700; display:block; margin-bottom:4px;">
-            Security Maturation Window Remaining
+        <div style="background:#0b0b0b; border:1px solid #1f1f1f; border-radius:12px; padding:12px 14px; margin-bottom:16px;">
+          <span style="font-size:10px; color:#777; text-transform:uppercase; letter-spacing:0.8px; font-weight:700; display:block; margin-bottom:3px;">
+            Security Clearance Window Remaining
           </span>
-          <div style="font-size:24px; font-weight:900; color:#fff; font-variant-numeric:tabular-nums; letter-spacing:1px;" id="withdrawLockCountdown">
+          <div style="font-size:22px; font-weight:900; color:#fff; font-variant-numeric:tabular-nums; letter-spacing:0.5px;" id="withdrawLockCountdown">
             23h 59m 59s
           </div>
-          <span style="font-size:11px; color:#1DB954; font-weight:600; margin-top:4px; display:inline-flex; align-items:center; justify-content:center; gap:5px;">
-            <span style="width:6px; height:6px; border-radius:50%; background:#1DB954; display:inline-block;"></span>
-            Authenticating human curator activity
+          <span style="font-size:11px; color:#1DB954; font-weight:600; margin-top:3px; display:inline-flex; align-items:center; justify-content:center; gap:5px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#1DB954; display:inline-block; box-shadow:0 0 6px rgba(29,185,84,0.6);"></span>
+            Authenticating curator activity
           </span>
         </div>
 
         <!-- Clearance Steps -->
-        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:22px; text-align:left;">
-          <div style="display:flex; align-items:center; gap:12px; font-size:12.5px; color:#ddd; background:#181818; padding:10px 14px; border-radius:10px; border:1px solid #232323;">
-            <span style="width:22px; height:22px; border-radius:50%; background:rgba(29,185,84,0.18); color:#1DB954; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </span>
-            <span style="font-weight:600;">Curator Account Activated</span>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:18px; text-align:left;">
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:#eee; background:#181818; padding:9px 12px; border-radius:9px; border:1px solid #222;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="width:20px; height:20px; border-radius:50%; background:rgba(29,185,84,0.18); color:#1DB954; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
+              <span style="font-weight:600;">Account Accreditation</span>
+            </div>
+            <span style="font-size:10.5px; font-weight:700; color:#1DB954; background:rgba(29,185,84,0.1); padding:2px 7px; border-radius:999px;">Active</span>
           </div>
-          <div style="display:flex; align-items:center; gap:12px; font-size:12.5px; color:#ddd; background:#181818; padding:10px 14px; border-radius:10px; border:1px solid #232323;">
-            <span style="width:22px; height:22px; border-radius:50%; background:rgba(245,158,11,0.18); color:#f59e0b; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-              </svg>
-            </span>
-            <span style="font-weight:600;">Complete Day 1 Evaluations (In Progress)</span>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:#eee; background:#181818; padding:9px 12px; border-radius:9px; border:1px solid #222;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="width:20px; height:20px; border-radius:50%; background:rgba(245,158,11,0.18); color:#f59e0b; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+              </span>
+              <span style="font-weight:600;">Day 1 Music Reviews</span>
+            </div>
+            <span style="font-size:10.5px; font-weight:700; color:#f59e0b; background:rgba(245,158,11,0.1); padding:2px 7px; border-radius:999px;">In Progress</span>
           </div>
-          <div style="display:flex; align-items:center; gap:12px; font-size:12.5px; color:#888; background:#181818; padding:10px 14px; border-radius:10px; border:1px solid #232323;">
-            <span style="width:22px; height:22px; border-radius:50%; background:rgba(255,255,255,0.06); color:#777; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-            </span>
-            <span style="font-weight:500;">PayPal Cashout Unlocked Automatically</span>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:12px; color:#888; background:#181818; padding:9px 12px; border-radius:9px; border:1px solid #222;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="width:20px; height:20px; border-radius:50%; background:rgba(255,255,255,0.06); color:#777; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </span>
+              <span style="font-weight:500;">PayPal Payout Gateway</span>
+            </div>
+            <span style="font-size:10.5px; font-weight:600; color:#777; background:rgba(255,255,255,0.04); padding:2px 7px; border-radius:999px;">Day 2</span>
           </div>
         </div>
 
-        <button type="button" class="welcome-start-btn" onclick="switchTab('eval')" style="margin:0; width:100%;">
-          Complete Today's Evaluations →
+        <button type="button" class="welcome-start-btn" onclick="switchTab('eval')" style="margin:0; width:100%; font-size:14px; padding:13px;">
+          Complete Today's Reviews →
         </button>
-        <p style="font-size:11px; color:#666; margin-top:12px; display:inline-flex; align-items:center; justify-content:center; gap:5px;">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <p style="font-size:10.5px; color:#666; margin-top:10px; display:inline-flex; align-items:center; justify-content:center; gap:5px;">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
-          SEC Anti-Fraud Standard · Verified Spotify Music Network
+          FDIC Insured Banking Standards · Official Spotify Curator Partner
         </p>
       </div>
 
