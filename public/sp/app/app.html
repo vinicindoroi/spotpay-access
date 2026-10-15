@@ -753,91 +753,140 @@
     .ios-notif-msg { font-size: 13.5px; color: rgba(255, 255, 255, 0.9); line-height: 1.35; }
 
     /* ─── SUPPORT PAGE ────────────────────────────── */
-    .suporte-hero { margin-bottom: 20px; }
-    .suporte-title { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 6px; letter-spacing: -0.4px; }
-    .suporte-subtitle { font-size: 14px; color: var(--sp-text-secondary); line-height: 1.5; }
+    .suporte-hero { margin-bottom: 16px; }
+    .suporte-kicker {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--sp-green); background: rgba(29, 185, 84, 0.12); border: 1px solid rgba(29, 185, 84, 0.25);
+      padding: 3px 9px; border-radius: 999px; margin-bottom: 8px;
+    }
+    .suporte-title { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 4px; letter-spacing: -0.4px; }
+    .suporte-subtitle { font-size: 13px; color: #959595; line-height: 1.5; }
 
     .suporte-status-bar {
       display: flex; align-items: center; justify-content: space-between;
-      background: var(--sp-dark-card); border: 1px solid var(--sp-dark-border);
-      border-radius: 14px; padding: 12px 16px; margin-bottom: 20px; font-size: 12.5px; color: #fff;
+      background: #121212; border: 1px solid #242424;
+      border-radius: 14px; padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #fff;
     }
     .suporte-status-left { display: flex; align-items: center; gap: 8px; }
+    .suporte-avatars-group {
+      display: flex; align-items: center; margin-right: 2px;
+    }
+    .suporte-avatar-dot {
+      width: 22px; height: 22px; border-radius: 50%; border: 2px solid #121212;
+      background: #282828; margin-left: -6px; display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 800; color: #ccc;
+    }
+    .suporte-avatar-dot:first-child { margin-left: 0; }
     .suporte-status-dot {
-      width: 8px; height: 8px; border-radius: 50%; background: var(--sp-green);
+      width: 7px; height: 7px; border-radius: 50%; background: var(--sp-green);
       box-shadow: 0 0 8px var(--sp-green);
     }
 
-    .suporte-form-card {
-      background: var(--sp-dark-card); border-radius: 16px; padding: 22px;
-      border: 1px solid var(--sp-dark-border); margin-bottom: 22px;
+    /* Support Quick Navigation Grid */
+    .support-quick-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px;
     }
-    .suporte-form-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .suporte-form-hint { font-size: 13px; color: var(--sp-text-muted); margin-bottom: 16px; }
-    .suporte-form-group { margin-bottom: 16px; }
-    .suporte-form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--sp-text-secondary); margin-bottom: 6px; }
+    .support-quick-card {
+      background: #141414; border: 1px solid #242424; border-radius: 12px;
+      padding: 10px 8px; text-align: center; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .support-quick-card:hover {
+      background: #181818; border-color: #333; transform: translateY(-1px);
+    }
+    .support-quick-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 2px;
+    }
+    .support-quick-title {
+      font-size: 11px; font-weight: 700; color: #eee; line-height: 1.2;
+    }
+    .support-quick-sub {
+      font-size: 9.5px; color: #777;
+    }
+
+    .suporte-form-card {
+      background: #141414; border-radius: 18px; padding: 20px 18px;
+      border: 1px solid #262626; margin-bottom: 22px; box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .suporte-form-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; display: flex; align-items: center; gap: 7px; }
+    .suporte-form-hint { font-size: 12.5px; color: #888; margin-bottom: 16px; line-height: 1.45; }
+    .suporte-form-group { margin-bottom: 14px; }
+    .suporte-form-group label {
+      display: flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700;
+      color: #aaa; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px;
+    }
     .suporte-form-group input,
     .suporte-form-group select,
     .suporte-form-group textarea {
-      width: 100%; padding: 13px 15px; background: #121212; border: 1px solid #2f2f2f; border-radius: 10px;
-      color: #fff; font-size: 14.5px; font-family: inherit; outline: none; transition: border-color .15s;
+      width: 100%; padding: 12px 14px; background: #0c0c0c; border: 1px solid #242424; border-radius: 10px;
+      color: #fff; font-size: 14px; font-family: inherit; outline: none; transition: border-color .15s, box-shadow .15s;
       -webkit-appearance: none; appearance: none;
     }
     .suporte-form-group select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23b3b3b3' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='2.2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
     }
-    .suporte-form-group select option { background: #181818; color: #fff; }
-    .suporte-form-group input:focus, .suporte-form-group select:focus, .suporte-form-group textarea:focus { border-color: var(--sp-green); }
-    .suporte-form-group textarea { resize: none; height: 110px; line-height: 1.5; }
+    .suporte-form-group select option { background: #141414; color: #fff; }
+    .suporte-form-group input:focus, .suporte-form-group select:focus, .suporte-form-group textarea:focus {
+      border-color: var(--sp-green); box-shadow: 0 0 0 2px rgba(29,185,84,0.15);
+    }
+    .suporte-form-group textarea { resize: none; height: 100px; line-height: 1.45; }
     .suporte-form-group.invalid input, .suporte-form-group.invalid select, .suporte-form-group.invalid textarea { border-color: #f15e6c; }
-    .suporte-field-error { display: none; font-size: 11.5px; color: #f15e6c; margin-top: 5px; }
+    .suporte-field-error { display: none; font-size: 11px; color: #f15e6c; margin-top: 4px; }
     .suporte-form-group.invalid .suporte-field-error { display: block; }
-    .suporte-count { float: right; font-size: 11px; color: #6b6b6b; font-weight: 400; }
+    .suporte-count { margin-left: auto; font-size: 11px; color: #666; font-weight: 500; }
 
     .suporte-submit-btn {
-      width: 100%; padding: 15px; background: var(--sp-green); color: #000; border: none; border-radius: 999px;
-      font-size: 14.5px; font-weight: 800; font-family: inherit; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 8px; transition: all .15s;
+      width: 100%; padding: 14px; background: var(--sp-green); color: #000; border: none; border-radius: 12px;
+      font-size: 14px; font-weight: 800; font-family: inherit; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 7px; transition: all .15s;
     }
-    .suporte-submit-btn:hover { background: var(--sp-green-hover); }
-    .suporte-submit-btn:disabled { opacity: 0.55; cursor: default; }
+    .suporte-submit-btn:hover { background: var(--sp-green-hover); transform: translateY(-1px); }
+    .suporte-submit-btn:disabled { opacity: 0.55; cursor: default; transform: none; }
 
     .suporte-success {
-      display: none; text-align: left; padding: 22px 20px; background: #181818; border-radius: 16px;
-      border: 1px solid var(--sp-dark-border); margin-bottom: 22px;
+      display: none; text-align: left; padding: 22px 20px; background: #141414; border-radius: 16px;
+      border: 1px solid #282828; margin-bottom: 22px; box-shadow: 0 8px 24px rgba(0,0,0,0.35);
     }
     .suporte-success.show { display: block; animation: fadeIn 0.3s; }
     .suporte-success-icon {
       width: 38px; height: 38px; border-radius: 50%; background: rgba(29,185,84,0.15);
-      display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
     }
     .suporte-success-icon svg { width: 20px; height: 20px; stroke: var(--sp-green); fill: none; stroke-width: 2.4; }
     .suporte-success-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 6px; }
-    .suporte-success-msg { font-size: 13.5px; color: var(--sp-text-secondary); margin-bottom: 16px; line-height: 1.5; }
+    .suporte-success-msg { font-size: 13px; color: #999; margin-bottom: 16px; line-height: 1.5; }
     .suporte-success-btn {
-      padding: 11px 22px; background: transparent; color: #fff; border: 1px solid #3a3a3a;
-      border-radius: 999px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
+      padding: 10px 20px; background: #1f1f1f; color: #fff; border: 1px solid #333;
+      border-radius: 999px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit;
+      transition: background 0.15s;
     }
+    .suporte-success-btn:hover { background: #2a2a2a; }
 
     /* ─── FAQ ACCORDION ───────────────────────────── */
-    .faq-title { font-size: 17px; font-weight: 800; color: #fff; margin: 8px 0 14px; text-align: left; }
-    .faq-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-    .faq-item {
-      background: var(--sp-dark-card); border-radius: 14px; overflow: hidden;
-      border: 1px solid var(--sp-dark-border); transition: border-color 0.2s;
+    .faq-title {
+      font-size: 16px; font-weight: 800; color: #fff; margin: 12px 0 12px; text-align: left;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .faq-item.active { border-color: var(--sp-green); }
+    .faq-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .faq-item {
+      background: #141414; border-radius: 12px; overflow: hidden;
+      border: 1px solid #242424; transition: border-color 0.2s, background 0.2s;
+    }
+    .faq-item.active { border-color: rgba(29, 185, 84, 0.4); background: #161616; }
     .faq-question {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 18px; cursor: pointer; gap: 12px;
+      padding: 14px 16px; cursor: pointer; gap: 10px;
     }
-    .faq-question span { font-size: 14.5px; font-weight: 700; color: #fff; flex: 1; }
-    .faq-chevron { flex-shrink: 0; transition: transform 0.25s ease; color: #888; }
+    .faq-question span { font-size: 13.5px; font-weight: 700; color: #e5e5e5; flex: 1; }
+    .faq-chevron { flex-shrink: 0; transition: transform 0.25s ease; color: #777; }
     .faq-item.active .faq-chevron { transform: rotate(180deg); color: var(--sp-green); }
     .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
     .faq-item.active .faq-answer { max-height: 320px; }
-    .faq-answer p { padding: 0 18px 16px; font-size: 13.5px; color: var(--sp-text-secondary); line-height: 1.55; }
+    .faq-answer p { padding: 0 16px 14px; font-size: 13px; color: #9a9a9a; line-height: 1.5; }
 
     /* ─── MODALS & SHEETS ─────────────────────────── */
     .sp-modal {
@@ -1856,22 +1905,70 @@
   <div class="page" id="pageSupport">
     <div class="page-inner">
       <div class="suporte-hero">
-        <h2 class="suporte-title">Curator Support</h2>
-        <p class="suporte-subtitle">Our dedicated payout assistance team is available 24/7 to resolve any questions.</p>
+        <div class="suporte-kicker">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          Curator Concierge &amp; Help Desk
+        </div>
+        <h2 class="suporte-title">Support &amp; Assistance</h2>
+        <p class="suporte-subtitle">Direct partner support, payout guidelines, and curator assistance available 24/7.</p>
       </div>
 
+      <!-- Live Support Status Pill -->
       <div class="suporte-status-bar">
         <div class="suporte-status-left">
+          <div class="suporte-avatars-group">
+            <span class="suporte-avatar-dot" style="background:#2d4a3e; color:#1DB954;">JD</span>
+            <span class="suporte-avatar-dot" style="background:#3b3353; color:#a78bfa;">AL</span>
+            <span class="suporte-avatar-dot" style="background:#4a3b2c; color:#fbbf24;">SK</span>
+          </div>
           <span class="suporte-status-dot"></span>
-          <span>Help Desk Online</span>
+          <span style="font-weight:700; font-size:12px;">Live Desk Active</span>
         </div>
-        <span style="color:var(--sp-text-secondary); font-size:11.5px;">Avg response: <strong>< 15 mins</strong></span>
+        <span style="color:var(--sp-text-secondary); font-size:11.5px;">Avg reply: <strong>&lt; 15 mins</strong></span>
       </div>
 
-      <!-- Refund Tracker Card -->
+      <!-- Quick Resolution Channels Grid -->
+      <div class="support-quick-grid">
+        <div class="support-quick-card" onclick="document.getElementById('faqSection').scrollIntoView({behavior:'smooth'})">
+          <div class="support-quick-icon" style="background:rgba(29,185,84,0.15); color:#1DB954;">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <span class="support-quick-title">Instant FAQs</span>
+          <span class="support-quick-sub">Payouts &amp; rules</span>
+        </div>
+
+        <div class="support-quick-card" onclick="switchTab('withdraw')">
+          <div class="support-quick-icon" style="background:rgba(59,130,246,0.15); color:#3b82f6;">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+          </div>
+          <span class="support-quick-title">Cashout Gate</span>
+          <span class="support-quick-sub">24h maturation</span>
+        </div>
+
+        <div class="support-quick-card" onclick="document.getElementById('supportFormCard').scrollIntoView({behavior:'smooth'})">
+          <div class="support-quick-icon" style="background:rgba(245,158,11,0.15); color:#f59e0b;">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <span class="support-quick-title">Open Ticket</span>
+          <span class="support-quick-sub">Senior specialist</span>
+        </div>
+      </div>
+
+      <!-- Active Ticket Tracker Card (Dynamic) -->
       <div class="sp-refund-card" id="spRefundCard">
         <div class="sp-refund-top">
-          <span class="sp-refund-label">Ticket <strong id="spRefundTicket">#000000</strong></span>
+          <span class="sp-refund-label">Ticket Reference <strong id="spRefundTicket">#000000</strong></span>
           <div style="display: flex; align-items: center; gap: 8px;">
             <span class="sp-refund-badge" id="spRefundBadge">Pending</span>
             <button type="button" onclick="spCancelRefund()" title="Dismiss / Close ticket" style="background: transparent; border: none; color: #888; font-size: 16px; cursor: pointer; padding: 2px 6px; line-height: 1; border-radius: 4px;">✕</button>
@@ -1881,55 +1978,154 @@
         <p class="sp-refund-desc" id="spRefundDesc">Your request was logged and is currently in the finance queue.</p>
         <div class="sp-steps" id="spRefundSteps"></div>
         <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #242424; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
-          <span style="font-size: 11px; color: #777;">Didn't request this or want to dismiss?</span>
+          <span style="font-size: 11px; color: #777;">Need to withdraw this ticket?</span>
           <button type="button" onclick="spCancelRefund()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ddd; border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit;">Cancel &amp; Close Ticket</button>
         </div>
       </div>
 
-      <!-- Support Form Card -->
-      <div class="suporte-form-card" id="supportFormCard">
-        <p class="suporte-form-title">Send a Direct Message</p>
-        <p class="suporte-form-hint">Fill in the details below and a team specialist will follow up by email.</p>
-        
-        <div class="suporte-form-group" id="spGroupName">
-          <label for="spName">Full Name</label>
-          <input type="text" id="spName" placeholder="Your name" autocomplete="name" required>
-          <span class="suporte-field-error">Please enter your name.</span>
+      <!-- FAQ Section (Prioritized for instant answers) -->
+      <div id="faqSection">
+        <div class="faq-title">
+          <span>Curator Knowledge Base &amp; FAQs</span>
+          <span style="font-size:11px; color:#1DB954; font-weight:600;">5 articles</span>
         </div>
-        <div class="suporte-form-group" id="spGroupEmail">
-          <label for="spEmail">Email Address</label>
-          <input type="email" id="spEmail" placeholder="you@email.com" autocomplete="email" inputmode="email" required>
-          <span class="suporte-field-error">Please enter a valid email.</span>
+        <div class="faq-list" id="faqList">
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>How does curator earnings and PayPal cashout work?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-answer"><p>Curators earn verified rewards for previewing and rating daily song submissions. Payouts accumulate in your wallet and can be transferred directly to your PayPal account once you reach the $500.00 minimum settlement threshold.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>Why is there a 24-hour maturation gate on new accounts?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-answer"><p>To comply with Spotify partner security protocols and prevent automated bot fraud, all newly activated curator wallets require a standard 24-hour activity maturation window. Once Day 2 begins, your PayPal withdrawal gate unlocks automatically.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>What is the minimum cashout threshold?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-answer"><p>The minimum cashout threshold is set at $500.00. Completing your 10 daily evaluations allows you to reach and exceed this milestone rapidly with zero platform fees.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>When do my 10 daily evaluation slots reset?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-answer"><p>Your evaluation allowance resets every night at midnight. Evaluating songs daily maintains your curator streak, which protects your standing and unlocks higher-tier rewards.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>Are there any transfer or withdrawal fees on PayPal?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="faq-answer"><p>Zero fees. Spotify Partner Network absorbs all transaction processing costs, ensuring you receive 100% of your accumulated curator balance upon payout.</p></div>
+          </div>
         </div>
-        <div class="suporte-form-group" id="spGroupSubject">
-          <label for="spSubject">Topic</label>
-          <select id="spSubject">
-            <option value="">Select a topic</option>
-            <option>Withdrawal / Cashout Query</option>
-            <option>Balance Update Assistance</option>
-            <option>Music Evaluation Questions</option>
-            <option>Account & Settings</option>
-            <option>Other Requests</option>
-          </select>
-          <span class="suporte-field-error">Please select a topic.</span>
-        </div>
-        <div class="suporte-form-group" id="spGroupMessage">
-          <label for="spMessage">Message <span class="suporte-count" id="spCount">0/500</span></label>
-          <textarea id="spMessage" maxlength="500" placeholder="How can our support team assist you today?"></textarea>
-          <span class="suporte-field-error">Please describe your question.</span>
-        </div>
-        <button class="suporte-submit-btn" id="spSubmitBtn" onclick="submitSupport()">
-          <span id="spSubmitLabel">Send Message</span>
-        </button>
       </div>
 
-      <!-- Support Success -->
+      <!-- Direct Message Support Form Card -->
+      <div class="suporte-form-card" id="supportFormCard">
+        <p class="suporte-form-title">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Direct Specialist Assistance
+        </p>
+        <p class="suporte-form-hint">Have a specific question not covered in our FAQ? Send a priority message directly to our senior curator desk.</p>
+        
+        <div class="suporte-form-group" id="spGroupName">
+          <label for="spName">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Full Name
+          </label>
+          <input type="text" id="spName" placeholder="Your full name" autocomplete="name" required>
+          <span class="suporte-field-error">Please enter your name.</span>
+        </div>
+
+        <div class="suporte-form-group" id="spGroupEmail">
+          <label for="spEmail">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Registered Email Address
+          </label>
+          <input type="email" id="spEmail" placeholder="you@email.com" autocomplete="email" inputmode="email" required>
+          <span class="suporte-field-error">Please enter a valid email address.</span>
+        </div>
+
+        <div class="suporte-form-group" id="spGroupSubject">
+          <label for="spSubject">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+            Inquiry Category
+          </label>
+          <select id="spSubject">
+            <option value="">Select a category</option>
+            <option>Withdrawal &amp; Cashout Assistance</option>
+            <option>24h Security Maturation Inquiries</option>
+            <option>Balance &amp; Reward Clarification</option>
+            <option>Daily Music Evaluation Help</option>
+            <option>Account Credentials &amp; Verification</option>
+            <option>General Support Question</option>
+          </select>
+          <span class="suporte-field-error">Please select an inquiry topic.</span>
+        </div>
+
+        <div class="suporte-form-group" id="spGroupMessage">
+          <label for="spMessage">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            Message Details
+            <span class="suporte-count" id="spCount">0/500</span>
+          </label>
+          <textarea id="spMessage" maxlength="500" placeholder="Please describe how our curator support specialists can assist you..."></textarea>
+          <span class="suporte-field-error">Please enter at least 5 characters.</span>
+        </div>
+
+        <button class="suporte-submit-btn" id="spSubmitBtn" onclick="submitSupport()">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          <span id="spSubmitLabel">Submit Support Request</span>
+        </button>
+
+        <p style="font-size:11px; color:#666; margin-top:12px; text-align:center; display:flex; align-items:center; justify-content:center; gap:5px;">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Official Partner Desk · Protected by 256-Bit SSL Encryption
+        </p>
+      </div>
+
+      <!-- Support Success Card -->
       <div class="suporte-success" id="supportSuccess">
         <div class="suporte-success-icon">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <h3 class="suporte-success-title">Support Ticket Created</h3>
-        <p class="suporte-success-msg">Ticket Reference <strong id="spTicket">#000000</strong> — our senior curator agent will reply directly to <span id="spSentEmail">your email</span> shortly.</p>
+        <h3 class="suporte-success-title">Support Ticket Logged</h3>
+        <p class="suporte-success-msg">Ticket Reference <strong id="spTicket">#000000</strong> — our senior curator agent has queued your inquiry and will reply directly to <span id="spSentEmail">your email</span> shortly.</p>
         <button class="suporte-success-btn" onclick="resetSupportForm()">Create Another Ticket</button>
       </div>
 
@@ -2003,45 +2199,7 @@
         </div>
       </div>
 
-      <!-- FAQ Section -->
-      <h2 class="faq-title">Frequently Asked Questions</h2>
-      <div class="faq-list" id="faqList">
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>How does the Spotify Rewards program pay curators?</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="faq-answer"><p>Curators earn direct payouts for previewing and rating songs. Payouts accumulate in your verified balance and can be transferred to your PayPal account once you reach the minimum cashout threshold.</p></div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>How long do PayPal transfers take to process?</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="faq-answer"><p>Standard PayPal transfers typically settle within 24 to 48 business hours after compliance approval. You'll receive real-time notifications directly on your device when funds are dispatched.</p></div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>What is the minimum cashout amount?</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="faq-answer"><p>The minimum cashout threshold is $500.00. Completing your 10 daily evaluations allows you to reach and exceed this threshold rapidly.</p></div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Can I evaluate more songs tomorrow?</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="faq-answer"><p>Yes! Your 10 daily evaluation slots reset every midnight. Returning daily also keeps your active curator streak alive for multiplier bonuses.</p></div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Why is identity verification required for withdrawals?</span>
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="faq-answer"><p>Identity verification guarantees that all evaluations are performed by genuine human listeners, preventing automated farming and preserving the integrity of music industry analytics.</p></div>
-        </div>
-      </div>
+
     </div>
     
     <footer class="footer" style="margin-top:auto;padding-top:24px">
