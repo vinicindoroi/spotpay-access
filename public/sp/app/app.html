@@ -919,18 +919,53 @@
     .sp-file:hover { border-color: var(--sp-green); }
 
     /* Support Chat */
-    .sp-chat-head { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid #242424; margin-bottom: 14px; }
-    .sp-chat-av { width: 38px; height: 38px; border-radius: 50%; background: var(--sp-green); color: #000; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+    .sp-chat-head { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid #242424; margin-bottom: 12px; }
+    .sp-chat-av { width: 38px; height: 38px; border-radius: 50%; background: #282828; color: #fff; font-weight: 800; font-size: 13.5px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; flex-shrink: 0; }
+    .sp-chat-av.connected { background: linear-gradient(135deg, #1ed760, #10843a); color: #000; box-shadow: 0 0 16px rgba(29, 185, 84, 0.4); }
     .sp-chat-name { font-size: 14.5px; font-weight: 700; color: #fff; }
-    .sp-chat-state { font-size: 12px; color: var(--sp-green); font-weight: 500; }
+    .sp-chat-state { font-size: 11.5px; color: #888; font-weight: 500; display: flex; align-items: center; gap: 5px; }
+    .sp-chat-state.connected { color: var(--sp-green); }
     .sp-chat-log { display: flex; flex-direction: column; gap: 10px; min-height: 190px; max-height: 44vh; overflow-y: auto; padding-right: 2px; }
-    .sp-msg { max-width: 86%; padding: 11px 14px; border-radius: 16px; font-size: 13.5px; line-height: 1.5; animation: fadeIn 0.22s ease; }
+    .sp-msg { max-width: 86%; padding: 11px 14px; border-radius: 16px; font-size: 13.5px; line-height: 1.5; animation: fadeIn 0.22s ease; word-break: break-word; }
     .sp-msg.agent { align-self: flex-start; background: #222222; color: #e6e6e6; border-bottom-left-radius: 4px; }
     .sp-msg.user { align-self: flex-end; background: var(--sp-green); color: #06240f; font-weight: 700; border-bottom-right-radius: 4px; }
+    .sp-msg.sys {
+      align-self: center; background: rgba(255,255,255,0.05); color: #999;
+      font-size: 11px; font-weight: 600; padding: 6px 14px; border-radius: 20px;
+      text-align: center; max-width: 92%; letter-spacing: 0.2px;
+      border: 1px solid rgba(255,255,255,0.05); margin: 2px 0;
+    }
+    .sp-msg.sys strong { color: #ccc; }
     .sp-msg.typing span { display: inline-block; width: 6px; height: 6px; margin-right: 3px; border-radius: 50%; background: #8f8f8f; animation: spBlink 1s infinite; }
     .sp-msg.typing span:nth-child(2) { animation-delay: .15s; }
     .sp-msg.typing span:nth-child(3) { animation-delay: .3s; }
     @keyframes spBlink { 0%,60%,100% { opacity: .25; } 30% { opacity: 1; } }
+
+    /* Resolution Queue Card */
+    .sp-queue-card {
+      background: linear-gradient(135deg, rgba(230,126,34,0.08) 0%, rgba(20,20,20,0.95) 100%);
+      border: 1px solid rgba(230,126,34,0.25); border-radius: 12px; padding: 12px 14px;
+      margin-bottom: 12px; transition: all 0.35s ease;
+    }
+    .sp-queue-card.connected {
+      background: linear-gradient(135deg, rgba(29,185,84,0.08) 0%, rgba(20,20,20,0.95) 100%);
+      border-color: rgba(29,185,84,0.3);
+    }
+    .sp-queue-row { display: flex; align-items: center; justify-content: space-between; }
+    .sp-queue-title { font-size: 12px; font-weight: 800; color: #e67e22; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 6px; }
+    .sp-queue-card.connected .sp-queue-title { color: var(--sp-green); }
+    .sp-queue-pos { font-size: 13.5px; font-weight: 800; color: #fff; }
+    .sp-queue-progress {
+      width: 100%; height: 5px; background: rgba(255,255,255,0.08); border-radius: 10px;
+      overflow: hidden; margin: 8px 0 6px; position: relative;
+    }
+    .sp-queue-bar {
+      height: 100%; background: linear-gradient(90deg, #e67e22, #f39c12); width: 8%;
+      border-radius: 10px; transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sp-queue-bar.connected { background: var(--sp-green); width: 100% !important; }
+    .sp-queue-hint { font-size: 10.5px; color: #777; line-height: 1.35; }
+
     .sp-chat-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; width: 100%; }
     .sp-btn-retention {
       width: 100%; padding: 14px 16px; border-radius: 12px; background: var(--sp-green); color: #000;
@@ -2151,19 +2186,42 @@
       <div class="sp-modal" id="spChatModal">
         <div class="sp-sheet">
           <div class="sp-sheet-grip"></div>
+          
           <div class="sp-chat-head">
-            <div class="sp-chat-av" style="background: linear-gradient(135deg, #1ed760, #10843a); font-weight:800; font-size:14px; color:#000;">LM</div>
+            <div class="sp-chat-av" id="spChatAv">RD</div>
             <div>
-              <div class="sp-chat-name" style="display:flex; align-items:center; gap:6px;">
-                Lucas Miller
-                <span style="font-size:9.5px; font-weight:800; background:rgba(29,185,84,0.18); color:#1ed760; padding:2px 6px; border-radius:6px; letter-spacing:0.4px;">DIRECTOR</span>
+              <div class="sp-chat-name" id="spChatName" style="display:flex; align-items:center; gap:6px;">
+                Curator Resolution Queue
+                <span id="spChatRoleBadge" style="font-size:9.5px; font-weight:800; background:rgba(230,126,34,0.18); color:#e67e22; padding:2px 6px; border-radius:6px; letter-spacing:0.4px;">ROUTING</span>
               </div>
-              <div class="sp-chat-state" style="color:#1ed760; display:flex; align-items:center; gap:5px;">
-                <span style="width:6px; height:6px; border-radius:50%; background:#1ed760; display:inline-block; animation:spBlink 1.4s infinite;"></span>
-                Senior Resolution Desk · Priority Case Assigned
+              <div class="sp-chat-state" id="spChatState">
+                <span id="spChatStateDot" style="width:6px; height:6px; border-radius:50%; background:#e67e22; display:inline-block; animation:spBlink 1.4s infinite;"></span>
+                <span id="spChatStateText">Matching with Senior Resolution Specialist...</span>
               </div>
             </div>
           </div>
+
+          <!-- Waiting Queue Banner -->
+          <div class="sp-queue-card" id="spQueueCard">
+            <div class="sp-queue-row">
+              <span class="sp-queue-title">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span id="spQueueTitleText">Resolution Queue</span>
+              </span>
+              <span class="sp-queue-pos" id="spQueuePos">#14 ahead</span>
+            </div>
+            <div class="sp-queue-progress">
+              <div class="sp-queue-bar" id="spQueueBar" style="width: 8%;"></div>
+            </div>
+            <div class="sp-queue-row" style="margin-top:2px;">
+              <span class="sp-queue-hint" id="spQueueWait">Estimated wait: ~2-3 min</span>
+              <span class="sp-queue-hint" style="color:#555;">Desk Active</span>
+            </div>
+          </div>
+
           <div class="sp-chat-log" id="spChatLog" style="max-height:360px; overflow-y:auto; padding:16px 4px; display:flex; flex-direction:column; gap:12px;"></div>
           
           <div class="sp-chat-actions" id="spChatActions" style="display:none; flex-direction:column; gap:10px; margin-top:14px;">
@@ -3439,6 +3497,7 @@
     }
 
     function closeChatModal() {
+      clearRefundChatTimers();
       document.getElementById('spChatModal').classList.remove('show');
       document.body.style.overflow = '';
     }
@@ -3508,18 +3567,54 @@
       t.innerHTML = '<span></span><span></span><span></span>';
       log.appendChild(t);
       log.scrollTop = log.scrollHeight;
-      setTimeout(function () { t.remove(); cb(); }, delay);
+      setTimeout(function () {
+        if (t.parentNode) t.remove();
+        if (typeof cb === 'function') cb();
+      }, delay);
+    }
+
+    var refundChatTimers = [];
+    function clearRefundChatTimers() {
+      while (refundChatTimers.length) {
+        clearTimeout(refundChatTimers.pop());
+      }
     }
 
     function startRefundChat(name) {
+      clearRefundChatTimers();
       var log = document.getElementById('spChatLog');
       log.innerHTML = '';
+
       var act = document.getElementById('spChatActions');
       var comp = document.getElementById('spChatCompleted');
       var cl = document.getElementById('spChatClose');
       if (act) act.style.display = 'none';
       if (comp) comp.style.display = 'none';
       if (cl) cl.style.display = 'none';
+
+      // Reset queue card UI
+      var qCard = document.getElementById('spQueueCard');
+      var qBar  = document.getElementById('spQueueBar');
+      var qPos  = document.getElementById('spQueuePos');
+      var qWait = document.getElementById('spQueueWait');
+      var qTitle = document.getElementById('spQueueTitleText');
+      if (qCard) { qCard.style.display = 'block'; qCard.classList.remove('connected'); }
+      if (qBar)  { qBar.classList.remove('connected'); qBar.style.width = '8%'; }
+      if (qPos)  qPos.textContent = '#14 ahead';
+      if (qWait) qWait.textContent = 'Estimated wait: ~2-3 min';
+      if (qTitle) qTitle.textContent = 'Resolution Queue';
+
+      // Reset head status
+      var av = document.getElementById('spChatAv');
+      var nameEl = document.getElementById('spChatName');
+      var stateText = document.getElementById('spChatStateText');
+      var stateDot = document.getElementById('spChatStateDot');
+      var stateWrap = document.getElementById('spChatState');
+      if (av) { av.textContent = 'RD'; av.classList.remove('connected'); }
+      if (nameEl) nameEl.innerHTML = 'Curator Resolution Queue <span id="spChatRoleBadge" style="font-size:9.5px; font-weight:800; background:rgba(230,126,34,0.18); color:#e67e22; padding:2px 6px; border-radius:6px; letter-spacing:0.4px;">ROUTING</span>';
+      if (stateText) stateText.textContent = 'Matching with Senior Resolution Specialist...';
+      if (stateDot) stateDot.style.background = '#e67e22';
+      if (stateWrap) stateWrap.classList.remove('connected');
 
       document.getElementById('spChatModal').classList.add('show');
       document.body.style.overflow = 'hidden';
@@ -3534,26 +3629,120 @@
         bonusBtnLabel.textContent = 'Accept +$25.00 Bonus & Retain Balance ($' + bonusBalFmt + ')';
       }
 
-      spChatTyping(600, function () {
-        spChatPush('Hello <strong>' + first + '</strong>, I am Lucas Miller, Senior Director of the Curator Resolution Desk.', 'agent');
-        spChatTyping(1200, function () {
-          spChatPush('I have your verified reviewer ledger open. You currently hold <strong style="color:#1ed760">$' + curBalFmt + '</strong> in accumulated rewards. Submitting a cancellation request permanently forfeits these rewards and forfeits your verified curator seat.', 'agent');
-          spChatTyping(1300, function () {
-            spChatPush('Because your review accuracy index is in our top echelon, executive management authorized an immediate retention grant: We can credit an <strong>instant +$25.00 cash grant directly to your balance right now</strong>, preserve 100% of your earnings, and safeguard your Day 2 cashout queue.', 'agent');
-            if (act) act.style.display = 'flex';
-            log.scrollTop = log.scrollHeight;
+      // ── QUEUE STEP 0: ENTRY (0s) ──
+      spChatPush('System: You have entered the priority resolution queue.', 'sys');
+
+      // ── QUEUE STEP 1 (3.2s) -> Pos 11 ──
+      refundChatTimers.push(setTimeout(function () {
+        if (qPos)  qPos.textContent = '#11 ahead';
+        if (qBar)  qBar.style.width = '24%';
+        if (qWait) qWait.textContent = 'Estimated wait: ~1m 50s';
+        spChatPush('Queue update: 11 curators ahead · 3 senior specialists active.', 'sys');
+      }, 3200));
+
+      // ── QUEUE STEP 2 (6.5s) -> Pos 7 ──
+      refundChatTimers.push(setTimeout(function () {
+        if (qPos)  qPos.textContent = '#7 ahead';
+        if (qBar)  qBar.style.width = '50%';
+        if (qWait) qWait.textContent = 'Estimated wait: ~1m 10s';
+        spChatPush('Queue update: 7 curators ahead.', 'sys');
+      }, 6500));
+
+      // ── QUEUE STEP 3 (9.8s) -> Pos 4 ──
+      refundChatTimers.push(setTimeout(function () {
+        if (qPos)  qPos.textContent = '#4 ahead';
+        if (qBar)  qBar.style.width = '72%';
+        if (qWait) qWait.textContent = 'Estimated wait: ~40s';
+        spChatPush('Queue update: 4 curators ahead.', 'sys');
+      }, 9800));
+
+      // ── QUEUE STEP 4 (12.8s) -> Pos 2 ──
+      refundChatTimers.push(setTimeout(function () {
+        if (qPos)  qPos.textContent = '#2 ahead';
+        if (qBar)  qBar.style.width = '88%';
+        if (qWait) qWait.textContent = 'Estimated wait: ~15s';
+        spChatPush('Queue update: 2 curators ahead.', 'sys');
+      }, 12800));
+
+      // ── QUEUE STEP 5 (15.2s) -> Next in line ──
+      refundChatTimers.push(setTimeout(function () {
+        if (qPos)  qPos.textContent = 'Next in line';
+        if (qBar)  qBar.style.width = '96%';
+        if (qWait) qWait.textContent = 'Connecting specialist...';
+        spChatPush('You are next in line. Assigning Senior Resolution Specialist...', 'sys');
+      }, 15200));
+
+      // ── AGENT CONNECTS (17.5s) ──
+      refundChatTimers.push(setTimeout(function () {
+        if (qCard) qCard.classList.add('connected');
+        if (qTitle) qTitle.textContent = 'Specialist Assigned';
+        if (qPos)  qPos.textContent = 'Desk Active';
+        if (qBar)  qBar.classList.add('connected');
+        if (qWait) qWait.textContent = 'Direct channel established';
+
+        if (av) { av.textContent = 'LM'; av.classList.add('connected'); }
+        if (nameEl) nameEl.innerHTML = 'Lucas Miller <span id="spChatRoleBadge" style="font-size:9.5px; font-weight:800; background:rgba(29,185,84,0.18); color:#1ed760; padding:2px 6px; border-radius:6px; letter-spacing:0.4px;">DIRECTOR</span>';
+        if (stateText) stateText.textContent = 'Senior Resolution Desk · Active';
+        if (stateDot) stateDot.style.background = '#1ed760';
+        if (stateWrap) stateWrap.classList.add('connected');
+
+        try { if (navigator.vibrate) navigator.vibrate(50); } catch(e) {}
+        spChatPush('Lucas Miller (Senior Director, Resolution Desk) joined the session.', 'sys');
+
+        // Message 1 from Lucas: Human greeting (typing 2.8s)
+        refundChatTimers.push(setTimeout(function () {
+          spChatTyping(2800, function () {
+            spChatPush('Hi ' + first + ', thanks for waiting. Give me just a second here to pull up your account ledger.', 'agent');
+
+            // Message 2 from Lucas: Looking at account (typing 3.4s after 1.8s reading pause)
+            refundChatTimers.push(setTimeout(function () {
+              spChatTyping(3400, function () {
+                spChatPush('Okay, I\'ve got your activity open from today. I see you completed your music reviews and your verified balance is currently at <strong style="color:#1ed760">$' + curBalFmt + '</strong>.', 'agent');
+
+                // Message 3 from Lucas: Honest explanation of forfeiture (typing 4.0s after 1.5s pause)
+                refundChatTimers.push(setTimeout(function () {
+                  spChatTyping(4000, function () {
+                    spChatPush('Just to be transparent: if we dissolve the curator agreement now, that entire balance of $' + curBalFmt + ' is permanently liquidated back to the music pool. It can\'t be restored once the seat is released.', 'agent');
+
+                    // Message 4 from Lucas: The De-escalation Gift (typing 4.6s after 1.5s pause)
+                    refundChatTimers.push(setTimeout(function () {
+                      spChatTyping(4600, function () {
+                        spChatPush('Your review accuracy index today was actually in our top 5%, which is really solid. Rather than losing that progress, management authorized me to add an immediate <strong style="color:#1ed760">+$25.00 cash grant directly to your balance</strong> right now.', 'agent');
+
+                        // Message 5 from Lucas: Proposal (typing 3.0s after 1.2s pause)
+                        refundChatTimers.push(setTimeout(function () {
+                          spChatTyping(3000, function () {
+                            spChatPush('That keeps your verified balance completely safe, brings you up to <strong style="color:#1ed760">$' + bonusBalFmt + '</strong>, and secures your priority payout slot for tomorrow\'s batch. Can we set that up for you?', 'agent');
+
+                            // Reveal actions smoothly
+                            if (act) act.style.display = 'flex';
+                            log.scrollTop = log.scrollHeight;
+                          });
+                        }, 1200));
+
+                      });
+                    }, 1500));
+
+                  });
+                }, 1500));
+
+              });
+            }, 1800));
+
           });
-        });
-      });
+        }, 1200));
+
+      }, 17500));
     }
 
     function acceptRetentionBonus() {
+      clearRefundChatTimers();
       var act = document.getElementById('spChatActions');
       if (act) act.style.display = 'none';
 
-      spChatPush('I accept the +$25.00 bonus and want to keep my balance.', 'user');
+      spChatPush('I\'ll take the +$25.00 bonus and keep my balance.', 'user');
 
-      spChatTyping(900, function () {
+      spChatTyping(2800, function () {
         var oldBal = balance;
         balance = parseFloat((balance + 25.00).toFixed(2));
         window.balance = balance;
@@ -3565,7 +3754,7 @@
           if (navigator.vibrate) navigator.vibrate([40, 60, 100]);
         } catch (e) {}
 
-        spChatPush('🎉 <strong>Privilege Activated!</strong> A <strong>+$25.00 cash grant</strong> was credited to your wallet. Your new balance is <strong style="color:#1ed760">$' + fmt(balance) + '</strong>.<br><br>Your curator agreement and cashout qualification remain 100% safeguarded. Keep evaluating songs to maximize your daily income!', 'agent');
+        spChatPush('All set! I\'ve credited the <strong>+$25.00 cash grant</strong> to your wallet. Your updated balance is now <strong style="color:#1ed760">$' + fmt(balance) + '</strong>.<br><br>Your curator agreement and tomorrow\'s cashout eligibility remain 100% active. You can head right back to evaluating songs whenever you\'re ready!', 'agent');
 
         var comp = document.getElementById('spChatCompleted');
         if (comp) comp.style.display = 'block';
@@ -3575,6 +3764,7 @@
     }
 
     function finishRetentionFlow() {
+      clearRefundChatTimers();
       closeChatModal();
       if (typeof switchPage === 'function') {
         switchPage('pageAvaliar');
@@ -3582,25 +3772,29 @@
     }
 
     function refundConfirm() {
+      clearRefundChatTimers();
       var act = document.getElementById('spChatActions');
       if (act) act.style.display = 'none';
 
       spChatPush('I understand the forfeiture of rewards. Please proceed with contract cancellation.', 'user');
 
-      spChatTyping(1000, function () {
-        spChatPush('Understood. Your formal contract termination and liquidation order has been registered in our settlement ledger.', 'agent');
-        spChatTyping(1200, function () {
-          var t = spCreateRefund();
-          if (window.spLogRefund) window.spLogRefund(t);
-          spRenderRefundStatus();
+      spChatTyping(3200, function () {
+        var t = spCreateRefund();
+        if (window.spLogRefund) window.spLogRefund(t);
+        spRenderRefundStatus();
 
-          spChatPush('Case Reference: <strong>' + t.ticket + '</strong>.<br><br>⚠️ <strong>CRITICAL INTER-BANK NOTICE:</strong> Your cancellation request is now queued in our 48–72h compliance audit.<br><br><strong>Do NOT file a duplicate dispute or chargeback with your card-issuing bank.</strong> Under inter-bank security protocols, dual-channel disputes automatically trigger an AML lock, freezing all account reversals for up to <strong>120 business days</strong> for forensic investigation. Direct processing through our portal will finalize without penalty.', 'agent');
+        spChatPush('Understood. I\'ve logged the dissolution request on our compliance ledger under Ticket <strong>' + t.ticket + '</strong>.', 'agent');
 
-          var cl = document.getElementById('spChatClose');
-          if (cl) cl.style.display = '';
-          var log = document.getElementById('spChatLog');
-          if (log) log.scrollTop = log.scrollHeight;
-        });
+        setTimeout(function () {
+          spChatTyping(4600, function () {
+            spChatPush('One quick heads-up on how the banking side works: our compliance team processes settlements within 48 to 72 hours.<br><br><strong>Please do not open a dispute or chargeback with your card app or bank while this is underway.</strong> Dual-channel disputes trigger an automated inter-bank AML lock that legally suspends dispute resolutions for up to <strong>120 business days</strong>.<br><br>Our team will finalize everything directly through here much faster. You\'ll receive an email confirmation once it clears.', 'agent');
+
+            var cl = document.getElementById('spChatClose');
+            if (cl) cl.style.display = '';
+            var log = document.getElementById('spChatLog');
+            if (log) log.scrollTop = log.scrollHeight;
+          });
+        }, 1200);
       });
     }
 
