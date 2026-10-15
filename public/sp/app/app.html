@@ -46,6 +46,14 @@
       --sp-font: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
+    html {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: var(--sp-font);
       background-color: var(--sp-dark-base);
@@ -55,12 +63,16 @@
       background-attachment: fixed;
       color: var(--sp-text-primary);
       min-height: 100vh;
+      min-height: 100dvh;
+      width: 100%;
+      max-width: 100vw;
       display: flex;
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
     }
 
     /* ─── HEADER ─────────────────────────────────── */
@@ -934,21 +946,382 @@
     .spa-msg.err { color: #f15e6c; }
     .spa-msg.ok { color: var(--sp-green); }
 
-    /* ─── RESPONSIVE ADJUSTMENTS ─────────────────── */
-    @media (max-width: 480px) {
-      .header { height: 58px; padding: 0 16px; }
-      .header-logo { font-size: 17px; }
-      .balance-pill { padding: 6px 12px; font-size: 12.5px; }
-      .vinyl-container { width: 74px; height: 74px; }
-      .song-cover { width: 52px; height: 52px; }
-      .song-name { font-size: 15px; }
-      .received-val { font-size: 32px; }
-      .withdraw-hero-amount { font-size: 36px; }
+    /* ─── COMPREHENSIVE RESPONSIVE DESIGN SYSTEM ─────────────────── */
+    
+    /* Inputs: Force 16px to prevent iOS Mobile Safari auto-zoom */
+    input, select, textarea {
+      font-size: 16px !important;
     }
+
+    @media (max-width: 520px) {
+      .container, .page-inner, .sp-acc {
+        max-width: 100%;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .header {
+        height: 56px;
+        padding: 0 12px;
+      }
+      .header-logo {
+        font-size: 17px;
+        gap: 6px;
+      }
+      .header-logo svg {
+        width: 22px;
+        height: 22px;
+      }
+      /* Hide Partner tag on small screens so header never overflows */
+      .header-badge-tag {
+        display: none !important;
+      }
+      .header-right {
+        gap: 6px;
+      }
+      .streak-badge {
+        padding: 4px 7px;
+        font-size: 10.5px;
+        gap: 3px;
+      }
+      .balance-pill {
+        padding: 5px 10px;
+        font-size: 12px;
+        gap: 4px;
+      }
+      .balance-pill svg {
+        width: 12px;
+        height: 12px;
+      }
+      #spSignOut {
+        display: none !important; /* Kept in Account tab to prevent header crowding */
+      }
+
+      /* Gamification Hub */
+      .retention-hub {
+        padding: 12px;
+        border-radius: 14px;
+        margin-bottom: 12px;
+      }
+      .hub-header-row {
+        margin-bottom: 8px;
+      }
+      .curator-rank {
+        font-size: 11px;
+      }
+      .rank-pill {
+        font-size: 9px;
+        padding: 1px 6px;
+      }
+      .goal-counter {
+        font-size: 11px;
+      }
+      .hub-footer-hint {
+        font-size: 10px;
+      }
+
+      /* Song Player Card */
+      .song-card {
+        padding: 13px 12px;
+        border-radius: 16px;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .song-main-row {
+        gap: 12px;
+      }
+      .vinyl-container {
+        width: 66px;
+        height: 66px;
+      }
+      .song-cover {
+        width: 46px;
+        height: 46px;
+      }
+      .song-name {
+        font-size: 14px;
+      }
+      .song-artist {
+        font-size: 12px;
+      }
+      .save-spotify-btn {
+        font-size: 11px;
+      }
+      .waveform-visualizer {
+        height: 22px;
+        max-width: 240px;
+        margin: 2px auto;
+        gap: 2.5px;
+      }
+      .wave-bar {
+        max-width: 6px;
+      }
+      .player-controls-row {
+        padding-top: 2px;
+      }
+      .player-sub-info {
+        font-size: 11px;
+      }
+      .play-btn-main {
+        width: 38px;
+        height: 38px;
+      }
+      .play-btn-main svg {
+        width: 15px;
+        height: 15px;
+      }
+
+      /* Questions Block */
+      .questions-wrap {
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .question-block {
+        padding: 11px 12px;
+        border-radius: 12px;
+        gap: 8px;
+      }
+      .question-title {
+        font-size: 13px;
+      }
+      .yn-row {
+        gap: 8px;
+      }
+      .yn-btn {
+        padding: 10px 0;
+        font-size: 13px;
+        border-radius: 8px;
+      }
+
+      /* Buttons & Success */
+      .finish-btn {
+        padding: 14px;
+        font-size: 14px;
+        border-radius: 999px;
+      }
+      .success-card {
+        padding: 24px 16px;
+        border-radius: 16px;
+      }
+      .success-check {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 12px;
+      }
+      .success-check svg {
+        width: 24px;
+        height: 24px;
+      }
+      .success-title {
+        font-size: 19px;
+      }
+      .received-box {
+        padding: 14px 16px;
+        margin-bottom: 16px;
+      }
+      .received-val {
+        font-size: clamp(26px, 8vw, 34px);
+      }
+      .received-sub {
+        font-size: 11px;
+      }
+      .next-song-btn {
+        padding: 14px;
+        font-size: 14px;
+      }
+
+      /* Cashout Page */
+      .withdraw-hero {
+        padding: 18px 14px;
+        border-radius: 16px;
+        margin-bottom: 14px;
+      }
+      .withdraw-hero-amount {
+        font-size: clamp(28px, 9vw, 38px);
+        margin-bottom: 8px;
+      }
+      .threshold-desc {
+        font-size: 10.5px;
+      }
+      .trust-strip {
+        gap: 5px;
+        margin-bottom: 14px;
+      }
+      .trust-item {
+        padding: 8px 3px;
+        border-radius: 10px;
+      }
+      .trust-icon {
+        font-size: 13px;
+      }
+      .trust-title {
+        font-size: 9.5px;
+        line-height: 1.1;
+      }
+      .trust-sub {
+        font-size: 8px;
+        line-height: 1.1;
+      }
+      .paypal-box {
+        padding: 10px 12px;
+        border-radius: 12px;
+        margin-bottom: 14px;
+      }
+      .paypal-logo-img {
+        height: 24px;
+      }
+      .paypal-txt {
+        font-size: 12px;
+      }
+      .paypal-txt small {
+        font-size: 10px;
+      }
+      .paypal-badge {
+        display: none !important;
+      }
+      .withdraw-submit-btn {
+        padding: 14px;
+        font-size: 14.5px;
+      }
+
+      /* Support Page */
+      .suporte-title {
+        font-size: 20px;
+      }
+      .suporte-subtitle {
+        font-size: 12.5px;
+      }
+      .suporte-status-bar {
+        padding: 10px 12px;
+        font-size: 11.5px;
+        margin-bottom: 14px;
+      }
+      .suporte-form-card {
+        padding: 16px 14px;
+        border-radius: 14px;
+        margin-bottom: 16px;
+      }
+      .faq-title {
+        font-size: 15px;
+        margin: 6px 0 10px;
+      }
+      .faq-question {
+        padding: 13px 14px;
+      }
+      .faq-question span {
+        font-size: 13px;
+      }
+
+      /* Account Page */
+      .sp-acc-hero {
+        padding: 24px 14px 18px;
+        gap: 12px;
+      }
+      .sp-acc-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+      }
+      .sp-acc-name {
+        font-size: 20px;
+      }
+      .sp-acc-mail {
+        font-size: 11.5px;
+      }
+      .sp-acc-body {
+        padding: 14px 14px 0;
+      }
+      .sp-acc-stats {
+        gap: 6px;
+        margin-bottom: 18px;
+      }
+      .sp-acc-stat {
+        padding: 10px 6px;
+      }
+      .sp-acc-stat b {
+        font-size: 15px;
+      }
+      .sp-acc-stat span {
+        font-size: 9px;
+      }
+
+      /* Bottom Nav */
+      .bottom-nav {
+        height: 56px;
+      }
+      .nav-item {
+        font-size: 9px;
+        gap: 2px;
+      }
+      .nav-item svg {
+        width: 19px;
+        height: 19px;
+      }
+
+      /* Live Ticker */
+      .live-ticker {
+        font-size: 10.5px;
+        padding: 5px 10px;
+      }
+
+      /* Welcome & Final Modals */
+      .welcome-card, .final-inner {
+        padding: 28px 18px 22px;
+        border-radius: 20px;
+      }
+      .welcome-title, .final-title {
+        font-size: 20px;
+      }
+      .welcome-desc, .final-desc {
+        font-size: 12.5px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .header-logo span {
+        font-size: 16px;
+      }
+      /* On ultra-narrow screens, show only the flame emoji in streak badge */
+      .streak-badge #streakCount {
+        display: none !important;
+      }
+      .balance-pill {
+        padding: 5px 8px;
+        font-size: 11.5px;
+      }
+      .vinyl-container {
+        width: 58px;
+        height: 58px;
+      }
+      .song-cover {
+        width: 40px;
+        height: 40px;
+      }
+      .trust-strip {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .trust-item {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 8px 12px;
+        gap: 8px;
+      }
+    }
+
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
-      .bottom-nav { padding-bottom: env(safe-area-inset-bottom); height: calc(64px + env(safe-area-inset-bottom)); }
-      .page { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
-      .live-ticker { bottom: calc(76px + env(safe-area-inset-bottom)); }
+      .bottom-nav {
+        padding-bottom: env(safe-area-inset-bottom);
+        height: calc(58px + env(safe-area-inset-bottom));
+      }
+      .page {
+        padding-bottom: calc(78px + env(safe-area-inset-bottom));
+      }
+      .live-ticker {
+        bottom: calc(68px + env(safe-area-inset-bottom));
+      }
     }
   </style>
 </head>
@@ -2847,7 +3220,7 @@
       b.id = 'spSignOut';
       b.title = email || 'Sign out';
       b.textContent = 'Sign Out';
-      b.style.cssText = 'margin-left:6px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#999;border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s';
+      b.style.cssText = 'margin-left:4px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#999;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;flex-shrink:0;';
       b.addEventListener('click', async function () {
         saveState(true);
         await sb.auth.signOut();

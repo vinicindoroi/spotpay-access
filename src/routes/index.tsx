@@ -24,17 +24,28 @@ function Index() {
   }, []);
 
   return (
-    <iframe
-      src={iframeSrc}
-      title="Spotify Rewards"
+    <div
       style={{
         position: "fixed",
         inset: 0,
         width: "100%",
         height: "100%",
-        border: "none",
+        height: "100dvh",
+        overflow: "hidden",
+        WebkitOverflowScrolling: "touch",
       }}
-      allow="autoplay"
-    />
+    >
+      <iframe
+        src={iframeSrc}
+        title="Spotify Rewards"
+        style={{
+          width: "100%",
+          height: "100%",
+          border: "none",
+          display: "block",
+        }}
+        allow="autoplay; clipboard-write"
+      />
+    </div>
   );
 }
