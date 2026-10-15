@@ -1318,11 +1318,15 @@
       <div class="welcome-icon">
         <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
       </div>
-      <div class="welcome-badge">Music reviews</div>
-      <h1 class="welcome-title">Welcome! Glad you're here.</h1>
-      <p class="welcome-desc">Listen to music and share what you think. You can review <strong>10 songs a day</strong> and follow your balance in the app.</p>
-      <button type="button" class="welcome-start-btn" id="welcomeStartBtn">Let's start →</button>
-      <p class="welcome-note">Withdrawal requests start at $500 and require document review.</p>
+      <div class="welcome-badge">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="#1DB954" style="margin-right:5px; vertical-align:-1px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Certified Music Reviewer
+      </div>
+      <h1 class="welcome-title">Welcome to Spotify Rewards!</h1>
+      <p class="welcome-desc">Your balance starts at <strong>$0.00</strong>. Evaluate your <strong>10 daily songs</strong> to earn micro-rewards ($1.70–$3.45 each) and accumulate toward the <strong>$500.00 cashout goal</strong>!</p>
+      <button class="welcome-start-btn" id="welcomeStartBtn">Start Evaluating →</button>
+      <p class="welcome-note">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1.5px; margin-right:4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Official Spotify Curator Network · SSL Verified
+      </p>
     </div>
   </div>
 
@@ -1335,7 +1339,7 @@
     </div>
     <div class="header-right">
       <div class="streak-badge" id="streakBadge" title="Daily Streak Active">
-        <span>🔥</span>
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="#ff7a00" style="flex-shrink:0;"><path d="M12 23c-4.97 0-9-3.96-9-8.83 0-3.32 1.83-6.32 3.65-8.24.4-.42 1.09-.27 1.28.28.74 2.11 2.37 3.59 4.07 3.79.25.03.48-.12.56-.36.43-1.32.74-3.5-.4-5.83-.24-.5.17-1.07.72-1.02 4.41.37 7.12 3.84 7.12 7.21 0 1.25-.33 2.44-.88 3.49-.24.45-.04 1 .42 1.22.42.2.94.04 1.18-.36.79-1.33 1.28-2.86 1.28-4.35 0-.17-.01-.34-.03-.5 0-.6.7-1 1.15-.65 1.58 1.25 2.88 3.5 2.88 5.76 0 4.87-4.03 8.83-9 8.83z"/></svg>
         <span id="streakCount">1d</span>
       </div>
       <div class="balance-pill" id="balancePill" onclick="switchTab('withdraw')">
@@ -1366,14 +1370,20 @@
             <div class="progress-fill" id="hubProgressFill"></div>
           </div>
           <div class="hub-footer-hint">
-            <span>⚡ <strong id="balanceProtectStatus">Daily Goal: 10 reviews</strong></span>
+            <span style="display:inline-flex; align-items:center; gap:5px;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="#1DB954"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <strong id="balanceProtectStatus">Daily Goal: 10 reviews</strong>
+            </span>
             <span id="hubRemainingText">10 left today</span>
           </div>
         </div>
 
         <!-- Dynamic Instruction Banner -->
         <div class="instruction-banner" id="instructionBanner">
-          <span>🎵 Press play, preview the song, then answer below to earn.</span>
+          <span style="display:inline-flex; align-items:center; gap:6px;">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            Press play, preview the song, then answer below to earn.
+          </span>
         </div>
 
         <!-- Spotify Song Player Card -->
@@ -1512,17 +1522,31 @@
       <!-- Trust Guarantees Strip -->
       <div class="trust-strip">
         <div class="trust-item">
-          <span class="trust-icon">🛡️</span>
+          <span class="trust-icon" style="display:flex; align-items:center; justify-content:center; color:#3b82f6;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </span>
           <span class="trust-title">PayPal Verified</span>
           <span class="trust-sub">Zero transfer fees</span>
         </div>
         <div class="trust-item">
-          <span class="trust-icon">⚡</span>
+          <span class="trust-icon" style="display:flex; align-items:center; justify-content:center; color:#f59e0b;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </span>
           <span class="trust-title">Fast Settlement</span>
           <span class="trust-sub">24–48h delivery</span>
         </div>
         <div class="trust-item">
-          <span class="trust-icon">🔒</span>
+          <span class="trust-icon" style="display:flex; align-items:center; justify-content:center; color:#10b981;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </span>
           <span class="trust-title">256-Bit SSL</span>
           <span class="trust-sub">Bank-level safety</span>
         </div>
@@ -1547,8 +1571,11 @@
             <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
         </div>
-        <div style="display:inline-block; background:rgba(29,185,84,0.15); color:var(--sp-green); padding:4px 12px; border-radius:999px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px;">
-          🛡️ Anti-Bot Verification Clearance
+        <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(29,185,84,0.15); color:var(--sp-green); padding:4px 12px; border-radius:999px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px;">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span>Anti-Bot Verification Clearance</span>
         </div>
         <h3 style="font-size:20px; font-weight:900; color:#fff; margin-bottom:8px; letter-spacing:-0.4px;">
           Cashout Gate Unlocks on Day 2
@@ -1565,31 +1592,51 @@
           <div style="font-size:24px; font-weight:900; color:#fff; font-variant-numeric:tabular-nums; letter-spacing:1px;" id="withdrawLockCountdown">
             23h 59m 59s
           </div>
-          <span style="font-size:11px; color:#1DB954; font-weight:600; margin-top:4px; display:block;">
-            ● Authenticating human curator activity
+          <span style="font-size:11px; color:#1DB954; font-weight:600; margin-top:4px; display:inline-flex; align-items:center; justify-content:center; gap:5px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#1DB954; display:inline-block;"></span>
+            Authenticating human curator activity
           </span>
         </div>
 
         <!-- Clearance Steps -->
         <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:22px; text-align:left;">
-          <div style="display:flex; align-items:center; gap:10px; font-size:12.5px; color:#ddd; background:#181818; padding:10px 14px; border-radius:10px; border:1px solid #232323;">
-            <span style="color:#1DB954; font-size:16px;">✓</span>
-            <span>Curator Account Activated</span>
+          <div style="display:flex; align-items:center; gap:12px; font-size:12.5px; color:#ddd; background:#181818; padding:10px 14px; border-radius:10px; border:1px solid #232323;">
+            <span style="width:22px; height:22px; border-radius:50%; background:rgba(29,185,84,0.18); color:#1DB954; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <span style="font-weight:600;">Curator Account Activated</span>
           </div>
-          <div style="display:flex; align-items:center; gap:10px; font-size:12.5px; color:#ddd; background:#181818; padding:10px 14px; border-radius:10px; border:1px solid #232323;">
-            <span style="color:#25d366; font-size:16px;">⚡</span>
-            <span>Complete Day 1 Evaluations (In Progress)</span>
+          <div style="display:flex; align-items:center; gap:12px; font-size:12.5px; color:#ddd; background:#181818; padding:10px 14px; border-radius:10px; border:1px solid #232323;">
+            <span style="width:22px; height:22px; border-radius:50%; background:rgba(245,158,11,0.18); color:#f59e0b; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            </span>
+            <span style="font-weight:600;">Complete Day 1 Evaluations (In Progress)</span>
           </div>
-          <div style="display:flex; align-items:center; gap:10px; font-size:12.5px; color:#888; background:#181818; padding:10px 14px; border-radius:10px; border:1px solid #232323;">
-            <span style="color:#666; font-size:16px;">⏳</span>
-            <span>PayPal Cashout Unlocked Automatically</span>
+          <div style="display:flex; align-items:center; gap:12px; font-size:12.5px; color:#888; background:#181818; padding:10px 14px; border-radius:10px; border:1px solid #232323;">
+            <span style="width:22px; height:22px; border-radius:50%; background:rgba(255,255,255,0.06); color:#777; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </span>
+            <span style="font-weight:500;">PayPal Cashout Unlocked Automatically</span>
           </div>
         </div>
 
         <button type="button" class="welcome-start-btn" onclick="switchTab('eval')" style="margin:0; width:100%;">
           Complete Today's Evaluations →
         </button>
-        <p style="font-size:11px; color:#666; margin-top:12px;">🔒 SEC Anti-Fraud Standard · Verified Spotify Music Network</p>
+        <p style="font-size:11px; color:#666; margin-top:12px; display:inline-flex; align-items:center; justify-content:center; gap:5px;">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          SEC Anti-Fraud Standard · Verified Spotify Music Network
+        </p>
       </div>
 
       <!-- Unlocked Cashout Form Container -->
@@ -1623,7 +1670,13 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
             Request Cashout to PayPal
           </button>
-          <p class="security-note">🔒 Encrypted transfer · Protected by PayPal Payouts API</p>
+          <p class="security-note" style="display:flex; align-items:center; justify-content:center; gap:5px;">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Encrypted transfer · Protected by PayPal Payouts API
+          </p>
         </form>
       </div>
     </div>
