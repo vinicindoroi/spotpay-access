@@ -1320,7 +1320,7 @@
       </div>
       <div class="welcome-badge">⭐ Certified Music Reviewer</div>
       <h1 class="welcome-title">Welcome to Spotify Rewards!</h1>
-      <p class="welcome-desc">Your balance starts at <strong>$0.00</strong>. Evaluate your <strong>10 daily songs</strong> to earn micro-rewards ($1.70–$3.45 each) and accumulate toward the <strong>$500.00 cashout goal</strong>. Maintain your daily reviews to prevent balance decay!</p>
+      <p class="welcome-desc">Your balance starts at <strong>$0.00</strong>. Evaluate your <strong>10 daily songs</strong> to earn micro-rewards ($1.70–$3.45 each) and accumulate toward the <strong>$500.00 cashout goal</strong>!</p>
       <button class="welcome-start-btn" id="welcomeStartBtn">Start Evaluating →</button>
       <p class="welcome-note">🔒 Official Spotify Curator Network · SSL Verified</p>
     </div>
@@ -1366,8 +1366,8 @@
             <div class="progress-fill" id="hubProgressFill"></div>
           </div>
           <div class="hub-footer-hint">
-            <span>🛡️ <strong id="balanceProtectStatus">Complete 10 songs to protect balance</strong></span>
-            <span style="color:#f15e6c;">⚠️ Inactive penalty: -$15/day</span>
+            <span>⚡ <strong id="balanceProtectStatus">Daily Goal: 10 reviews</strong></span>
+            <span id="hubRemainingText">10 left today</span>
           </div>
         </div>
 
@@ -1549,15 +1549,6 @@
           </div>
         </div>
         <span class="paypal-badge">Official</span>
-      </div>
-
-      <!-- Daily Activity Warning -->
-      <div style="background: rgba(241,94,108,0.08); border: 1px solid rgba(241,94,108,0.25); border-radius: 14px; padding: 13px 15px; margin-bottom: 18px; font-size: 12px; color: #ffb3b8; display: flex; align-items: flex-start; gap: 10px; line-height: 1.45;">
-        <span style="font-size: 18px; line-height: 1;">⚠️</span>
-        <div>
-          <strong style="color: #fff; display: block; margin-bottom: 2px;">Daily Activity Requirement:</strong>
-          To keep your curator license active and reach the <strong>$500.00 cashout goal</strong>, you must evaluate all 10 songs daily. Inactive days incur a <strong>-$15.00/day maintenance fee</strong> from accumulated earnings.
-        </div>
       </div>
 
       <!-- Withdrawal Form -->
@@ -1912,23 +1903,6 @@
         Claim &amp; Cashout Funds
       </button>
       <p class="final-note">🔒 Payouts processed via PayPal Business API</p>
-    </div>
-  </div>
-
-  <!-- INACTIVITY PENALTY MODAL -->
-  <div class="sp-modal" id="inactivityModal">
-    <div class="sp-sheet" style="text-align:center; padding: 28px 20px;">
-      <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(241,94,108,0.15); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 1px solid rgba(241,94,108,0.3);">
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#f15e6c" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      </div>
-      <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px;">Inactivity Penalty Applied</h3>
-      <p style="font-size: 13.5px; color: #b3b3b3; line-height: 1.5; margin-bottom: 16px;">
-        You missed <strong id="inactivityDays">1</strong> day(s) of music evaluations. An inactivity maintenance fee of <strong style="color:#f15e6c;" id="inactivityAmount">-$15.00</strong> was deducted from your wallet balance.
-      </p>
-      <div style="background: #101010; border: 1px solid #282828; border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; font-size: 12px; color: #888; text-align: left; line-height: 1.45;">
-        🔒 <strong>Curator Rule:</strong> Complete your 10 daily evaluations every 24 hours to protect your balance and accumulate toward the <strong>$500.00 cashout goal</strong>.
-      </div>
-      <button class="welcome-start-btn" onclick="closeInactivityModal()">Protect My Balance Today →</button>
     </div>
   </div>
 
@@ -2494,30 +2468,10 @@
       var streakEl = document.getElementById('streakCount');
       if (streakEl) streakEl.textContent = streak + 'd';
       var bps = document.getElementById('balanceProtectStatus');
-      if (bps) bps.textContent = 'Balance 100% Protected for 24h!';
+      if (bps) bps.textContent = '🎉 Daily Goal Complete! Come back tomorrow';
     }
 
-    // ── INACTIVITY DECAY SYSTEM ──────────────────────────────────────────
-    function showInactivityModal(days, amount) {
-      var modal = document.getElementById('inactivityModal');
-      var dEl = document.getElementById('inactivityDays');
-      var aEl = document.getElementById('inactivityAmount');
-      if (dEl) dEl.textContent = days;
-      if (aEl) aEl.textContent = '-$' + fmt(amount);
-      if (modal) {
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    function closeInactivityModal() {
-      var modal = document.getElementById('inactivityModal');
-      if (modal) modal.classList.remove('show');
-      document.body.style.overflow = '';
-      vibrateDevice(25);
-    }
-    window.closeInactivityModal = closeInactivityModal;
-
+    // ── INACTIVITY DECAY (BACKGROUND) ────────────────────────────────────
     function checkDailyDecay() {
       var todayStr = new Date().toISOString().slice(0, 10);
       var lastDateStr = localStorage.getItem('sp_last_active_date');
@@ -2550,7 +2504,6 @@
           balance = Math.max(0, parseFloat((balance - deducted).toFixed(2)));
           localStorage.setItem('sp_curator_streak', '1');
           if (streakEl) streakEl.textContent = '1d';
-          showInactivityModal(missedDays, deducted);
           updateBalanceUI(oldBal);
           if (window.spSaveState) window.spSaveState(true);
         }
