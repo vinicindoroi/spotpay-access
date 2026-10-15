@@ -986,7 +986,8 @@
       position: fixed;
       bottom: 76px;
       right: 16px;
-      z-index: 190;
+      z-index: 850;
+      touch-action: manipulation;
     }
     .sp-fab-btn {
       display: flex;
@@ -2221,132 +2222,6 @@
       </div>
 
       </section>
-
-      <!-- Complaint Details Sheet / Streamlined Refund Request -->
-      <div class="sp-modal" id="spComplaintModal">
-        <div class="sp-sheet">
-          <div class="sp-sheet-grip"></div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
-            <h3 style="margin:0; font-size:17px; font-weight:800; color:#fff;">Direct Refund &amp; Cancellation</h3>
-            <span style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; background:rgba(29,185,84,0.15); color:#1ed760; border:1px solid rgba(29,185,84,0.3); padding:3px 8px; border-radius:12px;">Fast-Track</span>
-          </div>
-          <p class="sp-sheet-sub" style="margin-bottom:14px;">Instant resolution desk. Complete below to process your cancellation without external bank disputes.</p>
-
-          <!-- Warning Banner of Irreversible Forfeiture -->
-          <div style="background: rgba(226, 42, 42, 0.08); border: 1px solid rgba(226, 42, 42, 0.25); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#e22a2a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-              <line x1="12" y1="9" x2="12" y2="13"/>
-              <line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            <div style="font-size: 11.5px; line-height: 1.45; color: #ddd;">
-              <strong style="color: #ff5555; display:block; font-size:12px; margin-bottom:2px;">Notice of Balance Forfeiture</strong>
-              Finalizing an account dissolution will permanently liquidate your accumulated earnings of <span id="cpLossBalance" style="color:#1ed760; font-weight:800;">$0.00</span> back to the artist distribution pool.
-            </div>
-          </div>
-
-          <div class="suporte-form-group" id="cpGroupFull">
-            <label for="cpFullName">Full Name</label>
-            <input type="text" id="cpFullName" placeholder="Your name" autocomplete="name">
-            <span class="suporte-field-error">Please enter your name.</span>
-          </div>
-
-          <div class="suporte-form-group" id="cpGroupReason">
-            <label for="cpReason">Primary Reason for Cancellation</label>
-            <select id="cpReason">
-              <option value="refund" selected>Not what I expected / Want to cancel</option>
-              <option value="delay">Need funds sooner than the 24h maturation</option>
-              <option value="access">Account or technical difficulties</option>
-              <option value="charge">Billing inquiry or charge clarification</option>
-              <option value="other">Other reason</option>
-            </select>
-            <span class="suporte-field-error">Select a reason.</span>
-          </div>
-
-          <div class="suporte-form-group" id="cpGroupDetails">
-            <label for="cpDetails">
-              Additional Details (Optional)
-            </label>
-            <textarea id="cpDetails" maxlength="300" style="min-height:60px;" placeholder="Tell us anything else so our team can help you best..."></textarea>
-          </div>
-
-          <button class="suporte-submit-btn" id="cpSubmitBtn" onclick="submitComplaint()" style="background:linear-gradient(135deg, #1ed760, #149a45); color:#000; font-weight:800; margin-bottom:8px;">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
-            <span id="cpSubmitLabel">Connect to Resolution Specialist &rarr;</span>
-          </button>
-          <button class="sp-ghost-btn" onclick="closeComplaintModal()" style="font-weight:700; color:#fff;">Nevermind, Keep My Account &amp; Earnings</button>
-        </div>
-      </div>
-
-      <!-- Refund Chat De-escalation Modal -->
-      <div class="sp-modal" id="spChatModal">
-        <div class="sp-sheet">
-          <div class="sp-sheet-grip"></div>
-          
-          <div class="sp-chat-head">
-            <div class="sp-chat-av" id="spChatAv">RD</div>
-            <div>
-              <div class="sp-chat-name" id="spChatName" style="display:flex; align-items:center; gap:6px;">
-                Curator Resolution Queue
-                <span id="spChatRoleBadge" style="font-size:9.5px; font-weight:800; background:rgba(230,126,34,0.18); color:#e67e22; padding:2px 6px; border-radius:6px; letter-spacing:0.4px;">ROUTING</span>
-              </div>
-              <div class="sp-chat-state" id="spChatState">
-                <span id="spChatStateDot" style="width:6px; height:6px; border-radius:50%; background:#e67e22; display:inline-block; animation:spBlink 1.4s infinite;"></span>
-                <span id="spChatStateText">Matching with Senior Resolution Specialist...</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Waiting Queue Banner -->
-          <div class="sp-queue-card" id="spQueueCard">
-            <div class="sp-queue-row">
-              <span class="sp-queue-title">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-                <span id="spQueueTitleText">Resolution Queue</span>
-              </span>
-              <span class="sp-queue-pos" id="spQueuePos">#14 ahead</span>
-            </div>
-            <div class="sp-queue-progress">
-              <div class="sp-queue-bar" id="spQueueBar" style="width: 8%;"></div>
-            </div>
-            <div class="sp-queue-row" style="margin-top:2px;">
-              <span class="sp-queue-hint" id="spQueueWait">Estimated wait: ~2-3 min</span>
-              <span class="sp-queue-hint" style="color:#555;">Desk Active</span>
-            </div>
-          </div>
-
-          <div class="sp-chat-log" id="spChatLog" style="max-height:360px; overflow-y:auto; padding:16px 4px; display:flex; flex-direction:column; gap:12px;"></div>
-          
-          <div class="sp-chat-actions" id="spChatActions" style="display:none; flex-direction:column; gap:10px; margin-top:14px;">
-            <!-- Big, attractive green retention button -->
-            <button class="sp-btn-retention" id="spRetentionBtn" onclick="acceptRetentionBonus()">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
-              <span id="spRetentionBtnLabel">Accept +$25.00 Bonus &amp; Retain Balance</span>
-            </button>
-            <!-- Low-contrast, subtle forfeit link -->
-            <button class="sp-btn-forfeit" onclick="refundConfirm()">
-              Forfeit balance and proceed with contract cancellation &rarr;
-            </button>
-          </div>
-
-          <div id="spChatCompleted" style="display:none; margin-top:14px; text-align:center;">
-            <button class="sp-btn-retention" onclick="finishRetentionFlow()" style="background:#1ed760; color:#000;">
-              Continue Music Reviews &rarr;
-            </button>
-          </div>
-
-          <button class="sp-ghost-btn" id="spChatClose" style="display:none; margin-top:8px;" onclick="closeChatModal()">Close Resolution Desk</button>
-        </div>
-      </div>
-
-
     </div>
     
     <footer class="footer" style="margin-top:auto;padding-top:24px">
@@ -2495,7 +2370,7 @@
 
   <!-- FLOATING MINIMALIST SUPPORT BUBBLE -->
   <div class="sp-fab-wrap" id="spFabWrap">
-    <button class="sp-fab-btn" id="spFabBtn" onclick="toggleQuickSupport()" aria-label="Support &amp; Help">
+    <button class="sp-fab-btn" id="spFabBtn" onclick="toggleQuickSupport(event)" aria-label="Support &amp; Help">
       <span class="sp-fab-dot"></span>
       <svg id="spFabIconChat" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -2504,7 +2379,7 @@
     </button>
 
     <!-- Quick Support Popover -->
-    <div class="sp-fab-popover" id="spFabPopover">
+    <div class="sp-fab-popover" id="spFabPopover" onclick="if(event && event.stopPropagation) event.stopPropagation();">
       <div class="sp-fab-head">
         <div style="font-size:12.5px; font-weight:800; color:#fff;">Curator Concierge</div>
         <div style="font-size:10.5px; color:#1ed760; display:flex; align-items:center; gap:5px; margin-top:2px;">
@@ -2513,7 +2388,7 @@
         </div>
       </div>
       
-      <button class="sp-fab-opt" onclick="spFabGoSupport()">
+      <button class="sp-fab-opt" onclick="spFabGoSupport(event)">
         <div class="sp-fab-opt-icon" style="background: rgba(29,185,84,0.14); color:#1ed760;">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -2526,7 +2401,7 @@
         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#666" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
 
-      <button class="sp-fab-opt" onclick="spFabGoRefund()" style="border-top:1px solid rgba(255,255,255,0.06); margin-top:2px; padding-top:10px;">
+      <button class="sp-fab-opt" onclick="spFabGoRefund(event)" style="border-top:1px solid rgba(255,255,255,0.06); margin-top:2px; padding-top:10px;">
         <div class="sp-fab-opt-icon" style="background: rgba(255,100,100,0.12); color:#ff6464;">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
             <circle cx="12" cy="12" r="10"/>
@@ -2540,6 +2415,130 @@
         </div>
         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#666" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
+    </div>
+  </div>
+
+  <!-- ══ GLOBAL COMPLAINT & REFUND MODAL ═══════════════════════════ -->
+  <div class="sp-modal" id="spComplaintModal">
+    <div class="sp-sheet">
+      <div class="sp-sheet-grip"></div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+        <h3 style="margin:0; font-size:17px; font-weight:800; color:#fff;">Direct Refund &amp; Cancellation</h3>
+        <span style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; background:rgba(29,185,84,0.15); color:#1ed760; border:1px solid rgba(29,185,84,0.3); padding:3px 8px; border-radius:12px;">Fast-Track</span>
+      </div>
+      <p class="sp-sheet-sub" style="margin-bottom:14px;">Instant resolution desk. Complete below to process your cancellation without external bank disputes.</p>
+
+      <!-- Warning Banner of Irreversible Forfeiture -->
+      <div style="background: rgba(226, 42, 42, 0.08); border: 1px solid rgba(226, 42, 42, 0.25); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px;">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#e22a2a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <div style="font-size: 11.5px; line-height: 1.45; color: #ddd;">
+          <strong style="color: #ff5555; display:block; font-size:12px; margin-bottom:2px;">Notice of Balance Forfeiture</strong>
+          Finalizing an account dissolution will permanently liquidate your accumulated earnings of <span id="cpLossBalance" style="color:#1ed760; font-weight:800;">$0.00</span> back to the artist distribution pool.
+        </div>
+      </div>
+
+      <div class="suporte-form-group" id="cpGroupFull">
+        <label for="cpFullName">Full Name</label>
+        <input type="text" id="cpFullName" placeholder="Your name" autocomplete="name">
+        <span class="suporte-field-error">Please enter your name.</span>
+      </div>
+
+      <div class="suporte-form-group" id="cpGroupReason">
+        <label for="cpReason">Primary Reason for Cancellation</label>
+        <select id="cpReason">
+          <option value="refund" selected>Not what I expected / Want to cancel</option>
+          <option value="delay">Need funds sooner than the 24h maturation</option>
+          <option value="access">Account or technical difficulties</option>
+          <option value="charge">Billing inquiry or charge clarification</option>
+          <option value="other">Other reason</option>
+        </select>
+        <span class="suporte-field-error">Select a reason.</span>
+      </div>
+
+      <div class="suporte-form-group" id="cpGroupDetails">
+        <label for="cpDetails">
+          Additional Details (Optional)
+        </label>
+        <textarea id="cpDetails" maxlength="300" style="min-height:60px;" placeholder="Tell us anything else so our team can help you best..."></textarea>
+      </div>
+
+      <button class="suporte-submit-btn" id="cpSubmitBtn" onclick="submitComplaint()" style="background:linear-gradient(135deg, #1ed760, #149a45); color:#000; font-weight:800; margin-bottom:8px;">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span id="cpSubmitLabel">Connect to Resolution Specialist &rarr;</span>
+      </button>
+      <button class="sp-ghost-btn" onclick="closeComplaintModal()" style="font-weight:700; color:#fff;">Nevermind, Keep My Account &amp; Earnings</button>
+    </div>
+  </div>
+
+  <!-- ══ GLOBAL REFUND CHAT DE-ESCALATION MODAL ═══════════════════════ -->
+  <div class="sp-modal" id="spChatModal">
+    <div class="sp-sheet">
+      <div class="sp-sheet-grip"></div>
+      
+      <div class="sp-chat-head">
+        <div class="sp-chat-av" id="spChatAv">RD</div>
+        <div>
+          <div class="sp-chat-name" id="spChatName" style="display:flex; align-items:center; gap:6px;">
+            Curator Resolution Queue
+            <span id="spChatRoleBadge" style="font-size:9.5px; font-weight:800; background:rgba(230,126,34,0.18); color:#e67e22; padding:2px 6px; border-radius:6px; letter-spacing:0.4px;">ROUTING</span>
+          </div>
+          <div class="sp-chat-state" id="spChatState">
+            <span id="spChatStateDot" style="width:6px; height:6px; border-radius:50%; background:#e67e22; display:inline-block; animation:spBlink 1.4s infinite;"></span>
+            <span id="spChatStateText">Matching with Senior Resolution Specialist...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waiting Queue Banner -->
+      <div class="sp-queue-card" id="spQueueCard">
+        <div class="sp-queue-row">
+          <span class="sp-queue-title">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span id="spQueueTitleText">Resolution Queue</span>
+          </span>
+          <span class="sp-queue-pos" id="spQueuePos">#14 ahead</span>
+        </div>
+        <div class="sp-queue-progress">
+          <div class="sp-queue-bar" id="spQueueBar" style="width: 8%;"></div>
+        </div>
+        <div class="sp-queue-row" style="margin-top:2px;">
+          <span class="sp-queue-hint" id="spQueueWait">Estimated wait: ~2-3 min</span>
+          <span class="sp-queue-hint" style="color:#555;">Desk Active</span>
+        </div>
+      </div>
+
+      <div class="sp-chat-log" id="spChatLog" style="max-height:360px; overflow-y:auto; padding:16px 4px; display:flex; flex-direction:column; gap:12px;"></div>
+      
+      <div class="sp-chat-actions" id="spChatActions" style="display:none; flex-direction:column; gap:10px; margin-top:14px;">
+        <!-- Big, attractive green retention button -->
+        <button class="sp-btn-retention" id="spRetentionBtn" onclick="acceptRetentionBonus()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span id="spRetentionBtnLabel">Accept +$25.00 Bonus &amp; Retain Balance</span>
+        </button>
+        <!-- Low-contrast, subtle forfeit link -->
+        <button class="sp-btn-forfeit" onclick="refundConfirm()">
+          Forfeit balance and proceed with contract cancellation &rarr;
+        </button>
+      </div>
+
+      <div id="spChatCompleted" style="display:none; margin-top:14px; text-align:center;">
+        <button class="sp-btn-retention" onclick="finishRetentionFlow()" style="background:#1ed760; color:#000;">
+          Continue Music Reviews &rarr;
+        </button>
+      </div>
+
+      <button class="sp-ghost-btn" id="spChatClose" style="display:none; margin-top:8px;" onclick="closeChatModal()">Close Resolution Desk</button>
     </div>
   </div>
 
@@ -3618,36 +3617,43 @@
     })();
 
     // ── FLOATING SUPPORT BUBBLE HANDLERS ────────────────────────────────
-    function toggleQuickSupport() {
+    window.toggleQuickSupport = function (e) {
+      if (e) {
+        if (e.stopPropagation) e.stopPropagation();
+        if (e.preventDefault) e.preventDefault();
+      }
       var pop = document.getElementById('spFabPopover');
       if (pop) pop.classList.toggle('show');
-    }
-    function closeQuickSupport() {
+    };
+    window.closeQuickSupport = function () {
       var pop = document.getElementById('spFabPopover');
       if (pop) pop.classList.remove('show');
-    }
-    function spFabGoSupport() {
-      closeQuickSupport();
+    };
+    window.spFabGoSupport = function (e) {
+      if (e && e.stopPropagation) e.stopPropagation();
+      window.closeQuickSupport();
       if (typeof switchTab === 'function') switchTab('support');
-    }
-    function spFabGoRefund() {
-      closeQuickSupport();
-      openComplaintModal();
-    }
+    };
+    window.spFabGoRefund = function (e) {
+      if (e && e.stopPropagation) e.stopPropagation();
+      window.closeQuickSupport();
+      window.openComplaintModal();
+    };
     document.addEventListener('click', function (e) {
       var wrap = document.getElementById('spFabWrap');
       if (wrap && !wrap.contains(e.target)) {
-        closeQuickSupport();
+        window.closeQuickSupport();
       }
     });
 
     // ── COMPLAINT & ANTI-REFUND RETENTION ENGINE ─────────────────────────
     var SP_REFUND_KEY = 'sp_refund_request';
 
-    function openComplaintModal() {
+    window.openComplaintModal = function () {
       var lossEl = document.getElementById('cpLossBalance');
-      if (lossEl && typeof balance !== 'undefined') {
-        lossEl.textContent = '$' + fmt(balance);
+      if (lossEl) {
+        var curBal = (typeof balance !== 'undefined') ? balance : 0;
+        lossEl.textContent = '$' + (typeof fmt === 'function' ? fmt(curBal) : Number(curBal).toFixed(2));
       }
       var td = window.__spTicketData || {};
       var nameInput = document.getElementById('cpFullName');
@@ -3656,24 +3662,33 @@
         if (!nameInput.value && typeof curUser !== 'undefined' && curUser && curUser.user_metadata && curUser.user_metadata.full_name) {
           nameInput.value = curUser.user_metadata.full_name;
         }
+        if (!nameInput.value && typeof curProfile !== 'undefined' && curProfile && curProfile.full_name) {
+          nameInput.value = curProfile.full_name;
+        }
       }
       var gFull = document.getElementById('cpGroupFull');
       if (gFull) gFull.classList.remove('invalid');
 
-      document.getElementById('spComplaintModal').classList.add('show');
+      var modal = document.getElementById('spComplaintModal');
+      if (modal) modal.classList.add('show');
       document.body.style.overflow = 'hidden';
-    }
+    };
+    var openComplaintModal = window.openComplaintModal;
 
-    function closeComplaintModal() {
-      document.getElementById('spComplaintModal').classList.remove('show');
+    window.closeComplaintModal = function () {
+      var modal = document.getElementById('spComplaintModal');
+      if (modal) modal.classList.remove('show');
       document.body.style.overflow = '';
-    }
+    };
+    var closeComplaintModal = window.closeComplaintModal;
 
-    function closeChatModal() {
-      clearRefundChatTimers();
-      document.getElementById('spChatModal').classList.remove('show');
+    window.closeChatModal = function () {
+      if (typeof clearRefundChatTimers === 'function') clearRefundChatTimers();
+      var chat = document.getElementById('spChatModal');
+      if (chat) chat.classList.remove('show');
       document.body.style.overflow = '';
-    }
+    };
+    var closeChatModal = window.closeChatModal;
 
     function submitComplaint() {
       var reason = document.getElementById('cpReason').value || 'refund';
@@ -4310,18 +4325,22 @@
 
     window.openRefundRequest = function () {
       var reason = document.getElementById('cpReason');
-      if (reason) { reason.value = 'refund'; spMark('cpGroupReason', true); }
+      if (reason) {
+        reason.value = 'refund';
+        if (typeof spMark === 'function') spMark('cpGroupReason', true);
+      }
       var full = document.getElementById('cpFullName');
-      if (full && !full.value) setVal('cpFullName', curProfile.full_name || (curUser && curUser.user_metadata && curUser.user_metadata.full_name) || '');
-      var doc = document.getElementById('cpDoc');
-      if (doc && !doc.value && curProfile.document) setVal('cpDoc', curProfile.document);
-      var phone = document.getElementById('cpPhone');
-      if (phone && !phone.value && curProfile.phone) setVal('cpPhone', curProfile.phone);
-      var title = document.getElementById('cpTitle');
-      if (title) title.textContent = 'Request a refund';
-      var sub = document.getElementById('cpSub');
-      if (sub) sub.textContent = "Tell us what happened. We'll look at your account and talk it through with you before anything changes.";
-      if (typeof openComplaintModal === 'function') openComplaintModal();
+      if (full && !full.value) {
+        var defName = (typeof curProfile !== 'undefined' && curProfile && curProfile.full_name) ||
+                      (typeof curUser !== 'undefined' && curUser && curUser.user_metadata && curUser.user_metadata.full_name) || '';
+        if (typeof setVal === 'function') setVal('cpFullName', defName);
+        else full.value = defName;
+      }
+      if (typeof window.openComplaintModal === 'function') {
+        window.openComplaintModal();
+      } else if (typeof openComplaintModal === 'function') {
+        openComplaintModal();
+      }
     };
 
     window.spPrefillSupport = function () {
