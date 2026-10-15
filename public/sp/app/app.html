@@ -1451,9 +1451,10 @@
       <div class="welcome-badge">
         <svg viewBox="0 0 24 24" width="12" height="12" fill="#1DB954" style="margin-right:5px; vertical-align:-1px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Certified Music Reviewer
       </div>
-      <h1 class="welcome-title">Welcome to Spotify Rewards!</h1>
-      <p class="welcome-desc">Your balance starts at <strong>$0.00</strong>. Evaluate your <strong>10 daily songs</strong> to earn micro-rewards ($1.70–$3.45 each) and accumulate toward the <strong>$500.00 cashout goal</strong>!</p>
-      <button class="welcome-start-btn" id="welcomeStartBtn">Start Evaluating →</button>
+      <h1 class="welcome-title">Welcome! Glad you're here.</h1>
+      <p class="welcome-desc">You start at <strong>$0.00</strong>. Listen to <strong>10 songs a day</strong> and earn <strong>$1.70–$3.45</strong> for each one. Cash out from <strong>$500</strong>.</p>
+      <button class="welcome-start-btn" id="welcomeStartBtn">Let's start →</button>
+
       <p class="welcome-note">
         <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1.5px; margin-right:4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Official Spotify Curator Network · SSL Verified
       </p>
@@ -1915,7 +1916,15 @@
         <button class="support-tab" id="supportTab-contact" role="tab" aria-selected="false" tabindex="-1" aria-controls="supportPanel-contact" onclick="spSupportView('contact')">Contact us</button>
         <button class="support-tab" id="supportTab-requests" role="tab" aria-selected="false" tabindex="-1" aria-controls="supportPanel-requests" onclick="spSupportView('requests')">My requests</button>
       </div>
+      <div class="support-refund" id="supportRefundCta">
+        <div class="support-refund-copy">
+          <h3 class="support-refund-title">Need a refund?</h3>
+          <p class="support-refund-text">Tell us what happened. We'll look into your account with you, and nothing is cancelled until you say yes.</p>
+        </div>
+        <button type="button" class="support-refund-btn" onclick="openRefundRequest()">Request a refund</button>
+      </div>
       <!-- Active Ticket Tracker Card (Dynamic) -->
+
       <div class="sp-refund-card" id="spRefundCard">
         <div class="sp-refund-top">
           <span class="sp-refund-label">Ticket Reference <strong id="spRefundTicket">#000000</strong></span>
@@ -1935,7 +1944,7 @@
 
       <section id="supportPanel-help" role="tabpanel" aria-labelledby="supportTab-help">
         <label class="support-search" for="supportSearch"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="supportSearch" type="search" placeholder="Search for help" aria-label="Search help articles"></label>
-        <div id="faqSection"><h3 class="faq-title">Common questions</h3><div class="faq-list" id="faqList">
+        <div id="faqSection"><h3 class="faq-title">Common questions</h3><div class="faq-list" id="faqList"><div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>How do I request a refund?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>Open Support and tap Request a refund. We'll look at your case with you first, then send it to our finance team. <button class="support-inline-link" onclick="openRefundRequest()">Request a refund →</button></p></div></div>
 <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>How do I request a withdrawal?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>Open Cashout to check your balance and enter your PayPal details. Withdrawals require a balance of at least $500 and document review. <button class="support-inline-link" onclick="switchTab('withdraw')">Go to Cashout →</button></p></div></div><div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>Which documents do I need?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>The withdrawal form asks for the front and back of your identity document and a clear selfie. You can also review your personal details in Account.</p></div></div><div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>Where can I check my withdrawal?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>Open Cashout to see the status of your withdrawal and document review. Sending documents does not mean your withdrawal has been approved. <button class="support-inline-link" onclick="switchTab('withdraw')">Go to Cashout →</button></p></div></div><div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>How do I check a support request?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>Open My requests to see your saved tickets and their latest status. If you contact us about an existing request, include its reference number.</p></div></div><div class="faq-item"><button class="faq-question" type="button" aria-expanded="false" onclick="toggleFaq(this)"><span>How can I update my account details?</span><svg class="faq-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer"><p>Open Account to update your name, phone number, address and other personal details. You can also change your password there.</p></div></div></div><p class="support-empty" id="supportNoResults" hidden>No answers found. Try another search or contact us.</p></div>
         <button class="support-inline-link" onclick="spSupportView('contact')">Still need help? Contact us →</button>
       </section>
@@ -2048,11 +2057,12 @@
       <div class="sp-modal" id="spComplaintModal">
         <div class="sp-sheet">
           <div class="sp-sheet-grip"></div>
-          <h3>Specialist Verification</h3>
-          <p class="sp-sheet-sub">Before opening an escalation ticket, please provide your verification details so our management team can handle your case priority.</p>
+          <h3 id="cpTitle">Tell us what happened</h3>
+          <p class="sp-sheet-sub" id="cpSub">A few details so we can find your account and take care of this for you.</p>
+
 
           <div class="suporte-form-group" id="cpGroupReason">
-            <label for="cpReason">Reason for Inquiry</label>
+            <label for="cpReason">What do you need help with?</label>
             <select id="cpReason">
               <option value="">Choose one</option>
               <option value="refund">Refund request</option>
@@ -2069,9 +2079,10 @@
             <span class="suporte-field-error">Enter your name.</span>
           </div>
           <div class="suporte-form-group" id="cpGroupDoc">
-            <label for="cpDoc">Tax ID / SSN / CPF</label>
+            <label for="cpDoc">Document number</label>
             <input type="text" id="cpDoc" placeholder="Document ID" inputmode="numeric">
-            <span class="suporte-field-error">Enter a valid ID number.</span>
+            <span class="suporte-field-error">Enter your document number.</span>
+
           </div>
           <div class="suporte-form-group" id="cpGroupPhone">
             <label for="cpPhone">Phone Number</label>
@@ -2079,12 +2090,13 @@
             <span class="suporte-field-error">Enter your phone number.</span>
           </div>
           <div class="suporte-form-group" id="cpGroupDate">
-            <label for="cpDate">Enrollment Date</label>
+            <label for="cpDate">Date you joined</label>
             <input type="date" id="cpDate">
-            <span class="suporte-field-error">Select the enrollment date.</span>
+            <span class="suporte-field-error">Pick the date you joined.</span>
+
           </div>
           <div class="suporte-form-group" id="cpGroupDetails">
-            <label for="cpDetails">Detailed Description</label>
+            <label for="cpDetails">What happened?</label>
             <textarea id="cpDetails" maxlength="500" placeholder="Please explain how we can help..."></textarea>
             <span class="suporte-field-error">Please provide details.</span>
           </div>
@@ -3369,8 +3381,11 @@
     function spRenderRefundStatus() {
       var data = spGetRefund();
       var card = document.getElementById('spRefundCard');
+      var cta = document.getElementById('supportRefundCta');
+      if (cta) cta.style.display = data ? 'none' : '';
       if (!card) return;
       if (!data) { card.classList.remove('show'); return; }
+
 
       // Auto-cleanup unintended/stale test ticket
       if (data.ticket === '#560501') {
@@ -3675,7 +3690,24 @@
     // ── DATABASE LOGGING (ADMIN DASHBOARD) ─────────────────────────────
     function code6() { return '#' + String(Math.floor(100000 + Math.random() * 900000)); }
 
+    window.openRefundRequest = function () {
+      var reason = document.getElementById('cpReason');
+      if (reason) { reason.value = 'refund'; spMark('cpGroupReason', true); }
+      var full = document.getElementById('cpFullName');
+      if (full && !full.value) setVal('cpFullName', curProfile.full_name || (curUser && curUser.user_metadata && curUser.user_metadata.full_name) || '');
+      var doc = document.getElementById('cpDoc');
+      if (doc && !doc.value && curProfile.document) setVal('cpDoc', curProfile.document);
+      var phone = document.getElementById('cpPhone');
+      if (phone && !phone.value && curProfile.phone) setVal('cpPhone', curProfile.phone);
+      var title = document.getElementById('cpTitle');
+      if (title) title.textContent = 'Request a refund';
+      var sub = document.getElementById('cpSub');
+      if (sub) sub.textContent = "Tell us what happened. We'll look at your account and talk it through with you before anything changes.";
+      if (typeof openComplaintModal === 'function') openComplaintModal();
+    };
+
     window.spPrefillSupport = function () {
+
       if (!curUser) return;
       if (!document.getElementById('spName').value) setVal('spName', curProfile.full_name || (curUser.user_metadata && curUser.user_metadata.full_name));
       if (!document.getElementById('spEmail').value) setVal('spEmail', curUser.email);

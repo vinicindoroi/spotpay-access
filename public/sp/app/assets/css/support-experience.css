@@ -40,4 +40,10 @@
 .support-request-status { flex-shrink: 0; color: var(--sp-green); background: var(--support-accent-soft); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
 .support-request summary { cursor: pointer; font-size: 13px; color: var(--sp-text-secondary); margin-top: 12px; }
 .support-request details p { padding-top: 10px; }
+.support-refund { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border: 1px solid var(--sp-dark-border); background: var(--sp-dark-card); border-radius: 8px; padding: 18px; margin-bottom: 20px; }
+.support-refund-copy { min-width: 0; }
+.support-refund-title { font-size: 16px; font-weight: 800; color: var(--sp-text-primary); margin-bottom: 6px; }
+.support-refund-text { font-size: 13px; line-height: 1.6; color: var(--sp-text-secondary); }
+.support-refund-btn { flex-shrink: 0; background: var(--sp-green); color: var(--sp-dark-base); border: 0; border-radius: 999px; min-height: 44px; padding: 0 22px; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.support-refund-btn:hover { filter: brightness(1.08); }
 @media (prefers-reduced-motion: reduce) { #pageSupport * { scroll-behavior: auto !important; animation: none !important; transition: none !important; } }
