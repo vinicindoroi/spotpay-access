@@ -1915,7 +1915,15 @@
         <button class="support-tab" id="supportTab-contact" role="tab" aria-selected="false" tabindex="-1" aria-controls="supportPanel-contact" onclick="spSupportView('contact')">Contact us</button>
         <button class="support-tab" id="supportTab-requests" role="tab" aria-selected="false" tabindex="-1" aria-controls="supportPanel-requests" onclick="spSupportView('requests')">My requests</button>
       </div>
+      <div class="support-refund" id="supportRefundCta">
+        <div class="support-refund-copy">
+          <h3 class="support-refund-title">Need a refund?</h3>
+          <p class="support-refund-text">Tell us what happened. We'll look into your account with you, and nothing is cancelled until you say yes.</p>
+        </div>
+        <button type="button" class="support-refund-btn" onclick="openRefundRequest()">Request a refund</button>
+      </div>
       <!-- Active Ticket Tracker Card (Dynamic) -->
+
       <div class="sp-refund-card" id="spRefundCard">
         <div class="sp-refund-top">
           <span class="sp-refund-label">Ticket Reference <strong id="spRefundTicket">#000000</strong></span>
@@ -2048,11 +2056,12 @@
       <div class="sp-modal" id="spComplaintModal">
         <div class="sp-sheet">
           <div class="sp-sheet-grip"></div>
-          <h3>Specialist Verification</h3>
-          <p class="sp-sheet-sub">Before opening an escalation ticket, please provide your verification details so our management team can handle your case priority.</p>
+          <h3 id="cpTitle">Tell us what happened</h3>
+          <p class="sp-sheet-sub" id="cpSub">A few details so we can find your account and take care of this for you.</p>
+
 
           <div class="suporte-form-group" id="cpGroupReason">
-            <label for="cpReason">Reason for Inquiry</label>
+            <label for="cpReason">What do you need help with?</label>
             <select id="cpReason">
               <option value="">Choose one</option>
               <option value="refund">Refund request</option>
@@ -2069,9 +2078,10 @@
             <span class="suporte-field-error">Enter your name.</span>
           </div>
           <div class="suporte-form-group" id="cpGroupDoc">
-            <label for="cpDoc">Tax ID / SSN / CPF</label>
+            <label for="cpDoc">Document number</label>
             <input type="text" id="cpDoc" placeholder="Document ID" inputmode="numeric">
-            <span class="suporte-field-error">Enter a valid ID number.</span>
+            <span class="suporte-field-error">Enter your document number.</span>
+
           </div>
           <div class="suporte-form-group" id="cpGroupPhone">
             <label for="cpPhone">Phone Number</label>
@@ -2079,12 +2089,13 @@
             <span class="suporte-field-error">Enter your phone number.</span>
           </div>
           <div class="suporte-form-group" id="cpGroupDate">
-            <label for="cpDate">Enrollment Date</label>
+            <label for="cpDate">Date you joined</label>
             <input type="date" id="cpDate">
-            <span class="suporte-field-error">Select the enrollment date.</span>
+            <span class="suporte-field-error">Pick the date you joined.</span>
+
           </div>
           <div class="suporte-form-group" id="cpGroupDetails">
-            <label for="cpDetails">Detailed Description</label>
+            <label for="cpDetails">What happened?</label>
             <textarea id="cpDetails" maxlength="500" placeholder="Please explain how we can help..."></textarea>
             <span class="suporte-field-error">Please provide details.</span>
           </div>
