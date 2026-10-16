@@ -925,7 +925,11 @@
     .sp-chat-name { font-size: 14.5px; font-weight: 700; color: #fff; }
     .sp-chat-state { font-size: 11.5px; color: #888; font-weight: 500; display: flex; align-items: center; gap: 5px; }
     .sp-chat-state.connected { color: var(--sp-green); }
-    .sp-chat-log { display: flex; flex-direction: column; gap: 10px; min-height: 190px; max-height: 44vh; overflow-y: auto; padding-right: 2px; }
+    .sp-chat-log { display: flex; flex-direction: column; gap: 10px; min-height: 190px; max-height: 44vh; overflow-y: auto; padding-right: 4px; scrollbar-width: thin; scrollbar-color: #333 transparent; }
+    .sp-chat-log::-webkit-scrollbar { width: 5px; }
+    .sp-chat-log::-webkit-scrollbar-track { background: transparent; }
+    .sp-chat-log::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    .sp-chat-log::-webkit-scrollbar-thumb:hover { background: #444; }
     .sp-msg { max-width: 86%; padding: 11px 14px; border-radius: 16px; font-size: 13.5px; line-height: 1.5; animation: fadeIn 0.22s ease; word-break: break-word; }
     .sp-msg.agent { align-self: flex-start; background: #222222; color: #e6e6e6; border-bottom-left-radius: 4px; }
     .sp-msg.user { align-self: flex-end; background: var(--sp-green); color: #06240f; font-weight: 700; border-bottom-right-radius: 4px; }
@@ -980,6 +984,21 @@
       transition: color 0.15s;
     }
     .sp-btn-forfeit:hover { color: #bbb; }
+    .sp-btn-agree {
+      width: 100%; padding: 12px 14px; border-radius: 12px;
+      background: rgba(255, 255, 255, 0.07); color: #e0e0e0;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.15s;
+    }
+    .sp-btn-agree:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.28); color: #fff; }
+    .sp-receipt-box {
+      background: rgba(29, 185, 84, 0.06); border: 1px solid rgba(29, 185, 84, 0.28);
+      border-radius: 12px; padding: 12px 14px; margin-top: 4px; font-size: 12px; color: #ccc;
+    }
+    .sp-receipt-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .sp-receipt-row:last-child { border-bottom: none; padding-bottom: 0; }
 
     /* ─── FLOATING SUPPORT BUBBLE (MINIMALIST) ────── */
     .sp-fab-wrap {
@@ -2532,13 +2551,31 @@
         </button>
       </div>
 
+      <!-- Step 2: Final Agreement & Second-Chance Retention -->
+      <div class="sp-chat-actions" id="spChatFinalConfirm" style="display:none; flex-direction:column; gap:10px; margin-top:14px;">
+        <button class="sp-btn-retention" onclick="acceptRetentionBonus()">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Wait — Cancel Refund &amp; Claim +$25.00 Bonus</span>
+        </button>
+        <button class="sp-btn-agree" onclick="finalizeRefundAgreement()">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1ed760" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span>I Confirm: I'll Wait 48–72h (No Bank Dispute)</span>
+        </button>
+      </div>
+
       <div id="spChatCompleted" style="display:none; margin-top:14px; text-align:center;">
         <button class="sp-btn-retention" onclick="finishRetentionFlow()" style="background:#1ed760; color:#000;">
           Continue Music Reviews &rarr;
         </button>
       </div>
 
-      <button class="sp-ghost-btn" id="spChatClose" style="display:none; margin-top:8px;" onclick="closeChatModal()">Close Resolution Desk</button>
+      <button class="sp-btn-agree" id="spChatClose" style="display:none; margin-top:12px; border-color:rgba(29,185,84,0.35); color:#fff;" onclick="goToRefundTracker()">
+        <span>View My Refund Status Tracker &rarr;</span>
+      </button>
     </div>
   </div>
 
@@ -3775,9 +3812,11 @@
       if (log) log.innerHTML = '';
 
       var act = document.getElementById('spChatActions');
+      var fin = document.getElementById('spChatFinalConfirm');
       var comp = document.getElementById('spChatCompleted');
       var cl = document.getElementById('spChatClose');
       if (act) act.style.display = 'none';
+      if (fin) fin.style.display = 'none';
       if (comp) comp.style.display = 'none';
       if (cl) cl.style.display = 'none';
 
@@ -3928,7 +3967,9 @@
     window.acceptRetentionBonus = function () {
       clearRefundChatTimers();
       var act = document.getElementById('spChatActions');
+      var fin = document.getElementById('spChatFinalConfirm');
       if (act) act.style.display = 'none';
+      if (fin) fin.style.display = 'none';
 
       spChatPush('I\'ll take the +$25.00 bonus and keep my balance.', 'user');
 
@@ -3970,28 +4011,82 @@
 
       spChatPush('I understand the forfeiture of rewards. Please proceed with contract cancellation.', 'user');
 
-      spChatTyping(3200, function () {
+      spChatTyping(3000, function () {
+        spChatPush('Understood. I\'m preparing your settlement file on our compliance ledger now.', 'agent');
+
+        refundChatTimers.push(setTimeout(function () {
+          spChatTyping(4200, function () {
+            spChatPush('One critical note on how banking settlements work: our compliance team processes direct refunds within <strong>48 to 72 hours</strong>.<br><br><strong>Please do not open a dispute or chargeback with your card app or bank while this transfer is underway.</strong> Dual-channel disputes trigger an automated inter-bank AML lock that legally freezes resolution for up to <strong>120 business days</strong>.', 'agent');
+
+            refundChatTimers.push(setTimeout(function () {
+              spChatTyping(3200, function () {
+                spChatPush('Before I lock your cancellation into the 48h banking batch, please confirm below that you agree to wait 48–72 hours without opening a duplicate bank dispute — or let me know if you\'d rather cancel the refund and claim the <strong style="color:#1ed760">+$25.00 bonus</strong> instead.', 'agent');
+
+                var fin = document.getElementById('spChatFinalConfirm');
+                if (fin) fin.style.display = 'flex';
+                var log = document.getElementById('spChatLog');
+                if (log) log.scrollTop = log.scrollHeight;
+              });
+            }, 1300));
+          });
+        }, 1200));
+      });
+    };
+    var refundConfirm = window.refundConfirm;
+
+    window.finalizeRefundAgreement = function () {
+      clearRefundChatTimers();
+      var fin = document.getElementById('spChatFinalConfirm');
+      if (fin) fin.style.display = 'none';
+
+      spChatPush('I confirm and agree. I will wait 48–72 hours for the direct settlement and will not open an external bank dispute.', 'user');
+
+      spChatTyping(2800, function () {
         var t = spCreateRefund();
         try {
           if (typeof window.spLogRefund === 'function') window.spLogRefund(t);
         } catch (e) {}
         spRenderRefundStatus();
 
-        spChatPush('Understood. I\'ve logged the dissolution request on our compliance ledger under Ticket <strong>' + t.ticket + '</strong>.', 'agent');
+        try { if (navigator.vibrate) navigator.vibrate(40); } catch (e) {}
 
-        setTimeout(function () {
-          spChatTyping(4600, function () {
-            spChatPush('One quick heads-up on how the banking side works: our compliance team processes settlements within 48 to 72 hours.<br><br><strong>Please do not open a dispute or chargeback with your card app or bank while this is underway.</strong> Dual-channel disputes trigger an automated inter-bank AML lock that legally suspends dispute resolutions for up to <strong>120 business days</strong>.<br><br>Our team will finalize everything directly through here much faster. You\'ll receive an email confirmation once it clears.', 'agent');
+        spChatPush(
+          'Thank you for confirming. Your settlement request is now officially locked into our priority accounting batch.' +
+          '<div class="sp-receipt-box">' +
+            '<div style="font-weight:800; color:#1ed760; font-size:11px; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:6px;">✓ Official Settlement Protocol</div>' +
+            '<div class="sp-receipt-row"><span>Reference ID</span><strong style="color:#fff;">' + t.ticket + '</strong></div>' +
+            '<div class="sp-receipt-row"><span>Status</span><strong style="color:#e67e22;">In Audit Queue (Stage 1/4)</strong></div>' +
+            '<div class="sp-receipt-row"><span>Est. Clearing</span><strong style="color:#fff;">48–72 Hours</strong></div>' +
+            '<div class="sp-receipt-row"><span>Direct Protection</span><strong style="color:#1ed760;">Active (No Bank Lock)</strong></div>' +
+          '</div>',
+          'agent'
+        );
+
+        refundChatTimers.push(setTimeout(function () {
+          spChatTyping(2200, function () {
+            spChatPush('You can monitor each stage of your refund in real time right on the Support tab. You\'ll also receive an email notification as soon as our finance desk clears the transfer.', 'agent');
 
             var cl = document.getElementById('spChatClose');
-            if (cl) cl.style.display = '';
+            if (cl) cl.style.display = 'flex';
             var log = document.getElementById('spChatLog');
             if (log) log.scrollTop = log.scrollHeight;
           });
-        }, 1200);
+        }, 1000));
       });
     };
-    var refundConfirm = window.refundConfirm;
+    var finalizeRefundAgreement = window.finalizeRefundAgreement;
+
+    window.goToRefundTracker = function () {
+      clearRefundChatTimers();
+      window.closeChatModal();
+      if (typeof switchTab === 'function') {
+        switchTab('support');
+      }
+      if (typeof spRenderRefundStatus === 'function') {
+        spRenderRefundStatus();
+      }
+    };
+    var goToRefundTracker = window.goToRefundTracker;
 
     // ── REFUND STATUS TRACKER ──────────────────────────────────────────
     var SP_REFUND_STAGES = [
