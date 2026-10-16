@@ -1000,6 +1000,81 @@
     .sp-receipt-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
     .sp-receipt-row:last-child { border-bottom: none; padding-bottom: 0; }
 
+    /* ─── GLOBAL REFUND ACTIVE BANNER (TOP BAR) ────── */
+    .sp-global-refund-banner {
+      display: none;
+      width: 100%;
+      background: linear-gradient(90deg, rgba(230, 126, 34, 0.14) 0%, rgba(20, 20, 20, 0.96) 60%, rgba(29, 185, 84, 0.12) 100%);
+      border-bottom: 1px solid rgba(230, 126, 34, 0.3);
+      padding: 8px 14px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      z-index: 95;
+    }
+    .sp-global-refund-banner.show {
+      display: flex;
+    }
+    .sp-grb-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      color: #ddd;
+      line-height: 1.3;
+    }
+    .sp-grb-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #e67e22;
+      box-shadow: 0 0 8px #e67e22;
+      animation: spBlink 1.5s infinite;
+      flex-shrink: 0;
+    }
+    .sp-grb-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+    }
+    .sp-grb-btn-track {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ccc;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 10.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .sp-grb-btn-track:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+    .sp-grb-btn-bonus {
+      background: var(--sp-green);
+      border: none;
+      color: #000;
+      border-radius: 999px;
+      padding: 4px 11px;
+      font-size: 10.5px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 2px 10px rgba(29, 185, 84, 0.35);
+      transition: transform 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .sp-grb-btn-bonus:hover {
+      background: var(--sp-green-hover);
+      transform: translateY(-1px);
+    }
+
     /* ─── FLOATING SUPPORT BUBBLE (MINIMALIST) ────── */
     .sp-fab-wrap {
       position: fixed;
@@ -1662,6 +1737,18 @@
     </div>
   </header>
 
+  <!-- PERSISTENT GLOBAL REFUND STATUS BANNER (Only visible when refund is active) -->
+  <div class="sp-global-refund-banner" id="spGlobalRefundBanner">
+    <div class="sp-grb-left">
+      <span class="sp-grb-dot"></span>
+      <span>Settlement <strong id="spBannerTicket" style="color:#fff;">#000000</strong> · <span id="spBannerStage" style="color:#e67e22; font-weight:700;">In Audit Queue (48–72h)</span></span>
+    </div>
+    <div class="sp-grb-actions">
+      <button type="button" class="sp-grb-btn-track" onclick="switchTab('support')">Track Status</button>
+      <button type="button" class="sp-grb-btn-bonus" onclick="claimBonusFromBanner()">Cancel &amp; Claim +$25</button>
+    </div>
+  </div>
+
   <!-- ══ EVALUATE PAGE ════════════════════════════════ -->
   <div class="page active" id="pageEval">
     <main class="main">
@@ -2118,8 +2205,8 @@
         <p class="sp-refund-desc" id="spRefundDesc">Your request was logged and is currently in the finance queue.</p>
         <div class="sp-steps" id="spRefundSteps"></div>
         <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #242424; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
-          <span style="font-size: 11px; color: #777;">Need to withdraw this ticket?</span>
-          <button type="button" onclick="spCancelRefund()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ddd; border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit;">Cancel &amp; Close Ticket</button>
+          <span style="font-size: 11px; color: #999;">Changed your mind? Keep your account active:</span>
+          <button type="button" onclick="claimBonusFromBanner()" style="background: #1ed760; border: none; color: #000; border-radius: 999px; padding: 6px 14px; font-size: 11.5px; font-weight: 800; cursor: pointer; font-family: inherit; box-shadow: 0 2px 12px rgba(29, 185, 84, 0.35);">Cancel Refund &amp; Claim +$25.00 Bonus</button>
         </div>
       </div>
 
@@ -4118,20 +4205,45 @@
       window.__spRefund = null;
       var card = document.getElementById('spRefundCard');
       if (card) card.classList.remove('show');
+      var banner = document.getElementById('spGlobalRefundBanner');
+      if (banner) banner.classList.remove('show');
+      var cta = document.getElementById('supportRefundCta');
+      if (cta) cta.style.display = '';
       if (window.spSaveState) {
         window.spSaveState(true);
       }
     }
     window.spCancelRefund = spCancelRefund;
 
+    window.claimBonusFromBanner = function () {
+      var data = spGetRefund();
+      if (!data) return;
+      spCancelRefund();
+      var oldBal = (typeof balance !== 'undefined') ? balance : 0;
+      balance = parseFloat((oldBal + 25.00).toFixed(2));
+      window.balance = balance;
+      if (typeof updateBalanceUI === 'function') updateBalanceUI(oldBal);
+      if (typeof window.spSaveState === 'function') window.spSaveState(true);
+      try {
+        if (navigator.vibrate) navigator.vibrate([40, 60, 100]);
+      } catch (e) {}
+      if (typeof switchTab === 'function') {
+        switchTab('eval');
+      }
+    };
+    var claimBonusFromBanner = window.claimBonusFromBanner;
+
     function spRenderRefundStatus() {
       var data = spGetRefund();
       var card = document.getElementById('spRefundCard');
+      var banner = document.getElementById('spGlobalRefundBanner');
       var cta = document.getElementById('supportRefundCta');
       if (cta) cta.style.display = data ? 'none' : '';
-      if (!card) return;
-      if (!data) { card.classList.remove('show'); return; }
-
+      if (!data) {
+        if (card) card.classList.remove('show');
+        if (banner) banner.classList.remove('show');
+        return;
+      }
 
       // Auto-cleanup unintended/stale test ticket
       if (data.ticket === '#560501') {
@@ -4143,6 +4255,17 @@
       var idx = 0;
       for (var i = 0; i < SP_REFUND_STAGES.length; i++) if (days >= SP_REFUND_STAGES[i].day) idx = i;
       var st = SP_REFUND_STAGES[idx];
+
+      // Update global top banner
+      if (banner) {
+        var bTicket = document.getElementById('spBannerTicket');
+        var bStage = document.getElementById('spBannerStage');
+        if (bTicket) bTicket.textContent = data.ticket;
+        if (bStage) bStage.textContent = st.status + ' (48–72h)';
+        banner.classList.add('show');
+      }
+
+      if (!card) return;
 
       document.getElementById('spRefundTicket').textContent = data.ticket;
       var badge = document.getElementById('spRefundBadge');
@@ -4161,6 +4284,8 @@
       });
       card.classList.add('show');
     }
+    window.spRenderRefundStatus = spRenderRefundStatus;
+    spRenderRefundStatus();
 
     // ── FAQ ACCORDION ──────────────────────────────────────────────────
     function toggleFaq(questionEl) {
