@@ -1669,6 +1669,488 @@
         padding-bottom: calc(78px + env(safe-area-inset-bottom));
       }
     }
+  
+    /* ─── CLASSES / MASTERCLASS STYLES ───────────────── */
+    #pageClasses {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #pageClasses .main {
+      padding: 14px 14px 24px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #pageClasses .container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .classes-header {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(29, 185, 84, 0.14) 0%, rgba(24, 24, 24, 0.95) 70%, rgba(14, 14, 14, 0.98) 100%);
+      border: 1px solid rgba(29, 185, 84, 0.28);
+      border-radius: 18px;
+      padding: 18px 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .classes-header::after {
+      content: '';
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 120px; height: 120px;
+      background: radial-gradient(circle, rgba(29, 185, 84, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .classes-badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: rgba(29, 185, 84, 0.15);
+      border: 1px solid rgba(29, 185, 84, 0.35);
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #1ed760;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .classes-badge-top span.pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #1ed760;
+      box-shadow: 0 0 8px #1ed760;
+      animation: pulseGreenDot 2s infinite;
+      display: inline-block;
+    }
+    @keyframes pulseGreenDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+    .classes-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .classes-subtitle {
+      font-size: 12.5px;
+      color: #a7a7a7;
+      line-height: 1.45;
+    }
+    .classes-stats-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .classes-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .classes-stat-item .val {
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .classes-stat-item .lbl {
+      font-size: 10px;
+      color: #727272;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .classes-grid {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
+    }
+    .class-card {
+      background: linear-gradient(180deg, #1c1c1c 0%, #131313 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      box-sizing: border-box;
+    }
+    .class-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(29, 185, 84, 0.45);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.55);
+    }
+    .class-thumb-wrap {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0a0a0a;
+      position: relative;
+      overflow: hidden;
+      display: block;
+    }
+    .class-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .class-card:hover .class-thumb-wrap img {
+      transform: scale(1.03);
+    }
+    .class-play-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+      z-index: 2;
+    }
+    .class-card:hover .class-play-overlay {
+      background: rgba(0,0,0,0.18);
+    }
+    .class-play-circle {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      min-height: 48px;
+      max-width: 48px;
+      max-height: 48px;
+      border-radius: 50%;
+      background: #1ed760;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(29, 185, 84, 0.55);
+      transition: all 0.2s ease;
+      overflow: hidden;
+    }
+    .class-play-circle svg {
+      width: 20px !important;
+      height: 20px !important;
+      max-width: 20px !important;
+      max-height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      fill: #000 !important;
+      stroke: none !important;
+      margin-left: 2px;
+      display: block;
+    }
+    .class-card:hover .class-play-circle {
+      transform: scale(1.1);
+      box-shadow: 0 6px 22px rgba(29, 185, 84, 0.75);
+    }
+    .class-duration-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.82);
+      color: #fff;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 5px;
+      backdrop-filter: blur(6px);
+      z-index: 3;
+    }
+    .class-module-pill {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(18, 18, 18, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #1ed760;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(6px);
+      z-index: 3;
+    }
+    .class-info {
+      padding: 14px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-sizing: border-box;
+    }
+    .class-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+    }
+    .class-card-desc {
+      font-size: 12px;
+      color: #9c9c9c;
+      line-height: 1.45;
+    }
+    .class-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .class-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      background: #1ed760;
+      color: #000;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+    .class-action-btn:hover {
+      background: #22e668;
+      transform: scale(1.02);
+    }
+    .class-action-btn svg {
+      width: 12px !important;
+      height: 12px !important;
+      max-width: 12px !important;
+      max-height: 12px !important;
+      min-width: 12px !important;
+      min-height: 12px !important;
+      fill: #000 !important;
+      stroke: none !important;
+      display: inline-block;
+    }
+    .class-status-lbl {
+      font-size: 11px;
+      color: #888;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    /* ─── CLASS VIDEO MODAL ─────────────────────────── */
+    .class-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      box-sizing: border-box;
+      animation: modalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .class-modal-backdrop.open {
+      display: flex;
+    }
+    .class-modal-card {
+      background: #151515;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 640px;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+      animation: modalSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      box-sizing: border-box;
+    }
+    .class-modal-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: #1a1a1a;
+      flex-shrink: 0;
+    }
+    .class-modal-header-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+    }
+    .class-modal-module-tag {
+      font-size: 10px;
+      font-weight: 800;
+      color: #1ed760;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+    .class-modal-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 440px;
+    }
+    .class-modal-close-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .class-modal-close-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+    .class-video-container {
+      width: 100%;
+      background: #000;
+      position: relative;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .class-video-player {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      outline: none;
+      background: #000;
+    }
+    .class-modal-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      max-height: 42vh;
+      box-sizing: border-box;
+    }
+    .class-speed-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 7px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .class-speed-label {
+      font-size: 10.5px;
+      color: #888;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .class-speed-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    .class-speed-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #bbb;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .class-speed-btn.active {
+      background: #1ed760;
+      color: #000;
+      border-color: #1ed760;
+    }
+    .class-nav-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .class-nav-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .class-nav-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .class-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .class-modal-desc-box {
+      font-size: 12px;
+      color: #999;
+      line-height: 1.5;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+  
+    /* Bottom Nav 5-item optimization */
+    .bottom-nav {
+      padding: 0 2px;
+    }
+    .nav-item {
+      font-size: 8.5px;
+      gap: 2px;
+      padding: 2px 0;
+    }
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+    }
+
   </style>
   <link rel="stylesheet" href="assets/css/support-experience.css">
 </head>
@@ -2463,9 +2945,7 @@
             <div class="class-thumb-wrap">
               <img src="https://img.youtube.com/vi/SoRcXqD5gUc/0.jpg" alt="Class 1" loading="lazy">
               <div class="class-play-overlay">
-                <div class="class-play-circle">
-                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                </div>
+                <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
               </div>
               <div class="class-module-pill">Module 1: The Blueprint</div>
               <div class="class-duration-badge">Class 1</div>
@@ -2478,10 +2958,7 @@
                   <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   Available Now
                 </span>
-                <button type="button" class="class-action-btn">
-                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  Watch Class
-                </button>
+                <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
               </div>
             </div>
           </div>
@@ -2491,9 +2968,7 @@
             <div class="class-thumb-wrap">
               <img src="https://img.youtube.com/vi/K41bM9Pm_jA/0.jpg" alt="Class 2" loading="lazy">
               <div class="class-play-overlay">
-                <div class="class-play-circle">
-                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                </div>
+                <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
               </div>
               <div class="class-module-pill">Module 2: Creation Mastery</div>
               <div class="class-duration-badge">Class 2</div>
@@ -2506,10 +2981,7 @@
                   <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   Available Now
                 </span>
-                <button type="button" class="class-action-btn">
-                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  Watch Class
-                </button>
+                <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
               </div>
             </div>
           </div>
@@ -2519,9 +2991,7 @@
             <div class="class-thumb-wrap">
               <img src="https://img.youtube.com/vi/T2HG_pu3t3o/0.jpg" alt="Class 3" loading="lazy">
               <div class="class-play-overlay">
-                <div class="class-play-circle">
-                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                </div>
+                <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
               </div>
               <div class="class-module-pill">Module 3: Vocal Technology</div>
               <div class="class-duration-badge">Class 3</div>
@@ -2534,10 +3004,7 @@
                   <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   Available Now
                 </span>
-                <button type="button" class="class-action-btn">
-                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  Watch Class
-                </button>
+                <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
               </div>
             </div>
           </div>
@@ -2547,9 +3014,7 @@
             <div class="class-thumb-wrap">
               <img src="https://img.youtube.com/vi/iBdn1D69AoI/0.jpg" alt="Class 4" loading="lazy">
               <div class="class-play-overlay">
-                <div class="class-play-circle">
-                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                </div>
+                <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
               </div>
               <div class="class-module-pill">Module 4: Monetization &amp; Scaling</div>
               <div class="class-duration-badge">Class 4</div>
@@ -2562,10 +3027,7 @@
                   <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   Available Now
                 </span>
-                <button type="button" class="class-action-btn">
-                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  Watch Class
-                </button>
+                <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
               </div>
             </div>
           </div>
