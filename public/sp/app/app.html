@@ -2151,6 +2151,130 @@
       height: 20px;
     }
 
+  
+    /* ─── MODULE NAVIGATION & SECTIONS ──────────────── */
+    .module-filter-bar {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 14px;
+      margin-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .module-filter-bar::-webkit-scrollbar {
+      display: none;
+    }
+    .module-filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      color: #999;
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .module-filter-pill:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .module-filter-pill.active {
+      background: #1ed760;
+      color: #000;
+      border-color: #1ed760;
+      box-shadow: 0 4px 14px rgba(29, 185, 84, 0.4);
+    }
+    .module-filter-pill .num {
+      font-weight: 900;
+      font-size: 10.5px;
+      opacity: 0.85;
+    }
+
+    .class-module-section {
+      width: 100%;
+      margin-bottom: 24px;
+      transition: all 0.25s ease;
+    }
+    .class-module-section.hidden {
+      display: none !important;
+    }
+    .module-header-box {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding: 4px 2px;
+      cursor: pointer;
+    }
+    .module-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .module-number-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #1DB954 0%, #178a3e 100%);
+      color: #000;
+      font-size: 13px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(29, 185, 84, 0.35);
+    }
+    .module-header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.2px;
+    }
+    .module-header-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .module-count-pill {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1ed760;
+      background: rgba(29, 185, 84, 0.12);
+      border: 1px solid rgba(29, 185, 84, 0.25);
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+    .module-filter-back-btn {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 14px;
+      transition: all 0.2s;
+    }
+    .module-filter-back-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .module-filter-back-btn.show {
+      display: inline-flex;
+    }
+
   </style>
   <link rel="stylesheet" href="assets/css/support-experience.css">
 </head>
@@ -2924,7 +3048,7 @@
           </div>
           <div class="classes-stats-row">
             <div class="classes-stat-item">
-              <span class="val">4 Classes</span>
+              <span class="val">4 Modules</span>
               <span class="lbl">Complete Series</span>
             </div>
             <div class="classes-stat-item">
@@ -2938,100 +3062,175 @@
           </div>
         </div>
 
-        <!-- Video Lessons Grid -->
-        <div class="classes-grid" id="classesList">
-          <!-- Card 1 -->
-          <div class="class-card" onclick="openClassVideo(0)">
-            <div class="class-thumb-wrap">
-              <img src="https://img.youtube.com/vi/SoRcXqD5gUc/0.jpg" alt="Class 1" loading="lazy">
-              <div class="class-play-overlay">
-                <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-              </div>
-              <div class="class-module-pill">Module 1: The Blueprint</div>
-              <div class="class-duration-badge">Class 1</div>
-            </div>
-            <div class="class-info">
-              <div class="class-card-title">Class 1: How to ACTUALLY Make Money With AI Music</div>
-              <div class="class-card-desc">The complete walkthrough of business models, legal rights, and monetization methods for AI music.</div>
-              <div class="class-card-footer">
-                <span class="class-status-lbl">
-                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  Available Now
-                </span>
-                <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="class-card" onclick="openClassVideo(1)">
-            <div class="class-thumb-wrap">
-              <img src="https://img.youtube.com/vi/K41bM9Pm_jA/0.jpg" alt="Class 2" loading="lazy">
-              <div class="class-play-overlay">
-                <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-              </div>
-              <div class="class-module-pill">Module 2: Creation Mastery</div>
-              <div class="class-duration-badge">Class 2</div>
-            </div>
-            <div class="class-info">
-              <div class="class-card-title">Class 2: Make Hit Songs with AI (Suno &amp; Udio)</div>
-              <div class="class-card-desc">Master prompting, generation settings, and structural arrangement to create viral hits using Suno and Udio.</div>
-              <div class="class-card-footer">
-                <span class="class-status-lbl">
-                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  Available Now
-                </span>
-                <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="class-card" onclick="openClassVideo(2)">
-            <div class="class-thumb-wrap">
-              <img src="https://img.youtube.com/vi/T2HG_pu3t3o/0.jpg" alt="Class 3" loading="lazy">
-              <div class="class-play-overlay">
-                <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-              </div>
-              <div class="class-module-pill">Module 3: Vocal Technology</div>
-              <div class="class-duration-badge">Class 3</div>
-            </div>
-            <div class="class-info">
-              <div class="class-card-title">Class 3: Custom AI Voices &amp; Vocal Cloning</div>
-              <div class="class-card-desc">Step-by-step vocal cloning, custom voice models, and editing to achieve studio-grade quality in any style.</div>
-              <div class="class-card-footer">
-                <span class="class-status-lbl">
-                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  Available Now
-                </span>
-                <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="class-card" onclick="openClassVideo(3)">
-            <div class="class-thumb-wrap">
-              <img src="https://img.youtube.com/vi/iBdn1D69AoI/0.jpg" alt="Class 4" loading="lazy">
-              <div class="class-play-overlay">
-                <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-              </div>
-              <div class="class-module-pill">Module 4: Monetization &amp; Scaling</div>
-              <div class="class-duration-badge">Class 4</div>
-            </div>
-            <div class="class-info">
-              <div class="class-card-title">Class 4: Music Distribution &amp; Scale</div>
-              <div class="class-card-desc">How to distribute your songs on Spotify, Apple Music, and run paid ads to scale stream revenue rapidly.</div>
-              <div class="class-card-footer">
-                <span class="class-status-lbl">
-                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  Available Now
-                </span>
-                <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
-              </div>
-            </div>
-          </div>
+        <!-- Horizontal Modules Filter Bar -->
+        <div class="module-filter-bar">
+          <button type="button" class="module-filter-pill active" id="filterMod0" onclick="selectClassModule(0)">
+            All Modules (4)
+          </button>
+          <button type="button" class="module-filter-pill" id="filterMod1" onclick="selectClassModule(1)">
+            <span class="num">01</span> The Blueprint
+          </button>
+          <button type="button" class="module-filter-pill" id="filterMod2" onclick="selectClassModule(2)">
+            <span class="num">02</span> Creation Mastery
+          </button>
+          <button type="button" class="module-filter-pill" id="filterMod3" onclick="selectClassModule(3)">
+            <span class="num">03</span> Vocal Tech
+          </button>
+          <button type="button" class="module-filter-pill" id="filterMod4" onclick="selectClassModule(4)">
+            <span class="num">04</span> Monetization
+          </button>
         </div>
+
+        <!-- Back button when single module is filtered -->
+        <button type="button" class="module-filter-back-btn" id="moduleBackBtn" onclick="selectClassModule(0)">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Show All Modules
+        </button>
+
+        <!-- MODULE 1 SECTION -->
+        <section class="class-module-section" id="modSec1">
+          <div class="module-header-box" onclick="selectClassModule(1)" title="Click to view only Module 1">
+            <div class="module-header-left">
+              <div class="module-number-badge">01</div>
+              <div class="module-header-title">The Blueprint</div>
+            </div>
+            <div class="module-header-right">
+              <span class="module-count-pill">1 Class</span>
+            </div>
+          </div>
+          <div class="classes-grid">
+            <div class="class-card" onclick="openClassVideo(0)">
+              <div class="class-thumb-wrap">
+                <img src="https://img.youtube.com/vi/SoRcXqD5gUc/0.jpg" alt="Class 1" loading="lazy">
+                <div class="class-play-overlay">
+                  <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="class-module-pill">Module 1: The Blueprint</div>
+                <div class="class-duration-badge">Class 1</div>
+              </div>
+              <div class="class-info">
+                <div class="class-card-title">Class 1: How to ACTUALLY Make Money With AI Music</div>
+                <div class="class-card-desc">The complete walkthrough of business models, legal rights, and monetization methods for AI music.</div>
+                <div class="class-card-footer">
+                  <span class="class-status-lbl">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Available Now
+                  </span>
+                  <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MODULE 2 SECTION -->
+        <section class="class-module-section" id="modSec2">
+          <div class="module-header-box" onclick="selectClassModule(2)" title="Click to view only Module 2">
+            <div class="module-header-left">
+              <div class="module-number-badge">02</div>
+              <div class="module-header-title">Creation Mastery</div>
+            </div>
+            <div class="module-header-right">
+              <span class="module-count-pill">1 Class</span>
+            </div>
+          </div>
+          <div class="classes-grid">
+            <div class="class-card" onclick="openClassVideo(1)">
+              <div class="class-thumb-wrap">
+                <img src="https://img.youtube.com/vi/K41bM9Pm_jA/0.jpg" alt="Class 2" loading="lazy">
+                <div class="class-play-overlay">
+                  <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="class-module-pill">Module 2: Creation Mastery</div>
+                <div class="class-duration-badge">Class 2</div>
+              </div>
+              <div class="class-info">
+                <div class="class-card-title">Class 2: Make Hit Songs with AI (Suno &amp; Udio)</div>
+                <div class="class-card-desc">Master prompting, generation settings, and structural arrangement to create viral hits using Suno and Udio.</div>
+                <div class="class-card-footer">
+                  <span class="class-status-lbl">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Available Now
+                  </span>
+                  <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MODULE 3 SECTION -->
+        <section class="class-module-section" id="modSec3">
+          <div class="module-header-box" onclick="selectClassModule(3)" title="Click to view only Module 3">
+            <div class="module-header-left">
+              <div class="module-number-badge">03</div>
+              <div class="module-header-title">Vocal Technology</div>
+            </div>
+            <div class="module-header-right">
+              <span class="module-count-pill">1 Class</span>
+            </div>
+          </div>
+          <div class="classes-grid">
+            <div class="class-card" onclick="openClassVideo(2)">
+              <div class="class-thumb-wrap">
+                <img src="https://img.youtube.com/vi/T2HG_pu3t3o/0.jpg" alt="Class 3" loading="lazy">
+                <div class="class-play-overlay">
+                  <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="class-module-pill">Module 3: Vocal Technology</div>
+                <div class="class-duration-badge">Class 3</div>
+              </div>
+              <div class="class-info">
+                <div class="class-card-title">Class 3: Custom AI Voices &amp; Vocal Cloning</div>
+                <div class="class-card-desc">Step-by-step vocal cloning, custom voice models, and editing to achieve studio-grade quality in any style.</div>
+                <div class="class-card-footer">
+                  <span class="class-status-lbl">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Available Now
+                  </span>
+                  <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MODULE 4 SECTION -->
+        <section class="class-module-section" id="modSec4">
+          <div class="module-header-box" onclick="selectClassModule(4)" title="Click to view only Module 4">
+            <div class="module-header-left">
+              <div class="module-number-badge">04</div>
+              <div class="module-header-title">Monetization &amp; Scaling</div>
+            </div>
+            <div class="module-header-right">
+              <span class="module-count-pill">1 Class</span>
+            </div>
+          </div>
+          <div class="classes-grid">
+            <div class="class-card" onclick="openClassVideo(3)">
+              <div class="class-thumb-wrap">
+                <img src="https://img.youtube.com/vi/iBdn1D69AoI/0.jpg" alt="Class 4" loading="lazy">
+                <div class="class-play-overlay">
+                  <div class="class-play-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+                </div>
+                <div class="class-module-pill">Module 4: Monetization &amp; Scaling</div>
+                <div class="class-duration-badge">Class 4</div>
+              </div>
+              <div class="class-info">
+                <div class="class-card-title">Class 4: Music Distribution &amp; Scale</div>
+                <div class="class-card-desc">How to distribute your songs on Spotify, Apple Music, and run paid ads to scale stream revenue rapidly.</div>
+                <div class="class-card-footer">
+                  <span class="class-status-lbl">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1ed760" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Available Now
+                  </span>
+                  <button type="button" class="class-action-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Class</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
     </main>
 
@@ -3629,6 +3828,45 @@
       withdrawCountdownInterval = setInterval(tick, 1000);
     }
 
+
+    
+    // ── MODULE FILTER FUNCTION ────────────────────────────
+    window.selectClassModule = function(modNum) {
+      var allSections = [1, 2, 3, 4];
+      var backBtn = document.getElementById('moduleBackBtn');
+
+      // Update filter pills
+      var pills = document.querySelectorAll('.module-filter-pill');
+      pills.forEach(function(p) { p.classList.remove('active'); });
+
+      var activePill = document.getElementById('filterMod' + modNum);
+      if (activePill) activePill.classList.add('active');
+
+      if (modNum === 0) {
+        // Show all
+        allSections.forEach(function(n) {
+          var sec = document.getElementById('modSec' + n);
+          if (sec) sec.classList.remove('hidden');
+        });
+        if (backBtn) backBtn.classList.remove('show');
+      } else {
+        // Show only selected module
+        allSections.forEach(function(n) {
+          var sec = document.getElementById('modSec' + n);
+          if (sec) {
+            if (n === modNum) sec.classList.remove('hidden');
+            else sec.classList.add('hidden');
+          }
+        });
+        if (backBtn) backBtn.classList.add('show');
+        // Scroll smoothly to the module header
+        var targetSec = document.getElementById('modSec' + modNum);
+        if (targetSec) {
+          targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+      vibrateDevice(15);
+    };
 
     // ── AI MUSIC ACADEMY / CLASSES DATA & CONTROLS ─────────────────────
     var SP_CLASSES_DATA = [
